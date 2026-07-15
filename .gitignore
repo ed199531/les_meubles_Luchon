@@ -10,3 +10,4 @@ __pycache__/
 
 # Logs / temp
 *.log
+.env*

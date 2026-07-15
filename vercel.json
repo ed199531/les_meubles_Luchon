@@ -4,11 +4,11 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
-    { "source": "/nos-services", "destination": "/services/", "permanent": true },
-    { "source": "/reservez-maintenant", "destination": "/reservation/", "permanent": true },
-    { "source": "/vos-avis", "destination": "/avis/", "permanent": true },
-    { "source": "/politique-de-confidentialite-2", "destination": "/politique-de-confidentialite/", "permanent": true },
-    { "source": "/politique-des-cookies", "destination": "/politique-de-confidentialite/", "permanent": true }
+    { "source": "/nos-services/", "destination": "/services/", "permanent": true },
+    { "source": "/reservez-maintenant/", "destination": "/reservation/", "permanent": true },
+    { "source": "/vos-avis/", "destination": "/avis/", "permanent": true },
+    { "source": "/politique-de-confidentialite-2/", "destination": "/politique-de-confidentialite/", "permanent": true },
+    { "source": "/politique-des-cookies/", "destination": "/politique-de-confidentialite/", "permanent": true }
   ],
   "headers": [
     {
