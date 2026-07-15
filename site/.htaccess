@@ -1,0 +1,50 @@
+# === Les Meublés de Luchon — configuration Apache ===
+Options -Indexes
+DirectoryIndex index.html
+
+# --- Forcer HTTPS + non-www ---
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^ https://lesmeublesdeluchon.com%{REQUEST_URI} [R=301,L]
+
+# --- URLs propres : /page renvoie /page/ ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(/$|\.)
+RewriteRule ^(.*)$ /$1/ [R=301,L]
+
+# --- Redirections 301 des anciennes URLs WordPress ---
+Redirect 301 /nos-services/ /services/
+Redirect 301 /reservez-maintenant/ /reservation/
+Redirect 301 /vos-avis/ /avis/
+Redirect 301 /politique-de-confidentialite-2/ /politique-de-confidentialite/
+Redirect 301 /politique-des-cookies/ /politique-de-confidentialite/
+
+# --- Page d'erreur personnalisée ---
+ErrorDocument 404 /404.html
+
+# --- En-têtes de sécurité ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --- Cache navigateur ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# --- Compression ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+</IfModule>

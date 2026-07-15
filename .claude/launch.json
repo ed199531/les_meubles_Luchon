@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "meubles-luchon-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/private/tmp/claude-502/-Users-Edwin-Desktop-Claude-Travail-Les-meubl-s-de-Luchon/a90c0567-68ee-43f1-a3d7-c64358343879/scratchpad/preview/serve.py"],
+      "port": 8138,
+      "autoPort": true
+    }
+  ]
+}

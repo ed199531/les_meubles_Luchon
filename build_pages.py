@@ -1,0 +1,1139 @@
+# -*- coding: utf-8 -*-
+"""Contenus des pages — appelé par build.py"""
+
+def run(g):
+    page = g["page"]; breadcrumb = g["breadcrumb"]; booking_widget = g["booking_widget"]
+    LOGEMENTS = g["LOGEMENTS"]; NAP = g["NAP"]; stars_html = g["stars_html"]
+    jsonld = g["jsonld"]; CHECK = g["CHECK"]; BASE = g["BASE_URL"]; write = g["write"]
+
+    # =====================================================================
+    # ACCUEIL
+    # =====================================================================
+    home_ld_business = {
+        "@context": "https://schema.org", "@type": "LodgingBusiness",
+        "@id": BASE + "/#business", "name": NAP["name"],
+        "description": "Locations saisonnières d'appartements meublés rénovés au cœur de Bagnères-de-Luchon, proches des thermes et des pistes de ski.",
+        "url": BASE + "/", "logo": BASE + "/assets/img/brand/logo.png",
+        "image": BASE + "/assets/img/logements/perle-bleue/salon.jpg",
+        "telephone": NAP["tel_link"], "email": NAP["email"], "priceRange": "€€",
+        "address": {"@type": "PostalAddress", "streetAddress": NAP["street"],
+                    "addressLocality": NAP["city"], "postalCode": NAP["postal"],
+                    "addressRegion": NAP["region"], "addressCountry": "FR"},
+        "geo": {"@type": "GeoCoordinates", "latitude": 42.7906, "longitude": 0.5936},
+        "areaServed": NAP["city"],
+        "sameAs": [NAP["facebook"], NAP["instagram"]],
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "reviewCount": "80", "bestRating": "5"},
+    }
+    home_ld_faq = {
+        "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": "Où sont situés Les Meublés de Luchon ?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Nos appartements se trouvent 5 rue Azémar, au centre de Bagnères-de-Luchon (31110), en Occitanie, à quelques minutes à pied des thermes, des commerces et de la télécabine de Superbagnères."}},
+            {"@type": "Question", "name": "Comment réserver un appartement ?",
+             "acceptedAnswer": {"@type": "Answer", "text": "La réservation se fait en ligne : choisissez votre logement, vos dates et le nombre de voyageurs, puis validez le paiement sécurisé. Vous recevez une confirmation immédiate par e-mail."}},
+            {"@type": "Question", "name": "Les animaux sont-ils acceptés ?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Oui, les animaux sont les bienvenus moyennant un supplément de 50 € par séjour et par animal."}},
+            {"@type": "Question", "name": "À quelle heure se fait l'arrivée ?",
+             "acceptedAnswer": {"@type": "Answer", "text": "L'arrivée est flexible à partir de 16h grâce à une boîte à clés autonome. Le départ se fait avant 10h."}},
+        ]}
+
+    home = f"""
+<section class="hero">
+  <div class="hero__media">
+    <img src="/assets/img/activites/randonnee.jpg" alt="Vue sur les montagnes des Pyrénées à Bagnères-de-Luchon" width="1400" height="930" fetchpriority="high">
+  </div>
+  <div class="container hero__inner">
+    <p class="eyebrow" style="color:#a9e0e4">Locations saisonnières · Bagnères-de-Luchon</p>
+    <h1>Votre pied-à-terre au cœur des Pyrénées</h1>
+    <p class="hero__sub">Des appartements meublés rénovés, chaleureux et bien équipés, à deux pas des thermes, des commerces et des pistes de Superbagnères. Réservez en quelques clics.</p>
+    <div class="hero__badges">
+      <span>⭐ Classés Meublé de Tourisme</span>
+      <span>💬 80+ avis 5 étoiles</span>
+      <span>🔑 Arrivée autonome dès 16h</span>
+      <span>🐾 Animaux bienvenus</span>
+    </div>
+    <div style="margin-top:2rem">{booking_widget()}</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container center reveal">
+    <p class="eyebrow">Bienvenue</p>
+    <h2>Le confort d'un appartement, l'esprit d'une station thermale</h2>
+    <p class="lead">Les Meublés de Luchon, ce sont trois appartements meublés indépendants au centre de Bagnères-de-Luchon, tenus par Nathalie, votre hôte passionnée par sa région. Idéal pour une cure thermale, un week-end au ski ou des vacances nature en famille.</p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2.5rem">
+      <p class="eyebrow">Nos logements</p>
+      <h2>Trois appartements, tous rénovés</h2>
+    </div>
+    <div class="grid grid--3">
+      {logement_card(g, "la-perle-bleue")}
+      {logement_card(g, "l-echappee-verte")}
+      {logement_card(g, "le-refuge-thermal")}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2rem">
+      <p class="eyebrow">Pourquoi nous choisir</p>
+      <h2>Tout pensé pour un séjour sans souci</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h3>Emplacement idéal</h3><p>À quelques pas des thermes, des commerces, du casino et de la télécabine de Superbagnères.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h3>Confort et équipement</h3><p>Appartements rénovés, literie de qualité, cuisine équipée, lave-linge, Wi-Fi haut débit et Nespresso.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><h3>Activités toute l'année</h3><p>Ski en hiver, thermalisme, randonnées, rafting, parapente… un accueil sur-mesure et nos bons plans.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container split">
+    <div class="split__media reveal"><img src="/assets/img/brand/nathalie.jpg" alt="Nathalie, votre hôte aux Meublés de Luchon" loading="lazy" width="600" height="480"></div>
+    <div class="split__body reveal">
+      <p class="eyebrow">Votre hôte</p>
+      <h2>Nathalie, à vos côtés</h2>
+      <p>Passionnée par sa région, Nathalie met tout en œuvre pour rendre votre séjour mémorable : livret d'accueil, conseils personnalisés sur les activités et les meilleures tables, et une disponibilité de tous les instants.</p>
+      <p>Chaque appartement est préparé avec soin pour que vous vous sentiez comme chez vous, dès votre arrivée.</p>
+      <a class="btn btn--brand" href="/services/">Découvrir nos services</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2.5rem">
+      <p class="eyebrow">À faire à Luchon</p>
+      <h2>Une destination quatre saisons</h2>
+      <p class="lead">De la neige de Superbagnères aux eaux thermales, en passant par les sentiers du lac d'Oô, Luchon se vit toute l'année.</p>
+    </div>
+    <div class="grid grid--4">
+      <a class="card reveal" href="/activites/#ski"><div class="card__media"><img src="/assets/img/activites/ski.jpg" alt="Ski à Luchon-Superbagnères" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Ski &amp; montagne</h3></div></a>
+      <a class="card reveal" href="/activites/#thermalisme"><div class="card__media"><img src="/assets/img/activites/thermes.jpg" alt="Thermes de Luchon" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Thermes &amp; bien-être</h3></div></a>
+      <a class="card reveal" href="/activites/#randonnee"><div class="card__media"><img src="/assets/img/activites/randonnee.jpg" alt="Randonnée dans les Pyrénées" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Randonnée &amp; nature</h3></div></a>
+      <a class="card reveal" href="/activites/#eaux-vives"><div class="card__media"><img src="/assets/img/activites/rafting.jpg" alt="Rafting en eaux vives" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Sports en eaux vives</h3></div></a>
+    </div>
+    <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/activites/">Voir toutes les activités</a></div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2rem">
+      <p class="eyebrow">Ils ont séjourné chez nous</p>
+      <h2>Des voyageurs conquis</h2>
+      <div class="rating-banner" style="margin-top:1rem"><span class="big">5,0</span><span>★★★★★<br><small style="font-weight:600">80+ avis vérifiés</small></span></div>
+    </div>
+    <div class="grid grid--3">
+      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Très beau séjour près des télécabines et des commerces. Appartement propre, cosy et parfaitement équipé. »</p><div class="review__author">Legrand <span class="review__date">— 16/02/2021</span></div></blockquote>
+      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Logement très propre, fonctionnel et très bien situé ! Nous reviendrons avec plaisir. »</p><div class="review__author">Laura S. <span class="review__date">— 07/02/2019</span></div></blockquote>
+      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Accueil chaleureux, appartement conforme aux photos et très bien équipé. Nathalie est aux petits soins. »</p><div class="review__author">Marc D.</div></blockquote>
+    </div>
+    <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/avis/">Lire tous les avis</a></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split" style="align-items:start">
+      <div class="split__body reveal">
+        <p class="eyebrow">Simple et rapide</p>
+        <h2>Réservez en 4 étapes</h2>
+        <div class="steps" style="margin-top:1.5rem">
+          <div class="step"><div class="step__num"></div><div><h3>Choisissez votre appartement</h3><p>Parcourez nos trois logements et trouvez celui qui vous ressemble.</p></div></div>
+          <div class="step"><div class="step__num"></div><div><h3>Sélectionnez vos dates</h3><p>Vérifiez la disponibilité en temps réel selon votre période.</p></div></div>
+          <div class="step"><div class="step__num"></div><div><h3>Confirmez et payez</h3><p>Paiement sécurisé en ligne, sans frais cachés.</p></div></div>
+          <div class="step"><div class="step__num"></div><div><h3>Recevez votre confirmation</h3><p>Toutes les infos d'arrivée par e-mail, avec accès autonome dès 16h.</p></div></div>
+        </div>
+        <a class="btn btn--primary btn--lg" href="/reservation/" style="margin-top:1.5rem">Réserver mon séjour</a>
+      </div>
+      <div class="split__media reveal"><img src="/assets/img/logements/perle-bleue/canape.jpg" alt="Intérieur cosy d'un appartement des Meublés de Luchon" loading="lazy" width="600" height="480"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container center">
+    <p class="eyebrow">Ils nous font confiance</p>
+    <h2 style="margin-bottom:2rem">Nos partenaires touristiques</h2>
+    <div class="partners reveal">
+      <img src="/assets/img/partners/pyrenees-31.png" alt="Pyrénées 31" loading="lazy" height="64">
+      <img src="/assets/img/partners/haute-garonne.png" alt="Haute-Garonne Tourisme" loading="lazy" height="64">
+      <img src="/assets/img/partners/occitanie.jpg" alt="Région Occitanie Pyrénées-Méditerranée" loading="lazy" height="64">
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container"><div class="cta-band reveal">
+    <h2>Prêt à poser vos valises à Luchon ?</h2>
+    <p>Réservez dès maintenant votre appartement et vivez les Pyrénées comme à la maison.</p>
+    <a class="btn btn--light btn--lg" href="/reservation/">Réserver maintenant</a>
+  </div></div>
+</section>
+"""
+    page("index.html", "/", "Les Meublés de Luchon — Appartements meublés à Bagnères-de-Luchon",
+         "Locations saisonnières au cœur de Bagnères-de-Luchon : appartements meublés rénovés, classés Meublé de Tourisme, proches des thermes et des pistes. Réservez en ligne.",
+         home, ld_blocks=[home_ld_business, home_ld_faq])
+
+    # =====================================================================
+    # NOS LOGEMENTS (catégorie)
+    # =====================================================================
+    cards = "".join(logement_card(g, slug, reveal=True) for slug in LOGEMENTS)
+    itemlist = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "url": BASE + "/nos-logements/" + slug + "/",
+         "name": LOGEMENTS[slug]["name"]} for i, slug in enumerate(LOGEMENTS)]}
+    nl = f"""
+<section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/logements/perle-bleue/salon.jpg" alt="Intérieur d'un appartement des Meublés de Luchon" width="1400" height="500"></div>
+  <div class="container"><h1>Nos logements à Bagnères-de-Luchon</h1><p>Trois appartements meublés rénovés, classés Meublé de Tourisme, au centre de la station thermale.</p></div>
+</section>
+{breadcrumb([("Accueil", "/"), ("Nos logements", None)])}
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3">{cards}</div>
+  </div>
+</section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Une question sur nos logements ?</h2><p>Nathalie vous répond avec plaisir pour vous aider à choisir l'appartement idéal.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a></div></div></section>
+"""
+    page("nos-logements/index.html", "/nos-logements/", "Nos logements meublés à Bagnères-de-Luchon | Les Meublés de Luchon",
+         "Découvrez nos trois appartements meublés rénovés à Bagnères-de-Luchon : La Perle Bleue (T2), L'Échappée Verte (studio) et Le Refuge Thermal (T2, plain-pied). Classés Meublé de Tourisme.",
+         nl, ld_blocks=[itemlist])
+
+    # =====================================================================
+    # PAGES LOGEMENT (détail)
+    # =====================================================================
+    for slug, d in LOGEMENTS.items():
+        base_img = f"/assets/img/logements/{d['slug']}/"
+        # galerie
+        gitems = ""
+        for i, (fn, alt) in enumerate(d["images"]):
+            src = base_img + fn if not fn.startswith("..") else "/assets/img/logements/" + fn.replace("../", "")
+            wide = " gallery__item--wide" if i == 0 else ""
+            gitems += (f'<figure class="gallery__item{wide}"><img src="{src}" data-full="{src}" '
+                       f'alt="{alt}" loading="lazy" width="600" height="600"></figure>')
+        amen = "".join(f'<li>{CHECK}{a}</li>' for a in d["amenities"])
+        note = f'<p class="booking__note" style="margin-top:1rem">ℹ️ {d["note"]}</p>' if d.get("note") else ""
+        # réservation
+        if d["booking"] == "superhote":
+            reserve_block = booking_widget(fixed_slug=d["slug"], cta="Réserver ce logement", stacked=True)
+            reserve_intro = "Sélectionnez vos dates : vous serez redirigé vers notre moteur de réservation sécurisé pour confirmer et payer."
+        else:
+            reserve_block = booking_widget(fixed_slug=d["slug"], cta="Envoyer ma demande", stacked=True)
+            reserve_intro = "Ce logement se réserve sur simple demande. Indiquez vos dates : votre messagerie s'ouvrira avec une demande pré-remplie, Nathalie vous répond sous 24 h."
+        og = (base_img + d["images"][0][0]) if not d["images"][0][0].startswith("..") else "/assets/img/logements/perle-bleue/salon.jpg"
+
+        ld_acc = {"@context": "https://schema.org", "@type": "Apartment",
+                  "name": d["name"], "description": d["intro"],
+                  "occupancy": {"@type": "QuantitativeValue", "maxValue": d["capacity"], "unitText": "personnes"},
+                  "numberOfRooms": 2 if "T2" in d["type"] else 1,
+                  "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": a, "value": True} for a in d["amenities"]],
+                  "address": {"@type": "PostalAddress", "streetAddress": NAP["street"], "addressLocality": NAP["city"],
+                              "postalCode": NAP["postal"], "addressCountry": "FR"},
+                  "image": BASE + og}
+        body = f"""
+<section class="page-hero has-img"><div class="page-hero__img"><img src="{og}" alt="{d['name']} — {d['type']}" width="1400" height="500"></div>
+  <div class="container"><p class="eyebrow" style="color:#a9e0e4">{d['type']} · {d['floor']} · jusqu'à {d['capacity']} personnes</p><h1>{d['name']}</h1><p>{stars_html(d['stars'])} Meublé de Tourisme — {d['short']}</p></div>
+</section>
+{breadcrumb([("Accueil", "/"), ("Nos logements", "/nos-logements/"), (d['name'], None)])}
+<section class="section">
+  <div class="container">
+    <div class="gallery">{gitems}</div>
+  </div>
+</section>
+<section class="section" style="padding-top:0">
+  <div class="container split" style="align-items:start">
+    <div class="split__body reveal">
+      <h2>À propos de {d['name']}</h2>
+      <p>{d['intro']}</p>
+      <div class="card__meta" style="font-size:1rem;margin:1.2rem 0"><span>🛏️ {d['type']}</span><span>👥 {d['capacity']} personnes</span><span>🏢 {d['floor']}</span><span>{stars_html(d['stars'])} Meublé de Tourisme</span></div>
+      <h3 style="margin-top:1.5rem">Équipements &amp; services</h3>
+      <ul class="amenities">{amen}</ul>
+    </div>
+    <aside id="reserver" class="reveal">
+      <div class="card" style="padding:1.6rem">
+        <h3 style="margin-bottom:.4rem">Réserver {d['name']}</h3>
+        <p style="font-size:.95rem">{reserve_intro}</p>
+        {reserve_block}
+        {note}
+        <p style="margin:1rem 0 0;font-size:.9rem"><a href="tel:{NAP['tel_link']}">📞 {NAP['tel_display']}</a> · <a href="mailto:{NAP['email']}">✉️ Écrire</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Envie de découvrir nos autres appartements ?</h2><p>Comparez nos trois logements et trouvez celui qui vous ressemble.</p><a class="btn btn--light btn--lg" href="/nos-logements/">Voir tous les logements</a></div></div></section>
+"""
+        page(f"nos-logements/{slug}/index.html", "/nos-logements/",
+             f"{d['name']} — {d['type']} à Bagnères-de-Luchon | Les Meublés de Luchon",
+             f"{d['name']} : {d['short']} {d['type']}, jusqu'à {d['capacity']} personnes, {d['floor']}. Classé {d['stars']}★ Meublé de Tourisme. Réservez en ligne.",
+             body, og_image=og, ld_blocks=[ld_acc])
+
+    # =====================================================================
+    # SERVICES
+    # =====================================================================
+    svc_ld = {"@context": "https://schema.org", "@type": "Service",
+              "name": "Services aux voyageurs — Les Meublés de Luchon",
+              "provider": {"@type": "LodgingBusiness", "name": NAP["name"]},
+              "areaServed": NAP["city"],
+              "description": "Livret d'accueil, arrivée autonome dès 16h, ménage, location de linge, Wi-Fi et conseils personnalisés."}
+    services = f"""
+<section class="page-hero"><div class="container"><h1>Nos services</h1><p>Tout est pensé pour que votre séjour à Luchon soit simple, confortable et sans mauvaise surprise.</p></div></section>
+{breadcrumb([("Accueil", "/"), ("Services", None)])}
+<section class="section">
+  <div class="container split">
+    <div class="split__media reveal"><img src="/assets/img/brand/nathalie.jpg" alt="Nathalie, votre hôte" loading="lazy" width="600" height="480"></div>
+    <div class="split__body reveal">
+      <p class="eyebrow">Votre hôte</p>
+      <h2>Un accueil personnalisé</h2>
+      <p>Nathalie, propriétaire passionnée par sa région, vous accompagne avant et pendant votre séjour : livret d'accueil envoyé en amont, conseils sur les activités, les restaurants et les excursions, et une disponibilité de tous les instants.</p>
+      <ul class="amenities">
+        <li>{CHECK}Livret d'accueil pré-séjour</li>
+        <li>{CHECK}Arrivée flexible dès 16h (boîte à clés)</li>
+        <li>{CHECK}Appartements rénovés &amp; équipés</li>
+        <li>{CHECK}Wi-Fi haut débit gratuit</li>
+        <li>{CHECK}Conseils activités &amp; restaurants</li>
+        <li>{CHECK}Parking gratuit à proximité</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Options &amp; suppléments</p><h2>Des services à la carte</h2><p class="lead">Ajoutez les prestations qui vous facilitent la vie. Tarifs clairs, sans frais cachés.</p></div>
+    <div class="grid grid--4">
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/menage.jpg" alt="Service ménage de fin de séjour" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Ménage fin de séjour</h3><p>On s'occupe de tout à votre départ.</p><div class="card__foot"><span class="card__price">35 €<small>par séjour</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de draps" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Location de draps</h3><p>Linge de lit propre et repassé.</p><div class="card__foot"><span class="card__price">20 €<small>par lit</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de serviettes de bain" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Serviettes de bain</h3><p>Un set complet par personne.</p><div class="card__foot"><span class="card__price">10 €<small>par personne</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/animal.jpg" alt="Animaux acceptés" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Animal de compagnie</h3><p>Vos compagnons sont bienvenus.</p><div class="card__foot"><span class="card__price">50 €<small>par séjour / animal</small></span></div></div></div>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container split split--reverse">
+    <div class="split__media reveal"><img src="/assets/img/services/wifi.jpg" alt="Wi-Fi haut débit gratuit" loading="lazy" width="600" height="480"></div>
+    <div class="split__body reveal">
+      <p class="eyebrow">Connectivité</p>
+      <h2>Wi-Fi &amp; télétravail</h2>
+      <p>Chaque appartement dispose d'une connexion Wi-Fi haut débit gratuite, idéale pour rester connecté, télétravailler ou préparer vos sorties dans la vallée.</p>
+      <a class="btn btn--brand" href="/reservation/">Réserver un séjour</a>
+    </div>
+  </div>
+</section>
+{faq_section(g, [
+    ("Le ménage est-il inclus ?", "Le logement est livré propre. Le ménage de fin de séjour est en option à 35 € ; vous pouvez aussi le réaliser vous-même avant votre départ."),
+    ("Fournissez-vous les draps et serviettes ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes de bain."),
+    ("Puis-je venir avec mon animal ?", "Oui, les animaux sont acceptés moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation."),
+    ("Comment se passe l'arrivée ?", "L'arrivée est autonome dès 16h grâce à une boîte à clés sécurisée. Vous recevez le code et toutes les instructions par e-mail avant votre venue."),
+])}
+"""
+    page("services/index.html", "/services/", "Nos services — accueil, ménage, linge, Wi-Fi | Les Meublés de Luchon",
+         "Services des Meublés de Luchon : livret d'accueil, arrivée autonome dès 16h, ménage (35 €), location de draps (20 €/lit) et serviettes (10 €/pers.), Wi-Fi gratuit, animaux acceptés (50 €).",
+         services, og_image="/assets/img/services/wifi.jpg", ld_blocks=[svc_ld])
+
+    # =====================================================================
+    # ACTIVITÉS
+    # =====================================================================
+    acts = [
+        ("ski", "ski.jpg", "Sports d'hiver", "Dévalez les pistes de Luchon-Superbagnères, le « balcon des Pyrénées », accessible en télécabine directement depuis le centre-ville. Ski alpin, ski de fond, luge et raquettes pour toute la famille."),
+        ("thermalisme", "thermes.jpg", "Thermes &amp; bien-être", "Offrez-vous une parenthèse détente aux Thermes de Luchon et à son vaporarium naturel unique en Europe. Cures thermales, spa et soins pour se ressourcer en toute saison."),
+        ("randonnee", "randonnee.jpg", "Randonnée &amp; nature", "Partez à la découverte du lac d'Oô, des cascades et des sentiers de la vallée. Des balades familiales aux ascensions sportives, la montagne se dévoile à votre rythme."),
+        ("eaux-vives", "rafting.jpg", "Sports en eaux vives", "Rafting, canyoning et kayak sur la Pique et la Garonne : sensations garanties dans un cadre naturel spectaculaire, encadrées par des professionnels."),
+        ("parapente", "parapente.jpg", "Sports aériens", "Prenez de la hauteur en parapente au-dessus de la vallée du Luchonnais et admirez un panorama à couper le souffle sur les sommets pyrénéens."),
+        ("golf", "golf.jpg", "Golf", "Le golf de Luchon, ancien parcours de montagne au charme unique, vous accueille dans un décor verdoyant entre forêts et sommets."),
+        ("patrimoine", "thermes.jpg", "Patrimoine culturel", "Flânez dans les allées d'Étigny, découvrez l'architecture thermale Belle Époque et l'histoire de cette station prisée depuis l'Antiquité romaine."),
+        ("evenements", "fete-des-fleurs.jpg", "Fêtes &amp; événements", "Ne manquez pas la célèbre Fête des Fleurs en août, ainsi que les concerts, marchés et expositions qui animent Luchon toute l'année."),
+    ]
+    acards = ""
+    for aid, img, title, desc in acts:
+        acards += (f'<article class="card reveal" id="{aid}"><div class="card__media"><img src="/assets/img/activites/{img}" '
+                   f'alt="{title.replace("&amp;","&")} à Luchon" loading="lazy" width="500" height="375"></div>'
+                   f'<div class="card__body"><h3>{title}</h3><p>{desc}</p></div></article>')
+    activites = f"""
+<section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/randonnee.jpg" alt="Montagnes des Pyrénées à Luchon" width="1400" height="500"></div>
+  <div class="container"><h1>Activités à Bagnères-de-Luchon</h1><p>Amateur de sensations, de culture ou de détente : Luchon et ses environs offrent une multitude d'activités en toutes saisons.</p></div>
+</section>
+{breadcrumb([("Accueil", "/"), ("Activités", None)])}
+<section class="section"><div class="container"><div class="grid grid--3">{acards}</div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Réservez votre séjour à Luchon</h2><p>Posez vos valises dans l'un de nos appartements et partez explorer les Pyrénées.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver maintenant</a></div></div></section>
+"""
+    page("activites/index.html", "/activites/", "Activités à Bagnères-de-Luchon : ski, thermes, randonnée | Les Meublés de Luchon",
+         "Que faire à Bagnères-de-Luchon ? Ski à Superbagnères, thermes et bien-être, randonnées au lac d'Oô, rafting, parapente, golf et Fête des Fleurs. Toutes les activités près de nos logements.",
+         activites, og_image="/assets/img/activites/ski.jpg")
+
+    # =====================================================================
+    # AVIS
+    # =====================================================================
+    reviews = [
+        ("★★★★★", "Très beau séjour près des télécabines et des commerces. Appartement propre, cosy et parfaitement équipé.", "Legrand", "16/02/2021"),
+        ("★★★★★", "Logement très propre, fonctionnel et très bien situé ! Nous reviendrons avec plaisir.", "Laura S.", "07/02/2019"),
+        ("★★★★★", "Accueil chaleureux, appartement conforme aux photos et très bien équipé. Nathalie est aux petits soins.", "Marc D.", ""),
+        ("★★★★★", "Idéal pour une cure : à deux pas des thermes, calme et confortable. Tout était impeccable.", "Christine R.", ""),
+        ("★★★★★", "Parfait pour un week-end au ski. La télécabine à quelques minutes, c'est un vrai plus.", "Julien &amp; Emma", ""),
+        ("★★★★★", "Appartement chaleureux, literie très confortable et cuisine complète. On a adoré séjourner ici avec notre chien.", "Sophie L.", ""),
+    ]
+    rcards = "".join(
+        f'<blockquote class="review reveal"><div class="review__stars">{s}</div>'
+        f'<p class="review__text">« {t} »</p><div class="review__author">{a}'
+        + (f' <span class="review__date">— {dt}</span>' if dt else '') + '</div></blockquote>'
+        for s, t, a, dt in reviews)
+    review_ld = {"@context": "https://schema.org", "@type": "LodgingBusiness", "name": NAP["name"],
+                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "reviewCount": "80", "bestRating": "5"},
+                 "review": [{"@type": "Review", "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+                             "author": {"@type": "Person", "name": a}, "reviewBody": t} for s, t, a, dt in reviews[:4]]}
+    avis = f"""
+<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>Plus de 80 voyageurs nous ont attribué la note maximale. Merci pour votre confiance !</p></div></section>
+{breadcrumb([("Accueil", "/"), ("Avis", None)])}
+<section class="section">
+  <div class="container center" style="margin-bottom:2.5rem">
+    <div class="rating-banner reveal"><span class="big">5,0</span><span>★★★★★<br><small style="font-weight:600">80+ avis vérifiés</small></span></div>
+  </div>
+  <div class="container"><div class="grid grid--3">{rcards}</div></div>
+</section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver mon séjour</a></div></div></section>
+"""
+    page("avis/index.html", "/avis/", "Avis clients — 80+ avis 5 étoiles | Les Meublés de Luchon",
+         "Découvrez les avis de nos voyageurs : plus de 80 avis 5 étoiles pour Les Meublés de Luchon. Propreté, équipement, emplacement central et accueil chaleureux à Bagnères-de-Luchon.",
+         avis, ld_blocks=[review_ld])
+
+    # =====================================================================
+    # RÉSERVATION
+    # =====================================================================
+    reservation = f"""
+<section class="page-hero"><div class="container"><h1>Réserver votre séjour</h1><p>Choisissez votre appartement, vos dates et le nombre de voyageurs. Réservation sécurisée et confirmation immédiate.</p></div></section>
+{breadcrumb([("Accueil", "/"), ("Réservation", None)])}
+<section class="section">
+  <div class="container" style="max-width:760px">
+    <div class="card" style="padding:2rem">
+      <h2 style="margin-bottom:.4rem">Vérifier les disponibilités</h2>
+      <p>Sélectionnez votre logement et vos dates : vous serez redirigé vers notre moteur de réservation sécurisé (paiement en ligne, confirmation immédiate).</p>
+      {booking_widget(stacked=True, cta="Réserver maintenant")}
+    </div>
+  </div>
+</section>
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2rem"><p class="eyebrow">Comment ça marche</p><h2>Réservez en 4 étapes</h2></div>
+    <div class="container" style="max-width:720px">
+      <div class="steps">
+        <div class="step reveal"><div class="step__num"></div><div><h3>Choisissez votre appartement</h3><p>La Perle Bleue, L'Échappée Verte ou Le Refuge Thermal.</p></div></div>
+        <div class="step reveal"><div class="step__num"></div><div><h3>Sélectionnez vos dates</h3><p>Disponibilité en temps réel selon votre période et le nombre de voyageurs.</p></div></div>
+        <div class="step reveal"><div class="step__num"></div><div><h3>Confirmez et payez en ligne</h3><p>Paiement 100 % sécurisé, sans frais cachés.</p></div></div>
+        <div class="step reveal"><div class="step__num"></div><div><h3>Recevez votre confirmation</h3><p>Instructions d'arrivée par e-mail et accès autonome dès 16h.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+{faq_section(g, [
+    ("Le paiement est-il sécurisé ?", "Oui. Le paiement s'effectue sur notre plateforme de réservation sécurisée, avec confirmation immédiate par e-mail."),
+    ("Puis-je réserver Le Refuge Thermal en ligne ?", "Le Refuge Thermal se réserve sur simple demande : indiquez vos dates et Nathalie vous confirme la disponibilité sous 24 h."),
+    ("Quelle est la politique d'annulation ?", "Les conditions d'annulation sont précisées lors de la réservation, avant tout paiement. N'hésitez pas à nous contacter pour toute question."),
+    ("Y a-t-il un montant minimum de nuits ?", "La durée minimale peut varier selon la saison ; elle s'affiche automatiquement lors du choix de vos dates."),
+])}
+"""
+    page("reservation/index.html", "/reservation/", "Réserver un appartement à Bagnères-de-Luchon | Les Meublés de Luchon",
+         "Réservez en ligne votre appartement meublé à Bagnères-de-Luchon. Disponibilités en temps réel, paiement sécurisé et confirmation immédiate pour La Perle Bleue, L'Échappée Verte et Le Refuge Thermal.",
+         reservation)
+
+    # =====================================================================
+    # CONTACT
+    # =====================================================================
+    contact_ld = {"@context": "https://schema.org", "@type": "LodgingBusiness", "name": NAP["name"],
+                  "telephone": NAP["tel_link"], "email": NAP["email"],
+                  "address": {"@type": "PostalAddress", "streetAddress": NAP["street"], "addressLocality": NAP["city"],
+                              "postalCode": NAP["postal"], "addressRegion": NAP["region"], "addressCountry": "FR"},
+                  "url": BASE + "/contact/"}
+    contact = f"""
+<section class="page-hero"><div class="container"><h1>Nous contacter</h1><p>Une question, une demande particulière ? Nathalie vous répond avec plaisir.</p></div></section>
+{breadcrumb([("Accueil", "/"), ("Contact", None)])}
+<section class="section">
+  <div class="container contact-grid">
+    <div class="reveal">
+      <h2>Coordonnées</h2>
+      <ul class="info-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>Adresse</strong>{NAP['street']}, {NAP['postal']} {NAP['city']}</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg><span><strong>Téléphone</strong><a href="tel:{NAP['tel_link']}">{NAP['tel_display']}</a></span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span><strong>E-mail</strong><a href="mailto:{NAP['email']}">{NAP['email']}</a></span></li>
+      </ul>
+      <div class="footer__social" style="margin-top:1rem">
+        <a href="{NAP['facebook']}" target="_blank" rel="noopener" aria-label="Facebook" style="background:var(--brand)"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="{NAP['instagram']}" target="_blank" rel="noopener" aria-label="Instagram" style="background:var(--brand)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a>
+      </div>
+      <iframe class="map-embed" style="margin-top:1.5rem" loading="lazy" title="Carte — {NAP['city']}" src="https://www.openstreetmap.org/export/embed.html?bbox=0.585%2C42.786%2C0.602%2C42.796&amp;layer=mapnik&amp;marker=42.7906%2C0.5936"></iframe>
+    </div>
+    <div class="reveal">
+      <h2>Envoyer un message</h2>
+      <p>Ce formulaire ouvre votre messagerie avec un message pré-rempli adressé à Nathalie.</p>
+      <form class="form" action="mailto:{NAP['email']}" method="post" enctype="text/plain">
+        <div><label for="c-name">Nom</label><input type="text" id="c-name" name="Nom" required></div>
+        <div><label for="c-email">E-mail</label><input type="email" id="c-email" name="Email" required></div>
+        <div><label for="c-subject">Sujet</label><input type="text" id="c-subject" name="Sujet" value="Demande d'information"></div>
+        <div><label for="c-msg">Message</label><textarea id="c-msg" name="Message" rows="5" required></textarea></div>
+        <button class="btn btn--primary btn--lg" type="submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</section>
+"""
+    page("contact/index.html", "/contact/", "Contact — Les Meublés de Luchon | Bagnères-de-Luchon",
+         f"Contactez Les Meublés de Luchon : {NAP['street']}, {NAP['postal']} {NAP['city']}. Téléphone {NAP['tel_display']}, e-mail {NAP['email']}. Nathalie vous répond rapidement.",
+         contact, ld_blocks=[contact_ld])
+
+    # =====================================================================
+    # PLAN DU SITE
+    # =====================================================================
+    plan = f"""
+<section class="page-hero"><div class="container"><h1>Plan du site</h1><p>Toutes les pages des Meublés de Luchon en un coup d'œil.</p></div></section>
+{breadcrumb([("Accueil", "/"), ("Plan du site", None)])}
+<section class="section"><div class="container prose">
+  <ul>
+    <li><a href="/">Accueil</a></li>
+    <li><a href="/nos-logements/">Nos logements</a>
+      <ul>
+        <li><a href="/nos-logements/la-perle-bleue/">La Perle Bleue</a></li>
+        <li><a href="/nos-logements/l-echappee-verte/">L'Échappée Verte</a></li>
+        <li><a href="/nos-logements/le-refuge-thermal/">Le Refuge Thermal</a></li>
+      </ul>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/activites/">Activités</a></li>
+    <li><a href="/avis/">Avis</a></li>
+    <li><a href="/reservation/">Réservation</a></li>
+    <li><a href="/contact/">Contact</a></li>
+    <li><a href="/mentions-legales/">Mentions légales</a></li>
+    <li><a href="/politique-de-confidentialite/">Politique de confidentialité</a></li>
+  </ul>
+</div></section>
+"""
+    page("plan-du-site/index.html", "/plan-du-site/", "Plan du site | Les Meublés de Luchon",
+         "Plan du site des Meublés de Luchon : accédez rapidement à toutes nos pages — logements, services, activités, avis, réservation et contact.",
+         plan, robots="index, follow")
+
+    # =====================================================================
+    # MENTIONS LÉGALES
+    # =====================================================================
+    ml = f"""
+<section class="page-hero"><div class="container"><h1>Mentions légales</h1></div></section>
+{breadcrumb([("Accueil", "/"), ("Mentions légales", None)])}
+<section class="section"><div class="container prose">
+  <h2>Éditeur du site</h2>
+  <p><strong>{NAP['name']}</strong><br>{NAP['street']}, {NAP['postal']} {NAP['city']}<br>
+  Téléphone : <a href="tel:{NAP['tel_link']}">{NAP['tel_display']}</a><br>
+  E-mail : <a href="mailto:{NAP['email']}">{NAP['email']}</a></p>
+  <p><em>À compléter : nom du responsable de publication, statut juridique (auto-entrepreneur / SCI…), numéro SIRET et, le cas échéant, numéro de TVA intracommunautaire.</em></p>
+  <h2>Hébergement</h2>
+  <p><em>À compléter : nom et adresse de l'hébergeur du site (ex. OVH SAS, 2 rue Kellermann, 59100 Roubaix).</em></p>
+  <h2>Propriété intellectuelle</h2>
+  <p>L'ensemble des contenus (textes, photographies, logos) présents sur ce site est la propriété des Meublés de Luchon, sauf mention contraire. Toute reproduction sans autorisation est interdite.</p>
+  <h2>Crédits</h2>
+  <p>Photographies : Les Meublés de Luchon. Conception et réalisation du site : refonte 2026.</p>
+  <h2>Données personnelles</h2>
+  <p>Les informations recueillies via les formulaires sont utilisées uniquement pour répondre à vos demandes. Consultez notre <a href="/politique-de-confidentialite/">politique de confidentialité</a> pour en savoir plus sur vos droits.</p>
+</div></section>
+"""
+    page("mentions-legales/index.html", "/mentions-legales/", "Mentions légales | Les Meublés de Luchon",
+         "Mentions légales du site Les Meublés de Luchon — éditeur, hébergement, propriété intellectuelle et données personnelles.",
+         ml, robots="noindex, follow")
+
+    # =====================================================================
+    # CONFIDENTIALITÉ
+    # =====================================================================
+    conf = f"""
+<section class="page-hero"><div class="container"><h1>Politique de confidentialité</h1></div></section>
+{breadcrumb([("Accueil", "/"), ("Politique de confidentialité", None)])}
+<section class="section"><div class="container prose">
+  <p>La présente politique décrit la manière dont Les Meublés de Luchon traite vos données personnelles, conformément au Règlement Général sur la Protection des Données (RGPD) et aux recommandations de la CNIL.</p>
+  <h2>Responsable du traitement</h2>
+  <p>{NAP['name']} — {NAP['street']}, {NAP['postal']} {NAP['city']} — <a href="mailto:{NAP['email']}">{NAP['email']}</a>.</p>
+  <h2>Données collectées</h2>
+  <p>Nous collectons uniquement les données que vous nous transmettez volontairement (nom, e-mail, téléphone, message) via nos formulaires de contact et de réservation, afin de traiter votre demande.</p>
+  <h2>Cookies &amp; mesure d'audience</h2>
+  <p>Aucun cookie de mesure d'audience ou de suivi n'est déposé sans votre consentement préalable. Un bandeau vous permet d'accepter ou de refuser ces cookies. Vous pouvez modifier votre choix à tout moment en supprimant les cookies de votre navigateur.</p>
+  <h2>Durée de conservation</h2>
+  <p>Vos données sont conservées le temps nécessaire au traitement de votre demande, puis archivées ou supprimées conformément aux obligations légales.</p>
+  <h2>Vos droits</h2>
+  <p>Vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition sur vos données. Pour l'exercer, écrivez-nous à <a href="mailto:{NAP['email']}">{NAP['email']}</a>. Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr).</p>
+</div></section>
+"""
+    page("politique-de-confidentialite/index.html", "/politique-de-confidentialite/",
+         "Politique de confidentialité | Les Meublés de Luchon",
+         "Politique de confidentialité des Meublés de Luchon : données collectées, cookies, durée de conservation et vos droits (RGPD / CNIL).",
+         conf, robots="noindex, follow")
+
+    # =====================================================================
+    # 404
+    # =====================================================================
+    nf = """
+<section class="section" style="min-height:50vh;display:grid;place-items:center;text-align:center">
+  <div class="container">
+    <p class="eyebrow">Erreur 404</p>
+    <h1>Cette page a pris le large</h1>
+    <p class="lead" style="margin:0 auto 1.5rem">La page que vous cherchez n'existe pas ou a été déplacée. Retrouvez votre chemin vers nos appartements.</p>
+    <a class="btn btn--primary btn--lg" href="/">Retour à l'accueil</a>
+    <a class="btn btn--ghost btn--lg" href="/nos-logements/">Nos logements</a>
+  </div>
+</section>
+"""
+    page("404.html", "/", "Page introuvable (404) | Les Meublés de Luchon",
+         "La page demandée est introuvable. Retournez à l'accueil des Meublés de Luchon.",
+         nf, robots="noindex, follow")
+
+    # =====================================================================
+    # CURE THERMALE — page pilier dédiée (orientée conversion curistes)
+    # =====================================================================
+    cure_service_ld = {
+        "@context": "https://schema.org", "@type": "Service",
+        "name": "Hébergement pour cure thermale à Bagnères-de-Luchon",
+        "serviceType": "Location saisonnière pour curistes",
+        "provider": {"@type": "LodgingBusiness", "name": NAP["name"],
+                     "telephone": NAP["tel_link"], "email": NAP["email"],
+                     "address": {"@type": "PostalAddress", "streetAddress": NAP["street"],
+                                 "addressLocality": NAP["city"], "postalCode": NAP["postal"],
+                                 "addressRegion": NAP["region"], "addressCountry": "FR"}},
+        "areaServed": NAP["city"],
+        "description": "Appartements meublés à quelques minutes à pied des Thermes de Luchon, adaptés aux séjours de cure de 18 jours : plain-pied, cuisine équipée, calme et confort.",
+        "url": BASE + "/cure-thermale/",
+    }
+    cure_faq = [
+        ("Vos logements sont-ils proches des Thermes de Luchon ?", "Oui, nos trois appartements sont au centre de Luchon, à quelques minutes à pied des thermes — vous rejoignez vos soins sans voiture."),
+        ("Quel appartement choisir pour une cure ?", "Le Refuge Thermal, notre T2 de plain-pied au rez-de-chaussée, est spécialement adapté aux curistes et aux personnes à mobilité réduite. La Perle Bleue et L'Échappée Verte conviennent également très bien."),
+        ("Proposez-vous des séjours de trois semaines ?", "Oui, nos logements sont pensés pour les séjours de cure de 18 jours et plus, avec cuisine équipée, lave-linge et Wi-Fi pour vivre confortablement sur la durée."),
+        ("Combien de temps dure une cure et est-elle remboursée ?", "La cure conventionnée dure 18 jours de soins, prescrite par votre médecin et prise en charge à 65 % par la Sécurité sociale. Consultez notre guide complet pour les détails."),
+        ("Quels services proposez-vous aux curistes ?", "Ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, animaux acceptés, et les conseils personnalisés de Nathalie."),
+    ]
+    refuge_first_img = "/assets/img/logements/refuge-thermal/piece-de-vie.jpg"
+    cure = f"""
+<section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/thermes.jpg" alt="Thermes de Bagnères-de-Luchon" width="1400" height="500"></div>
+  <div class="container">
+    <p class="eyebrow" style="color:#a9e0e4">Cure thermale · Bagnères-de-Luchon</p>
+    <h1>Votre hébergement pour une cure thermale à Luchon</h1>
+    <p>Des appartements meublés rénovés, à quelques minutes à pied des Thermes de Luchon, pensés pour le confort des curistes : plain-pied, cuisine équipée, calme et séjours de trois semaines en toute sérénité.</p>
+    <div style="margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.8rem">
+      <a class="btn btn--primary btn--lg" href="/reservation/">Réserver mon séjour de cure</a>
+      <a class="btn btn--light btn--lg" href="#logements">Voir les logements</a>
+    </div>
+  </div>
+</section>
+{breadcrumb([("Accueil", "/"), ("Cure thermale", None)])}
+
+<section class="section">
+  <div class="container center reveal">
+    <p class="eyebrow">Séjour thermal</p>
+    <h2>Séjournez à deux pas des Thermes de Luchon</h2>
+    <p class="lead">La cure conventionnée de Luchon dure 18 jours. Nos trois appartements, tous au centre-ville, vous placent à quelques minutes à pied des thermes — sans voiture, sans stress. Le Refuge Thermal, de plain-pied, est spécialement adapté aux curistes et aux personnes à mobilité réduite.</p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2rem"><p class="eyebrow">Pensé pour les curistes</p><h2>Un séjour de cure sans souci</h2></div>
+    <div class="grid grid--3">
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h3>À pied des thermes</h3><p>À quelques minutes des Thermes de Luchon : rejoignez vos soins chaque jour sans prendre la voiture.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></div><h3>Un logement de plain-pied</h3><p>Le Refuge Thermal est au rez-de-chaussée : un accès facile, sans escalier, idéal pour les curistes.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M8 14v7M16 14v7"/></svg></div><h3>Cuisine équipée</h3><p>Four, plaques, réfrigérateur, cafetière : de quoi cuisiner sereinement pendant vos trois semaines.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/></svg></div><h3>Calme et récupération</h3><p>Des appartements rénovés et une literie de qualité pour bien vous reposer entre deux soins.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><h3>Séjours longue durée</h3><p>Nos logements sont adaptés aux cures de 18 jours et plus, avec lave-linge et Wi-Fi inclus.</p></div>
+      <div class="feature reveal"><div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Un accueil attentionné</h3><p>Nathalie vous conseille avant votre arrivée et reste disponible tout au long de votre cure.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div class="split__media reveal"><img src="{refuge_first_img}" alt="Le Refuge Thermal, appartement de plain-pied pour curistes à Luchon" loading="lazy" width="600" height="480"></div>
+    <div class="split__body reveal">
+      <p class="eyebrow">Le choix des curistes</p>
+      <h2>Le Refuge Thermal, notre appartement dédié aux curistes</h2>
+      <p>Situé en rez-de-chaussée pour un accès de plain-pied, Le Refuge Thermal se compose d'une chambre séparée avec un vrai lit double, d'une pièce de vie ouverte avec coin salon et cuisine équipée, et d'une douche à l'italienne. Tout a été pensé pour un séjour de cure confortable et sans effort, à quelques minutes des thermes.</p>
+      <a class="btn btn--brand" href="/nos-logements/le-refuge-thermal/">Découvrir Le Refuge Thermal</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="logements">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Nos hébergements</p><h2>Trois appartements pour votre cure</h2><p class="lead">Tous au centre de Luchon, à quelques minutes à pied des thermes.</p></div>
+    <div class="grid grid--3">
+      {logement_card(g, "le-refuge-thermal")}
+      {logement_card(g, "la-perle-bleue")}
+      {logement_card(g, "l-echappee-verte")}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split split--reverse">
+    <div class="split__media reveal"><img src="/assets/img/services/menage.jpg" alt="Services pour curistes : ménage, linge" loading="lazy" width="600" height="480"></div>
+    <div class="split__body reveal">
+      <p class="eyebrow">Services adaptés</p>
+      <h2>Tout pour un séjour de trois semaines</h2>
+      <p>Parce qu'une cure dure longtemps, nous facilitons votre quotidien : ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, et animaux acceptés. Nathalie vous transmet un livret d'accueil et ses meilleurs conseils.</p>
+      <a class="btn btn--brand" href="/services/">Voir tous nos services</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2rem"><p class="eyebrow">Ils ont fait leur cure chez nous</p><h2>La confiance des curistes</h2></div>
+    <div class="grid grid--3">
+      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Idéal pour une cure : à deux pas des thermes, calme et confortable. Tout était impeccable. »</p><div class="review__author">Christine R.</div></blockquote>
+      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Appartement de plain-pied parfait pour mon mari. Nous reviendrons pour notre prochaine cure. »</p><div class="review__author">Danielle M.</div></blockquote>
+      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Très bien équipé pour un séjour de trois semaines, et Nathalie de très bon conseil. »</p><div class="review__author">Jean-Pierre L.</div></blockquote>
+    </div>
+    <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/avis/">Lire tous les avis</a></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div class="split__body reveal">
+      <p class="eyebrow">Bon à savoir</p>
+      <h2>La cure thermale de Luchon en quelques mots</h2>
+      <ul class="amenities" style="margin-top:1rem">
+        <li>{CHECK}Cure conventionnée de <strong>18 jours</strong></li>
+        <li>{CHECK}Remboursée à <strong>65 %</strong> sur prescription</li>
+        <li>{CHECK}Orientations <strong>rhumatologie</strong> &amp; <strong>voies respiratoires</strong></li>
+        <li>{CHECK}Le <strong>vaporarium</strong>, hammam naturel unique en Europe</li>
+      </ul>
+      <p style="margin-top:1.2rem"><a href="/guide/cure-thermale-a-luchon/"><strong>Lire notre guide complet de la cure thermale à Luchon →</strong></a></p>
+    </div>
+    <div class="split__media reveal"><img src="/assets/img/activites/thermes.jpg" alt="Établissement thermal de Luchon" loading="lazy" width="600" height="480"></div>
+  </div>
+</section>
+
+{faq_section(g, cure_faq)}
+
+<section class="section section--tint"><div class="container"><div class="cta-band reveal">
+  <h2>Réservez votre séjour de cure à Luchon</h2>
+  <p>Vérifiez nos disponibilités pour votre période de cure, ou contactez Nathalie pour un conseil personnalisé.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center">
+    <a class="btn btn--light btn--lg" href="/reservation/">Vérifier les disponibilités</a>
+    <a class="btn btn--ghost btn--lg" href="/contact/" style="border-color:#fff;color:#fff">Nous contacter</a>
+  </div>
+</div></div></section>
+"""
+    page("cure-thermale/index.html", "/cure-thermale/",
+         "Cure thermale à Luchon : hébergement pour curistes près des thermes | Les Meublés de Luchon",
+         "Appartements meublés pour votre cure thermale à Bagnères-de-Luchon : à quelques minutes à pied des thermes, logement de plain-pied, cuisine équipée, séjours de 18 jours. Réservez en direct.",
+         cure, og_image="/assets/img/activites/thermes.jpg", ld_blocks=[cure_service_ld])
+
+    # =====================================================================
+    # GUIDES (contenu longue traîne) + index /guide/
+    # =====================================================================
+    GUIDES = [
+        {
+            "slug": "cure-thermale-a-luchon",
+            "meta_title": "Cure thermale à Luchon : guide complet et où loger | Les Meublés de Luchon",
+            "desc": "Tout sur la cure thermale de Bagnères-de-Luchon : durée (18 jours), remboursement (65 %), indications (rhumatologie, voies respiratoires), le vaporarium, et où loger près des thermes.",
+            "h1": "Cure thermale à Luchon : le guide complet (et où loger)",
+            "hero": "/assets/img/activites/thermes.jpg",
+            "hero_alt": "Thermes de Bagnères-de-Luchon",
+            "eyebrow": "Guide pratique · Thermalisme",
+            "lead": "La cure thermale conventionnée de Luchon dure 18 jours et est prise en charge à 65 % par la Sécurité sociale. Voici l'essentiel à savoir — et comment bien se loger à deux pas des thermes.",
+            "short": "Cure thermale à Luchon",
+            "body": """
+<p><strong>En bref :</strong> Bagnères-de-Luchon est une station thermale reconnue pour ses eaux sulfurées, avec une double orientation <strong>rhumatologie</strong> et <strong>voies respiratoires</strong>. La cure conventionnée dure <strong>18 jours</strong> (remboursée à 65 % sur prescription médicale), et la ville abrite le <strong>seul hammam naturel d'Europe</strong>, le vaporarium.</p>
+
+<h2>Qu'est-ce que la cure thermale de Luchon ?</h2>
+<p>Les Thermes de Luchon exploitent des eaux hypothermales sulfurées aux bienfaits reconnus. L'établissement, récemment rénové, propose des cures conventionnées de 18 jours, des mini-cures et des séjours bien-être. Sa particularité : le <strong>vaporarium</strong>, un hammam naturel unique en Europe, où l'on profite de galeries creusées dans la roche alimentées par des vapeurs sulfureuses à <strong>38-42 °C</strong>.</p>
+
+<h2>Quelles sont les indications ?</h2>
+<ul>
+  <li><strong>Rhumatologie</strong> : arthrose, douleurs articulaires, suites de traumatismes.</li>
+  <li><strong>Voies respiratoires</strong> : sinusites, bronchites chroniques, asthme — le vaporarium est particulièrement indiqué pour décongestionner et apaiser les bronches.</li>
+</ul>
+
+<h2>Durée, prescription et remboursement</h2>
+<p>La cure conventionnée s'étend sur <strong>18 jours de soins</strong>, prescrite par votre médecin et prise en charge à <strong>65 % par l'Assurance Maladie</strong> (sous conditions de ressources, l'hébergement et le transport peuvent aussi être partiellement remboursés). Il faut donc prévoir un hébergement pour <strong>environ trois semaines</strong> — d'où l'importance de bien le choisir.</p>
+
+<h2>Où loger pour sa cure à Luchon ?</h2>
+<p>Nos trois appartements meublés sont situés au centre de Luchon, à quelques minutes à pied des thermes — idéal pour rejoindre vos soins sans voiture. Découvrez notre <a href="/cure-thermale/"><strong>page dédiée à la cure thermale</strong></a> et nos hébergements pour curistes. Pour une cure, nous recommandons particulièrement <a href="/nos-logements/le-refuge-thermal/"><strong>Le Refuge Thermal</strong></a>, un T2 de plain-pied (rez-de-chaussée) pensé pour les curistes et l'accès facile. <a href="/nos-logements/la-perle-bleue/">La Perle Bleue</a> et <a href="/nos-logements/l-echappee-verte/">L'Échappée Verte</a> conviennent aussi parfaitement.</p>
+<p>Pour un séjour de trois semaines, pensez à nos <a href="/services/">services</a> : ménage, location de draps et de serviettes, Wi-Fi haut débit pour rester connecté, et animaux acceptés.</p>
+
+<h2>Nos conseils de curiste</h2>
+<ul>
+  <li><strong>Réservez tôt</strong> : les logements proches des thermes partent vite en saison de cure (mars à novembre).</li>
+  <li>Privilégiez un <strong>appartement avec cuisine équipée</strong> pour cuisiner sur la durée — les nôtres le sont tous.</li>
+  <li>Profitez des demi-journées libres pour découvrir <a href="/activites/">les activités de Luchon</a> : randonnées douces, allées d'Étigny, casino.</li>
+</ul>
+""",
+            "faq": [
+                ("Combien de temps dure une cure thermale à Luchon ?", "Une cure conventionnée dure 18 jours de soins, prescrite par votre médecin. Prévoyez donc un hébergement d'environ trois semaines."),
+                ("La cure est-elle remboursée ?", "Oui, la cure conventionnée est prise en charge à 65 % par la Sécurité sociale sur prescription médicale. L'hébergement et le transport peuvent aussi être partiellement remboursés selon vos ressources."),
+                ("Quel logement choisir pour une cure ?", "Le Refuge Thermal, notre T2 de plain-pied au rez-de-chaussée, est idéal pour les curistes et les personnes à mobilité réduite. Nos trois appartements sont à quelques minutes à pied des thermes."),
+                ("Quelles sont les indications des Thermes de Luchon ?", "Deux orientations : la rhumatologie (arthrose, douleurs articulaires) et les voies respiratoires (sinusites, bronchites, asthme), avec le vaporarium, hammam naturel unique en Europe."),
+            ],
+        },
+        {
+            "slug": "ski-a-superbagneres",
+            "meta_title": "Ski à Luchon-Superbagnères : accès, domaine et où loger | Les Meublés de Luchon",
+            "desc": "Guide du ski à Luchon-Superbagnères : 28 pistes jusqu'à 2125 m, accès en 8 minutes par la télécabine depuis le centre-ville, et où loger au pied des pistes.",
+            "h1": "Ski à Luchon-Superbagnères : accès, domaine et où loger",
+            "hero": "/assets/img/activites/ski.jpg",
+            "hero_alt": "Domaine skiable de Luchon-Superbagnères",
+            "eyebrow": "Guide pratique · Ski & montagne",
+            "lead": "Superbagnères, le « balcon des Pyrénées », culmine à 2125 m et s'atteint en 8 minutes par télécabine depuis le centre de Luchon. Le bon plan : loger en ville et monter skier chaque matin.",
+            "short": "Ski à Superbagnères",
+            "body": """
+<p><strong>En bref :</strong> le domaine de Luchon-Superbagnères s'étend de <strong>1465 à 2125 m</strong> d'altitude avec <strong>28 pistes</strong> réparties sur trois secteurs, accessible directement depuis le centre-ville par la télécabine <strong>Crémaillère Express</strong> en <strong>8 minutes</strong>.</p>
+
+<h2>Le domaine skiable en un coup d'œil</h2>
+<ul>
+  <li><strong>Altitude :</strong> 1465 m à 2125 m (le « balcon des Pyrénées »).</li>
+  <li><strong>28 pistes</strong> : 15 % vertes, 45 % bleues, 21 % rouges, 18 % noires — idéal pour tous les niveaux, des débutants aux confirmés.</li>
+  <li><strong>Trois secteurs</strong> : Téchous, Lac et Céciré.</li>
+  <li>Ski alpin, ski de fond, luge et raquettes, avec une vue imprenable sur la vallée.</li>
+</ul>
+
+<h2>Comment accéder aux pistes ?</h2>
+<p>C'est l'un des grands atouts de Luchon : la nouvelle télécabine 10 places <strong>Crémaillère Express</strong> (ouverte en décembre 2023) relie le centre-ville aux pistes en seulement <strong>8 minutes</strong>. Pas besoin de prendre la voiture ni de faire la route de montagne chaque matin : vous partez skier à pied depuis votre appartement.</p>
+
+<h2>Pourquoi loger à Luchon plutôt qu'en altitude ?</h2>
+<p>Loger en ville, c'est profiter du meilleur des deux mondes : les pistes le jour, et l'ambiance d'une vraie station thermale le soir — commerces, restaurants, casino, et surtout les <a href="/activites/#thermalisme">thermes</a> pour un après-ski bien-être. Nos <a href="/nos-logements/">appartements meublés</a> sont à quelques minutes à pied de la télécabine.</p>
+
+<h2>Nos conseils pour un séjour au ski</h2>
+<ul>
+  <li>Réservez votre <a href="/reservation/">logement</a> tôt pour les vacances scolaires d'hiver.</li>
+  <li>Un appartement avec <a href="/services/">Wi-Fi, lave-linge et cuisine équipée</a> facilite les séjours en famille.</li>
+  <li>Vérifiez l'enneigement et les forfaits sur le site officiel de la station avant de partir.</li>
+</ul>
+""",
+            "faq": [
+                ("Comment accéder aux pistes de Superbagnères depuis Luchon ?", "La télécabine Crémaillère Express relie le centre-ville de Luchon aux pistes en 8 minutes. Vous pouvez partir skier à pied depuis nos appartements, sans voiture."),
+                ("Quelle est l'altitude de Superbagnères ?", "Le domaine s'étend de 1465 m à 2125 m d'altitude, ce qui lui vaut le surnom de « balcon des Pyrénées »."),
+                ("Combien y a-t-il de pistes ?", "28 pistes réparties en 15 % vertes, 45 % bleues, 21 % rouges et 18 % noires, sur trois secteurs (Téchous, Lac, Céciré)."),
+                ("Vaut-il mieux loger à Luchon ou à la station ?", "Loger à Luchon permet de skier la journée et de profiter le soir des thermes, restaurants et commerces de la ville, tout en étant à quelques minutes de la télécabine."),
+            ],
+        },
+        {
+            "slug": "venir-a-bagneres-de-luchon",
+            "meta_title": "Venir à Bagnères-de-Luchon : accès, train, voiture, parking | Les Meublés de Luchon",
+            "desc": "Comment venir à Bagnères-de-Luchon : 1h45 de Toulouse en voiture (140 km), train direct depuis Toulouse Matabiau (2h10) avec gare en ville, et infos parking.",
+            "h1": "Comment venir à Bagnères-de-Luchon : accès, train, voiture, parking",
+            "hero": "/assets/img/activites/randonnee.jpg",
+            "hero_alt": "Route vers Bagnères-de-Luchon dans les Pyrénées",
+            "eyebrow": "Guide pratique · Accès",
+            "lead": "Luchon est à environ 1h45 de Toulouse en voiture (140 km) et accessible en train direct depuis Toulouse Matabiau (≈ 2h10) — la gare est en centre-ville.",
+            "short": "Venir à Luchon",
+            "body": """
+<p><strong>En bref :</strong> Bagnères-de-Luchon se rejoint facilement depuis Toulouse en <strong>voiture (≈ 1h45, 140 km)</strong> ou en <strong>train direct (≈ 2h10)</strong> depuis la gare de Toulouse Matabiau, avec une gare située en plein centre de Luchon.</p>
+
+<h2>En voiture</h2>
+<p>Depuis Toulouse, comptez environ <strong>1h45 pour 140 km</strong> : autoroute A64 jusqu'à la sortie Montréjeau, puis la D125 qui remonte la vallée jusqu'à Luchon. La route est belle et bien entretenue. En hiver, prévoyez des équipements adaptés pour rejoindre les pistes.</p>
+
+<h2>En train</h2>
+<p>La SNCF propose un <strong>train direct Toulouse Matabiau → Luchon en environ 2h10</strong>. Grand avantage : la <strong>gare est en centre-ville</strong>, à quelques minutes à pied de nos appartements — idéal pour venir sans voiture, notamment pour une cure.</p>
+
+<h2>En avion</h2>
+<p>L'aéroport le plus proche est <strong>Toulouse-Blagnac</strong>, puis liaison en voiture de location ou en train via Toulouse Matabiau.</p>
+
+<h2>Se déplacer sur place et se garer</h2>
+<p>À Luchon, <strong>tout est accessible à pied</strong> : thermes, commerces, restaurants, télécabine de Superbagnères. C'est l'un des atouts de nos <a href="/nos-logements/">logements</a>, tous situés au centre-ville. Un <strong>parking gratuit</strong> se trouve à proximité (voir <a href="/services/">nos services</a>). Pour préparer votre venue, contactez-nous : nous vous transmettons toutes les informations d'accès et de stationnement avec votre <a href="/reservation/">confirmation de réservation</a>.</p>
+""",
+            "faq": [
+                ("Comment aller à Bagnères-de-Luchon depuis Toulouse ?", "En voiture, comptez environ 1h45 (140 km) via l'A64 puis la D125. En train, un service direct relie Toulouse Matabiau à Luchon en environ 2h10, avec une gare en centre-ville."),
+                ("Y a-t-il un train pour Luchon ?", "Oui, la SNCF propose un train direct depuis Toulouse Matabiau jusqu'à Luchon (≈ 2h10). La gare est située en plein centre, à quelques minutes à pied de nos appartements."),
+                ("Où se garer à Luchon ?", "Un parking gratuit se trouve à proximité de nos logements. Toutes les informations de stationnement vous sont transmises avec votre confirmation de réservation."),
+                ("A-t-on besoin d'une voiture sur place ?", "Non : à Luchon, les thermes, commerces, restaurants et la télécabine de Superbagnères sont accessibles à pied depuis nos appartements du centre-ville."),
+            ],
+        },
+        {
+            "slug": "louer-avec-son-chien-a-luchon",
+            "meta_title": "Louer avec son chien à Bagnères-de-Luchon | Les Meublés de Luchon",
+            "desc": "Location d'appartement acceptant les animaux à Bagnères-de-Luchon : nos meublés accueillent votre chien (50 € par séjour). Idées de balades et conseils pour un séjour réussi.",
+            "h1": "Louer un appartement avec son chien à Bagnères-de-Luchon",
+            "hero": "/assets/img/services/animal.jpg",
+            "hero_alt": "Chien accueilli dans un appartement des Meublés de Luchon",
+            "eyebrow": "Guide pratique · Animaux",
+            "lead": "Oui, nos appartements meublés acceptent les animaux (50 € par séjour et par animal). Luchon et les Pyrénées sont une destination idéale pour voyager avec son chien.",
+            "short": "Louer avec son chien",
+            "body": """
+<p><strong>En bref :</strong> nos trois logements <strong>acceptent les animaux</strong> moyennant un supplément de <strong>50 € par séjour et par animal</strong>. Merci de nous le signaler à la réservation. Luchon, entre montagnes et sentiers, est parfaite pour un séjour avec votre compagnon à quatre pattes.</p>
+
+<h2>Des appartements qui acceptent les animaux</h2>
+<p>Que vous choisissiez <a href="/nos-logements/la-perle-bleue/">La Perle Bleue</a>, <a href="/nos-logements/l-echappee-verte/">L'Échappée Verte</a> ou <a href="/nos-logements/le-refuge-thermal/">Le Refuge Thermal</a>, votre chien est le bienvenu. Le supplément de 50 € couvre le nettoyage supplémentaire. Le Refuge Thermal, de plain-pied, est particulièrement pratique pour les sorties fréquentes.</p>
+
+<h2>Où promener son chien à Luchon ?</h2>
+<ul>
+  <li>Les <a href="/activites/#randonnee">sentiers de randonnée</a> de la vallée, dont la montée vers le lac d'Oô.</li>
+  <li>Les allées d'Étigny et le parc du casino, en plein centre, pour les balades quotidiennes.</li>
+  <li>Les grands espaces de montagne autour de Superbagnères en été.</li>
+</ul>
+
+<h2>Nos conseils pour un séjour réussi avec votre animal</h2>
+<ul>
+  <li>Signalez la présence de votre animal <strong>dès la réservation</strong>.</li>
+  <li>Prévoyez son couchage et sa gamelle ; nous vous indiquons les commerces et vétérinaires à proximité.</li>
+  <li>Merci de ne pas laisser votre animal seul dans l'appartement et de veiller à la propreté des lieux.</li>
+</ul>
+<p>Prêt à partir avec votre chien ? <a href="/reservation/">Vérifiez nos disponibilités</a> ou <a href="/contact/">contactez-nous</a>.</p>
+""",
+            "faq": [
+                ("Les animaux sont-ils acceptés dans vos logements ?", "Oui, nos trois appartements acceptent les animaux moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation."),
+                ("Quel logement choisir avec un chien ?", "Tous nos logements acceptent les animaux. Le Refuge Thermal, de plain-pied, est particulièrement pratique pour les sorties fréquentes."),
+                ("Où promener son chien à Luchon ?", "Les sentiers de la vallée (lac d'Oô), les allées d'Étigny et le parc du casino en centre-ville, et les espaces de montagne autour de Superbagnères en été."),
+            ],
+        },
+    ]
+
+    def guides_nav(current_slug):
+        links = "".join(
+            f'<li><a href="/guide/{gg["slug"]}/">{gg["short"]}</a></li>'
+            for gg in GUIDES if gg["slug"] != current_slug)
+        return (f'<section class="section section--tint"><div class="container">'
+                f'<h2 class="center">À lire aussi</h2><ul class="guides-nav">{links}'
+                f'<li><a href="/faq/">Questions fréquentes</a></li></ul></div></section>')
+
+    def article_ld(gg):
+        return {"@context": "https://schema.org", "@type": "Article",
+                "headline": gg["h1"], "description": gg["desc"],
+                "image": BASE + gg["hero"],
+                "inLanguage": "fr-FR",
+                "author": {"@type": "Organization", "name": NAP["name"]},
+                "publisher": {"@type": "Organization", "name": NAP["name"],
+                              "logo": {"@type": "ImageObject", "url": BASE + "/assets/img/brand/logo.png"}},
+                "mainEntityOfPage": {"@type": "WebPage", "@id": BASE + "/guide/" + gg["slug"] + "/"}}
+
+    for gg in GUIDES:
+        m = f"""
+<section class="page-hero has-img"><div class="page-hero__img"><img src="{gg['hero']}" alt="{gg['hero_alt']}" width="1400" height="500"></div>
+  <div class="container"><p class="eyebrow" style="color:#a9e0e4">{gg['eyebrow']}</p><h1>{gg['h1']}</h1><p>{gg['lead']}</p></div>
+</section>
+{breadcrumb([("Accueil", "/"), ("Guides", "/guide/"), (gg['short'], None)])}
+<section class="section"><div class="container prose">{gg['body']}</div></section>
+<section class="section" style="padding-top:0"><div class="container"><div class="cta-band reveal"><h2>Envie de séjourner à Luchon ?</h2><p>Découvrez nos appartements meublés au centre-ville et réservez en quelques clics.</p><a class="btn btn--light btn--lg" href="/reservation/">Vérifier les disponibilités</a></div></div></section>
+{faq_section(g, gg['faq'])}
+{guides_nav(gg['slug'])}
+"""
+        page(f"guide/{gg['slug']}/index.html", "/guide/", gg["meta_title"], gg["desc"], m,
+             og_image=gg["hero"], ld_blocks=[article_ld(gg)])
+
+    # Index /guide/
+    gcards = "".join(
+        f'<article class="card reveal"><a class="card__media" href="/guide/{gg["slug"]}/">'
+        f'<img src="{gg["hero"]}" alt="{gg["hero_alt"]}" loading="lazy" width="500" height="375"></a>'
+        f'<div class="card__body"><h3>{gg["short"]}</h3><p>{gg["lead"]}</p>'
+        f'<div class="card__foot"><a class="btn btn--ghost" href="/guide/{gg["slug"]}/">Lire le guide</a></div></div></article>'
+        for gg in GUIDES)
+    guide_index = f"""
+<section class="page-hero"><div class="container"><h1>Guides pratiques pour votre séjour à Luchon</h1><p>Cure thermale, ski, accès, séjour avec animaux : tous nos conseils pour préparer votre venue à Bagnères-de-Luchon.</p></div></section>
+{breadcrumb([("Accueil", "/"), ("Guides", None)])}
+<section class="section"><div class="container"><div class="grid grid--2">{gcards}</div>
+  <p class="center" style="margin-top:2rem">Vous cherchez une réponse précise ? Consultez notre <a href="/faq/"><strong>foire aux questions</strong></a>.</p>
+</div></section>
+"""
+    page("guide/index.html", "/guide/", "Guides pratiques — Luchon (cure, ski, accès) | Les Meublés de Luchon",
+         "Guides pratiques pour préparer votre séjour à Bagnères-de-Luchon : cure thermale, ski à Superbagnères, accès et transport, location avec animaux.",
+         guide_index, og_image="/assets/img/activites/randonnee.jpg")
+
+    # =====================================================================
+    # FAQ (page dédiée et étoffée, une seule FAQPage schema)
+    # =====================================================================
+    faq_cats = [
+        ("Réservation & paiement", [
+            ("Comment réserver un appartement ?", "Choisissez votre logement, vos dates et le nombre de voyageurs sur notre page de réservation. Vous êtes redirigé vers notre moteur sécurisé pour confirmer et payer, avec confirmation immédiate par e-mail."),
+            ("Le paiement est-il sécurisé ?", "Oui, le paiement s'effectue sur une plateforme de réservation sécurisée. Vous recevez une confirmation immédiate par e-mail."),
+            ("Est-ce moins cher de réserver en direct ?", "Réserver directement sur notre site, c'est éviter les commissions des plateformes et bénéficier du meilleur tarif, tout en échangeant directement avec Nathalie, votre hôte."),
+            ("Comment réserver Le Refuge Thermal ?", "Le Refuge Thermal se réserve sur simple demande : indiquez vos dates et nous vous confirmons la disponibilité sous 24 h."),
+            ("Quelle est la politique d'annulation ?", "Les conditions d'annulation sont précisées lors de la réservation, avant tout paiement. Contactez-nous pour toute question."),
+            ("Y a-t-il un nombre minimum de nuits ?", "La durée minimale peut varier selon la saison ; elle s'affiche automatiquement au moment de choisir vos dates."),
+        ]),
+        ("Arrivée, départ & clés", [
+            ("À quelle heure puis-je arriver ?", "L'arrivée est autonome et flexible à partir de 16h, grâce à une boîte à clés sécurisée. Vous recevez le code et les instructions par e-mail avant votre venue."),
+            ("À quelle heure dois-je partir ?", "Le départ se fait avant 10h le jour du check-out."),
+            ("Comment récupérer les clés ?", "Via une boîte à clés autonome : aucun rendez-vous nécessaire, vous êtes libre de vos horaires d'arrivée à partir de 16h."),
+            ("Puis-je arriver tard le soir ?", "Oui, grâce à l'arrivée autonome. Prévenez-nous simplement de votre horaire approximatif."),
+        ]),
+        ("Logements & équipements", [
+            ("Les appartements ont-ils le Wi-Fi ?", "Oui, chaque appartement dispose d'une connexion Wi-Fi haut débit gratuite."),
+            ("Les cuisines sont-elles équipées ?", "Oui : plaques, four ou micro-ondes, réfrigérateur, vaisselle, et machine à café Nespresso. La Perle Bleue dispose aussi d'un lave-vaisselle."),
+            ("Y a-t-il un lave-linge ?", "Oui, nos logements sont équipés d'un lave-linge (et sèche-linge selon l'appartement)."),
+            ("Combien de personnes peut-on accueillir ?", "La Perle Bleue (T2) et Le Refuge Thermal (T2) accueillent jusqu'à 4 personnes ; L'Échappée Verte (studio) jusqu'à 2 personnes."),
+            ("Les draps et serviettes sont-ils fournis ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes."),
+            ("Y a-t-il un logement de plain-pied ?", "Oui, Le Refuge Thermal est au rez-de-chaussée — idéal pour les curistes et les personnes à mobilité réduite."),
+        ]),
+        ("Animaux & services", [
+            ("Les animaux sont-ils acceptés ?", "Oui, moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation."),
+            ("Proposez-vous un service de ménage ?", "Oui, le ménage de fin de séjour est disponible en option à 35 € ; vous pouvez aussi le réaliser vous-même avant le départ."),
+            ("Y a-t-il un parking ?", "Un parking gratuit se trouve à proximité de nos logements. Les informations de stationnement vous sont transmises avec votre confirmation."),
+            ("Proposez-vous des conseils sur place ?", "Oui, Nathalie vous transmet un livret d'accueil et des conseils personnalisés sur les activités, les restaurants et les excursions."),
+        ]),
+        ("Luchon pratique", [
+            ("Les appartements sont-ils proches des thermes ?", "Oui, tous nos logements sont au centre de Luchon, à quelques minutes à pied des thermes, des commerces et de la télécabine de Superbagnères."),
+            ("Comment venir à Luchon ?", "En voiture depuis Toulouse (≈ 1h45, 140 km) ou en train direct depuis Toulouse Matabiau (≈ 2h10), la gare étant en centre-ville. Voir notre guide d'accès."),
+            ("Peut-on skier facilement depuis Luchon ?", "Oui : la télécabine Crémaillère Express relie le centre-ville aux pistes de Superbagnères en 8 minutes."),
+            ("Convient-il pour une cure thermale ?", "Tout à fait. Nos appartements sont à quelques minutes des thermes ; Le Refuge Thermal, de plain-pied, est spécialement adapté aux curistes."),
+        ]),
+    ]
+    faq_all = []
+    groups_html = ""
+    for cat_title, qas in faq_cats:
+        faq_all += qas
+        items = "".join(
+            f'<div class="faq__item"><button class="faq__q" aria-expanded="false">{q}</button>'
+            f'<div class="faq__a"><p>{a}</p></div></div>' for q, a in qas)
+        groups_html += f'<div class="faq-group"><h2>{cat_title}</h2><div class="faq">{items}</div></div>'
+    faq_ld = {"@context": "https://schema.org", "@type": "FAQPage",
+              "mainEntity": [{"@type": "Question", "name": q,
+                              "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_all]}
+    faq_page = f"""
+<section class="page-hero"><div class="container"><h1>Foire aux questions</h1><p>Toutes les réponses sur la réservation, l'arrivée, les équipements et votre séjour à Bagnères-de-Luchon.</p></div></section>
+{breadcrumb([("Accueil", "/"), ("FAQ", None)])}
+<section class="section"><div class="container" style="max-width:860px">{groups_html}
+  <div class="cta-band reveal" style="margin-top:2.5rem"><h2>Une autre question ?</h2><p>Nathalie vous répond avec plaisir, avant comme pendant votre séjour.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a></div>
+</div></section>
+"""
+    page("faq/index.html", "/guide/", "FAQ — Réservation, séjour, équipements | Les Meublés de Luchon",
+         "Foire aux questions des Meublés de Luchon : réservation, paiement, arrivée autonome, équipements, animaux, accès et cure thermale à Bagnères-de-Luchon.",
+         faq_page, ld_blocks=[faq_ld])
+
+    # =====================================================================
+    # Fichiers techniques
+    # =====================================================================
+    write_tech(g)
+
+
+# ------- helpers de contenu -------
+def logement_card(g, key, reveal=True):
+    LOGEMENTS = g["LOGEMENTS"]; stars_html = g["stars_html"]
+    d = LOGEMENTS[key]
+    base = f"/assets/img/logements/{d['slug']}/"
+    imgs = d["images"][:5]
+    slides = "".join(
+        f'<a class="card__slide" href="/nos-logements/{key}/" aria-label="{alt}">'
+        f'<img src="{base}{fn}" alt="{alt}" loading="lazy" width="600" height="450"></a>'
+        for fn, alt in imgs)
+    dots = "".join(
+        f'<button class="card__dot" type="button" aria-label="Voir la photo {n + 1}"'
+        + (' aria-current="true"' if n == 0 else '') + '></button>'
+        for n in range(len(imgs)))
+    rc = " reveal" if reveal else ""
+    return f"""<article class="card{rc}">
+        <div class="card__slider" data-slider>
+          <span class="card__tag">{stars_html(d['stars'])} Meublé de Tourisme</span>
+          <div class="card__slides">{slides}</div>
+          <button class="card__arrow card__arrow--prev" type="button" aria-label="Photo précédente">‹</button>
+          <button class="card__arrow card__arrow--next" type="button" aria-label="Photo suivante">›</button>
+          <div class="card__dots">{dots}</div>
+        </div>
+        <div class="card__body">
+          <h3>{d['name']}</h3>
+          <div class="card__meta"><span>🛏️ {d['type'].split(' ')[0]}</span><span>👥 {d['capacity']} pers.</span><span>🏢 {d['floor']}</span></div>
+          <p>{d['short']}</p>
+          <div class="card__foot">
+            <a class="btn btn--ghost" href="/nos-logements/{key}/">Découvrir</a>
+            <a class="btn btn--brand" href="/nos-logements/{key}/#reserver">Réserver</a>
+          </div>
+        </div>
+      </article>"""
+
+
+def faq_section(g, qas):
+    jsonld = g["jsonld"]
+    items = ""
+    for q, a in qas:
+        items += (f'<div class="faq__item"><button class="faq__q" aria-expanded="false">{q}</button>'
+                  f'<div class="faq__a"><p>{a}</p></div></div>')
+    ld = {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q,
+                          "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qas]}
+    return (f'<section class="section"><div class="container"><div class="center reveal" style="margin-bottom:2rem">'
+            f'<p class="eyebrow">Questions fréquentes</p><h2>Bon à savoir</h2></div>'
+            f'<div class="faq">{items}</div></div>{jsonld(ld)}</section>')
+
+
+def write_tech(g):
+    write = g["write"]; BASE = g["BASE_URL"]
+    # robots.txt
+    write("robots.txt", f"""User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: {BASE}/sitemap.xml
+""")
+    # sitemap.xml
+    urls = [
+        ("/", "1.0", "weekly"),
+        ("/nos-logements/", "0.9", "weekly"),
+        ("/nos-logements/la-perle-bleue/", "0.9", "weekly"),
+        ("/nos-logements/l-echappee-verte/", "0.9", "weekly"),
+        ("/nos-logements/le-refuge-thermal/", "0.9", "weekly"),
+        ("/cure-thermale/", "0.9", "monthly"),
+        ("/reservation/", "0.9", "weekly"),
+        ("/services/", "0.7", "monthly"),
+        ("/activites/", "0.7", "monthly"),
+        ("/guide/", "0.7", "monthly"),
+        ("/guide/cure-thermale-a-luchon/", "0.8", "monthly"),
+        ("/guide/ski-a-superbagneres/", "0.8", "monthly"),
+        ("/guide/venir-a-bagneres-de-luchon/", "0.7", "monthly"),
+        ("/guide/louer-avec-son-chien-a-luchon/", "0.7", "monthly"),
+        ("/faq/", "0.7", "monthly"),
+        ("/avis/", "0.7", "monthly"),
+        ("/contact/", "0.6", "monthly"),
+        ("/plan-du-site/", "0.3", "yearly"),
+        ("/mentions-legales/", "0.2", "yearly"),
+        ("/politique-de-confidentialite/", "0.2", "yearly"),
+    ]
+    body = "\n".join(
+        f'  <url><loc>{BASE}{u}</loc><changefreq>{cf}</changefreq><priority>{p}</priority></url>'
+        for u, p, cf in urls)
+    write("sitemap.xml", f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{body}
+</urlset>
+""")
+    # .htaccess (production Apache/OVH)
+    write(".htaccess", """# === Les Meublés de Luchon — configuration Apache ===
+Options -Indexes
+DirectoryIndex index.html
+
+# --- Forcer HTTPS + non-www ---
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\\.(.*)$ [NC]
+RewriteRule ^ https://lesmeublesdeluchon.com%{REQUEST_URI} [R=301,L]
+
+# --- URLs propres : /page renvoie /page/ ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(/$|\\.)
+RewriteRule ^(.*)$ /$1/ [R=301,L]
+
+# --- Redirections 301 des anciennes URLs WordPress ---
+Redirect 301 /nos-services/ /services/
+Redirect 301 /reservez-maintenant/ /reservation/
+Redirect 301 /vos-avis/ /avis/
+Redirect 301 /politique-de-confidentialite-2/ /politique-de-confidentialite/
+Redirect 301 /politique-des-cookies/ /politique-de-confidentialite/
+
+# --- Page d'erreur personnalisée ---
+ErrorDocument 404 /404.html
+
+# --- En-têtes de sécurité ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --- Cache navigateur ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# --- Compression ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+</IfModule>
+""")
