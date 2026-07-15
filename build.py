@@ -24,11 +24,6 @@ NAP = {
     "instagram": "https://www.instagram.com/lesmeublesdeluchon/",
 }
 
-# --- Widget de relecture client (n'apparaît que hors domaine de production) ---
-FEEDBACK_EMAIL = "edwin@localisia.fr"      # destinataire des retours
-FEEDBACK_WEB3KEY = ""                       # clé Web3Forms (gratuite) -> envoi in-page sans quitter la page ; vide = repli e-mail
-PROD_DOMAIN = "lesmeublesdeluchon.com"      # le widget se masque sur ce domaine
-
 NAV = [
     ("/", "Accueil"),
     ("/nos-logements/", "Logements"),
@@ -261,20 +256,6 @@ def footer():
 <div class="mobile-bar">
   <a class="btn btn--ghost" href="tel:{NAP['tel_link']}" aria-label="Appeler">📞 Appeler</a>
   <a class="btn btn--primary" href="/reservation/">Réserver</a>
-</div>
-<div class="rvw" id="review" data-email="{FEEDBACK_EMAIL}" data-web3key="{FEEDBACK_WEB3KEY}" data-prod="{PROD_DOMAIN}">
-  <button class="rvw__btn" id="rvw-toggle" type="button" aria-expanded="false">💬 Votre avis sur cette page</button>
-  <div class="rvw__panel" role="dialog" aria-label="Donner un avis sur cette page">
-    <button class="rvw__close" id="rvw-close" type="button" aria-label="Fermer">×</button>
-    <h4>Votre avis sur cette page</h4>
-    <p class="rvw__page" id="rvw-page"></p>
-    <form id="rvw-form" class="rvw__form">
-      <label>Votre nom <span>(facultatif)</span><input type="text" name="visitor_name" autocomplete="name"></label>
-      <label>Votre remarque<textarea name="message" rows="4" required placeholder="Ce que vous aimez, ce qui manque, une correction…"></textarea></label>
-      <button class="btn btn--primary btn--block" type="submit">Envoyer mon retour</button>
-    </form>
-    <div class="rvw__ok" id="rvw-ok" hidden>✅ Merci ! Votre retour a bien été envoyé.</div>
-  </div>
 </div>
 <div class="cookie" id="cookie" role="dialog" aria-live="polite" aria-label="Consentement aux cookies">
   <h4>🍪 Nous respectons votre vie privée</h4>

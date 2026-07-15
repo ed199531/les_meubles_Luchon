@@ -183,63 +183,6 @@
     window.__consentGranted = true;
   }
 
-  /* ---- Widget de relecture client (visible hors domaine de production) ---- */
-  var review = document.getElementById('review');
-  if (review) {
-    var prod = review.getAttribute('data-prod') || '';
-    var host = location.hostname;
-    var isProd = prod && (host === prod || host === 'www.' + prod);
-    if (!isProd) {
-      review.classList.add('on');
-      var rToggle = $('#rvw-toggle', review);
-      var rClose = $('#rvw-close', review);
-      var rForm = $('#rvw-form', review);
-      var rOk = $('#rvw-ok', review);
-      var rPage = $('#rvw-page', review);
-      if (rPage) rPage.textContent = 'Page : ' + document.title;
-      function rOpen(v) { review.classList.toggle('open', v); rToggle.setAttribute('aria-expanded', v ? 'true' : 'false'); }
-      rToggle.addEventListener('click', function () { rOpen(!review.classList.contains('open')); });
-      rClose.addEventListener('click', function () { rOpen(false); });
-
-      rForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var name = (rForm.querySelector('[name="visitor_name"]').value || 'Anonyme').trim();
-        var message = rForm.querySelector('[name="message"]').value.trim();
-        var pageUrl = location.href;
-        var key = review.getAttribute('data-web3key');
-        var email = review.getAttribute('data-email');
-        var subject = '[Retour site] ' + document.title;
-
-        function done() { rForm.hidden = true; rOk.hidden = false; }
-        function mailtoFallback() {
-          var body = 'Page : ' + pageUrl + '\nNom : ' + name + '\n\nRemarque :\n' + message;
-          window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-          done();
-        }
-
-        if (key) {
-          fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              access_key: key,
-              subject: subject,
-              from_name: 'Relecture site',
-              nom: name,
-              page: pageUrl,
-              titre_page: document.title,
-              message: message
-            })
-          }).then(function (r) { return r.json(); })
-            .then(function (res) { if (res && res.success) { done(); } else { mailtoFallback(); } })
-            .catch(mailtoFallback);
-        } else {
-          mailtoFallback();
-        }
-      });
-    }
-  }
-
   /* ---- Année dynamique footer ---- */
   $all('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
