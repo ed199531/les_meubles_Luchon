@@ -382,6 +382,36 @@ li { margin: .3rem 0; }
 .cookie__actions { display: flex; flex-wrap: wrap; gap: .6rem; }
 .cookie__actions .btn { padding: .6rem 1.2rem; font-size: .9rem; }
 
+/* ---------- Widget de relecture client (review only) ---------- */
+.rvw { position: fixed; right: 18px; bottom: 18px; z-index: 170; display: none; }
+.rvw.on { display: block; }
+.rvw__btn {
+  display: inline-flex; align-items: center; gap: .5rem; cursor: pointer;
+  background: var(--brand); color: #fff; border: none; font-family: var(--font-body);
+  font-weight: 700; font-size: .95rem; padding: .75rem 1.2rem; border-radius: 999px;
+  box-shadow: var(--shadow); transition: background .2s, transform .15s;
+}
+.rvw__btn:hover { background: var(--brand-dark); transform: translateY(-2px); }
+.rvw__panel {
+  position: absolute; bottom: 58px; right: 0; width: min(340px, 88vw);
+  background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg); padding: 1.2rem 1.3rem; display: none;
+}
+.rvw.open .rvw__panel { display: block; }
+.rvw.open .rvw__btn { background: var(--brand-dark); }
+.rvw__panel h4 { font-family: var(--font-body); font-size: 1.05rem; margin: 0 0 .2rem; color: var(--ink); }
+.rvw__page { font-size: .8rem; color: var(--muted); margin: 0 0 .9rem; word-break: break-word; }
+.rvw__close { position: absolute; top: .6rem; right: .7rem; background: none; border: none; font-size: 1.5rem; line-height: 1; color: var(--muted); cursor: pointer; }
+.rvw__form label { display: block; font-weight: 700; font-size: .85rem; color: var(--ink); margin-bottom: .8rem; }
+.rvw__form label span { font-weight: 400; color: var(--muted); }
+.rvw__form input, .rvw__form textarea {
+  width: 100%; margin-top: .3rem; font-family: var(--font-body); font-size: .95rem; color: var(--ink);
+  padding: .6rem .7rem; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: #fff; box-sizing: border-box;
+}
+.rvw__form input:focus, .rvw__form textarea:focus { border-color: var(--brand-2); outline: none; }
+.rvw__ok { padding: 1rem 0; font-weight: 700; color: var(--brand-dark); text-align: center; }
+@media (max-width: 980px) { .rvw { bottom: 78px; right: 12px; } }
+
 /* ---------- Prose (pages légales / articles) ---------- */
 .prose { max-width: 760px; margin: 0 auto; }
 .prose h2 { margin-top: 2rem; font-size: 1.6rem; }
