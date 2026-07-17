@@ -26,7 +26,7 @@ NAP = {
 
 NAV = [
     ("/", "Accueil"),
-    ("/nos-logements/", "Logements"),
+    ("/nos-logements/", "Appartements"),
     ("/cure-thermale/", "Cure thermale"),
     ("/services/", "Services"),
     ("/activites/", "Activités"),
@@ -44,8 +44,8 @@ LOGEMENTS = {
         "floor": "2ᵉ étage",
         "stars": 3,
         "booking": "superhote",
-        "short": "Appartement deux pièces rénové, cosy et moderne, au cœur de Luchon.",
-        "intro": "La Perle Bleue est un charmant appartement T2 entièrement rénové, à la décoration douce et contemporaine. Avec sa chambre séparée, son salon lumineux et son canapé convertible, il accueille confortablement jusqu'à 4 personnes — idéal pour une famille ou deux couples en séjour thermal ou au ski.",
+        "short": "Appartement deux pièces cosy et moderne, au cœur de Luchon.",
+        "intro": "La Perle Bleue est un charmant appartement T2 à la décoration douce et contemporaine. Avec sa chambre séparée, son salon lumineux et son canapé convertible, il accueille confortablement jusqu'à 4 personnes — idéal pour une famille ou deux couples en séjour thermal ou au ski.",
         "images": [
             ("salon.jpg", "Salon lumineux de La Perle Bleue"),
             ("chambre.jpg", "Chambre avec literie confortable"),
@@ -66,18 +66,18 @@ LOGEMENTS = {
         "floor": "3ᵉ étage",
         "stars": 2,
         "booking": "superhote",
-        "short": "Studio douillet et lumineux, récemment rénové avec une décoration soignée.",
-        "intro": "L'Échappée Verte est un studio cosy récemment rénové, pensé pour deux voyageurs. Sa décoration soignée aux tons naturels, son coin cuisine-repas et son canapé convertible en font un nid parfait pour un séjour en amoureux, une cure thermale ou un week-end à la montagne.",
+        "short": "Studio douillet et lumineux, à la décoration soignée.",
+        "intro": "L'Échappée Verte est un studio cosy et lumineux, pensé pour deux voyageurs. Sa décoration soignée aux tons naturels, son coin cuisine-repas et son canapé convertible en font un nid parfait pour un séjour en amoureux, une cure thermale ou un week-end à la montagne.",
         "images": [
             ("cuisine.jpg", "Coin cuisine et repas de L'Échappée Verte"),
             ("cuisine-2.jpg", "Espace repas lumineux"),
             ("canape.jpg", "Canapé convertible"),
             ("entree.jpg", "Entrée du studio"),
             ("douche.jpg", "Salle d'eau"),
-            ("salle-douche.jpg", "Salle de douche rénovée"),
+            ("salle-douche.jpg", "Salle de douche"),
         ],
         "amenities": ["Canapé convertible", "Coin cuisine équipé", "Machine à café Nespresso",
-                      "Salle de douche rénovée", "Lave-linge / sèche-linge", "Wi-Fi haut débit gratuit",
+                      "Salle de douche", "Lave-linge / sèche-linge", "Wi-Fi haut débit gratuit",
                       "Télévision", "Linge de maison (option)", "Chauffage individuel"],
     },
     "le-refuge-thermal": {
@@ -215,7 +215,7 @@ def footer():
         <h4>Navigation</h4>
         <ul class="footer-links">
           <li><a href="/">Accueil</a></li>
-          <li><a href="/nos-logements/">Nos logements</a></li>
+          <li><a href="/nos-logements/">Nos appartements</a></li>
           <li><a href="/cure-thermale/">Cure thermale</a></li>
           <li><a href="/services/">Services</a></li>
           <li><a href="/activites/">Activités</a></li>
@@ -226,7 +226,7 @@ def footer():
         </ul>
       </div>
       <div>
-        <h4>Nos logements</h4>
+        <h4>Nos appartements</h4>
         <ul class="footer-links">
           <li><a href="/nos-logements/la-perle-bleue/">La Perle Bleue</a></li>
           <li><a href="/nos-logements/l-echappee-verte/">L'Échappée Verte</a></li>
@@ -293,7 +293,7 @@ def booking_widget(fixed_slug=None, cta="Vérifier les disponibilités", stacked
     else:
         data_lodging = ""
         lodging_field = """<div class="booking__field">
-        <label for="bk-lodging">Logement</label>
+        <label for="bk-lodging">Appartement</label>
         <select name="lodging" id="bk-lodging">
           <option value="perle-bleue">La Perle Bleue · T2 · 4 pers.</option>
           <option value="echappee-verte">L'Échappée Verte · T1 · 2 pers.</option>
