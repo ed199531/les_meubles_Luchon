@@ -124,6 +124,22 @@ def booking_engine(slug=None, height=2400):
             f'title="Moteur de réservation sécurisé" src="{src}" width="100%" height="{height}" '
             f'frameborder="0"></iframe>')
 
+# ---- Empreinte de version des assets (anti-cache navigateur) ----
+import hashlib
+
+def asset_v(relpath):
+    """Hash court du fichier -> /assets/....css?v=xxxx : le cache d'un an
+    reste valable, mais toute modification change l'URL donc le navigateur
+    recharge automatiquement la nouvelle version."""
+    p = os.path.join(OUT, relpath.lstrip("/"))
+    try:
+        return hashlib.md5(open(p, "rb").read()).hexdigest()[:8]
+    except OSError:
+        return "1"
+
+CSS_V = asset_v("/assets/css/style.css")
+JS_V = asset_v("/assets/js/main.js")
+
 CHECK = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" '
          'stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>')
 
@@ -165,7 +181,7 @@ def head(title, desc, path, og_image="/assets/img/logements/perle-bleue/salon.jp
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/style.css?v={CSS_V}">
 <noscript><style>.reveal{{opacity:1!important;transform:none!important}}</style></noscript>
 {ld}
 </head>
@@ -284,7 +300,7 @@ def footer():
     <a class="btn btn--ghost" href="/politique-de-confidentialite/">En savoir plus</a>
   </div>
 </div>
-<script src="/assets/js/main.js" defer></script>
+<script src="/assets/js/main.js?v={JS_V}" defer></script>
 </body>
 </html>"""
 
