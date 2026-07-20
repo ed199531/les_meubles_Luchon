@@ -30,6 +30,8 @@ NAV = [
     ("/cure-thermale/", "Cure thermale"),
     ("/services/", "Services"),
     ("/activites/", "Activités"),
+    ("/guide/", "Guides"),
+    ("/faq/", "FAQ"),
     ("/avis/", "Avis"),
     ("/contact/", "Contact"),
 ]
@@ -285,7 +287,7 @@ def page(path, active, title, desc, main_html, og_image="/assets/img/logements/p
 
 # ============================================================================
 # Widget de réservation réutilisable
-def booking_widget(fixed_slug=None, cta="Vérifier les disponibilités", stacked=False):
+def booking_widget(fixed_slug=None, cta="Réserver", stacked=False):
     cls = "booking booking--stack" if stacked else "booking"
     if fixed_slug:
         lodging_field = f'<input type="hidden" name="lodging" value="{fixed_slug}">'

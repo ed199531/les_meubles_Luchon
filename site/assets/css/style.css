@@ -104,13 +104,12 @@ li { margin: .3rem 0; }
 }
 .btn:active { transform: translateY(1px); }
 .btn--primary { background: var(--accent); color: #fff; box-shadow: 0 8px 20px rgba(255,112,92,.35); }
-.btn--primary:hover { background: var(--accent-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255,112,92,.45); }
-.btn--brand { background: var(--brand); color: #fff; }
-.btn--brand:hover { background: var(--brand-dark); color: #fff; transform: translateY(-2px); }
+.btn:hover { transform: translateY(-2px); }
+.btn--primary:hover { background: var(--accent-dark); color: #fff; box-shadow: 0 12px 26px rgba(255,112,92,.45); }
 .btn--ghost { background: transparent; color: var(--brand); border-color: var(--brand); }
-.btn--ghost:hover { background: var(--brand); color: #fff; }
+.btn--ghost:hover { background: var(--brand); color: #fff; box-shadow: var(--shadow); }
 .btn--light { background: #fff; color: var(--brand-dark); }
-.btn--light:hover { background: var(--brand-tint); color: var(--brand-dark); transform: translateY(-2px); }
+.btn--light:hover { background: var(--brand-tint); color: var(--brand-dark); box-shadow: var(--shadow); }
 .btn--lg { padding: 1rem 2rem; font-size: 1.05rem; }
 .btn--block { display: flex; width: 100%; justify-content: center; }
 
@@ -130,8 +129,8 @@ li { margin: .3rem 0; }
 .brand__name small { display: block; font-family: var(--font-body); font-weight: 600; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--brand-2); }
 .nav__links { display: flex; align-items: center; gap: .3rem; list-style: none; margin: 0; padding: 0; }
 .nav__links a {
-  font-weight: 600; color: var(--ink); padding: .5rem .7rem; border-radius: 999px;
-  font-size: .95rem; white-space: nowrap; transition: background .2s, color .2s;
+  font-weight: 600; color: var(--ink); padding: .45rem .55rem; border-radius: 999px;
+  font-size: .9rem; white-space: nowrap; transition: background .2s, color .2s;
 }
 .nav { gap: .5rem; }
 .nav__links { gap: .1rem; }
@@ -218,7 +217,8 @@ li { margin: .3rem 0; }
 .card__dot[aria-current="true"] { background: #fff; width: 22px; border-radius: 4px; }
 @media (hover: none) { .card__arrow { opacity: 1; background: rgba(255,255,255,.9); } }
 .card__body { padding: 1.3rem 1.4rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
-.card__body h3 { margin-bottom: .3rem; }
+.card__body h3 { margin-bottom: .3rem; font-size: 1.25rem; }
+.feature h3, .card h3 { font-size: 1.25rem; }
 .card__meta { display: flex; flex-wrap: wrap; gap: .4rem .9rem; color: var(--muted); font-size: .9rem; font-weight: 600; margin-bottom: .8rem; }
 .card__meta span { display: inline-flex; align-items: center; gap: .35rem; }
 .card__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; }

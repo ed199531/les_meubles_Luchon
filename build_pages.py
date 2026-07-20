@@ -121,7 +121,7 @@ def run(g):
       <h2>Nathalie, à vos côtés</h2>
       <p>Passionnée par sa région, Nathalie met tout en œuvre pour rendre votre séjour mémorable : livret d'accueil, conseils personnalisés sur les activités et les meilleures tables, et une disponibilité de tous les instants.</p>
       <p>Chaque appartement est préparé avec soin pour que vous vous sentiez comme chez vous, dès votre arrivée.</p>
-      <a class="btn btn--brand" href="/services/">Découvrir nos services</a>
+      <a class="btn btn--primary" href="/services/">Découvrir nos services</a>
     </div>
   </div>
 </section>
@@ -134,10 +134,10 @@ def run(g):
       <p class="lead">De la neige de Superbagnères aux eaux thermales, en passant par les sentiers du lac d'Oô, Luchon se vit toute l'année.</p>
     </div>
     <div class="grid grid--4">
-      <a class="card reveal" href="/activites/#ski"><div class="card__media"><img src="/assets/img/activites/ski.jpg" alt="Ski à Luchon-Superbagnères" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Ski &amp; montagne</h3></div></a>
-      <a class="card reveal" href="/activites/#thermalisme"><div class="card__media"><img src="/assets/img/activites/thermes.jpg" alt="Thermes de Luchon" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Thermes &amp; bien-être</h3></div></a>
-      <a class="card reveal" href="/activites/#randonnee"><div class="card__media"><img src="/assets/img/activites/randonnee.jpg" alt="Randonnée dans les Pyrénées" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Randonnée &amp; nature</h3></div></a>
-      <a class="card reveal" href="/activites/#eaux-vives"><div class="card__media"><img src="/assets/img/activites/rafting.jpg" alt="Rafting en eaux vives" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.15rem">Sports en eaux vives</h3></div></a>
+      <a class="card reveal" href="/activites/#ski"><div class="card__media"><img src="/assets/img/activites/ski.jpg" alt="Ski à Luchon-Superbagnères" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Ski &amp; montagne</h3></div></a>
+      <a class="card reveal" href="/activites/#thermalisme"><div class="card__media"><img src="/assets/img/activites/thermes.jpg" alt="Thermes de Luchon" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Thermes &amp; bien-être</h3></div></a>
+      <a class="card reveal" href="/activites/#randonnee"><div class="card__media"><img src="/assets/img/activites/randonnee.jpg" alt="Randonnée dans les Pyrénées" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Randonnée &amp; nature</h3></div></a>
+      <a class="card reveal" href="/activites/#eaux-vives"><div class="card__media"><img src="/assets/img/activites/rafting.jpg" alt="Rafting en eaux vives" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Sports en eaux vives</h3></div></a>
     </div>
     <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/activites/">Voir toutes les activités</a></div>
   </div>
@@ -169,7 +169,7 @@ def run(g):
           <div class="step"><div class="step__num"></div><div><h3>Confirmez et payez</h3><p>Paiement sécurisé en ligne, sans frais cachés.</p></div></div>
           <div class="step"><div class="step__num"></div><div><h3>Recevez votre confirmation</h3><p>Toutes les infos d'arrivée par e-mail, avec accès autonome dès 16h.</p></div></div>
         </div>
-        <a class="btn btn--primary btn--lg" href="/reservation/" style="margin-top:1.5rem">Réserver mon séjour</a>
+        <a class="btn btn--primary btn--lg" href="/reservation/" style="margin-top:1.5rem">Réserver</a>
       </div>
       <div class="split__media reveal"><img src="/assets/img/logements/perle-bleue/canape.jpg" alt="Intérieur cosy d'un appartement des Meublés de Luchon" loading="lazy" width="600" height="480"></div>
     </div>
@@ -192,7 +192,7 @@ def run(g):
   <div class="container"><div class="cta-band reveal">
     <h2>Prêt à poser vos valises à Luchon ?</h2>
     <p>Réservez dès maintenant votre appartement et vivez les Pyrénées comme à la maison.</p>
-    <a class="btn btn--light btn--lg" href="/reservation/">Réserver maintenant</a>
+    <a class="btn btn--light btn--lg" href="/reservation/">Réserver</a>
   </div></div>
 </section>
 """
@@ -239,7 +239,7 @@ def run(g):
         note = f'<p class="booking__note" style="margin-top:1rem">ℹ️ {d["note"]}</p>' if d.get("note") else ""
         # réservation
         if d["booking"] == "superhote":
-            reserve_block = booking_widget(fixed_slug=d["slug"], cta="Réserver cet appartement", stacked=True)
+            reserve_block = booking_widget(fixed_slug=d["slug"], cta="Réserver", stacked=True)
             reserve_intro = "Sélectionnez vos dates : vous serez redirigé vers notre moteur de réservation sécurisé pour confirmer et payer."
         else:
             reserve_block = booking_widget(fixed_slug=d["slug"], cta="Envoyer ma demande", stacked=True)
@@ -275,7 +275,7 @@ def run(g):
     </div>
     <aside id="reserver" class="reveal">
       <div class="card" style="padding:1.6rem">
-        <h3 style="margin-bottom:.4rem">Réserver {d['name']}</h3>
+        <h3 style="margin-bottom:.4rem">Réserver</h3>
         <p style="font-size:.95rem">{reserve_intro}</p>
         {reserve_block}
         {note}
@@ -324,10 +324,10 @@ def run(g):
   <div class="container">
     <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Prestations en supplément</p><h2>Des services à la carte</h2><p class="lead">Ajoutez les prestations qui vous facilitent la vie. Tarifs clairs, sans frais cachés.</p></div>
     <div class="grid grid--4">
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/menage.jpg" alt="Service ménage de fin de séjour" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Ménage fin de séjour</h3><p>On s'occupe de tout à votre départ.</p><div class="card__foot"><span class="card__price">35 €<small>par séjour</small></span></div></div></div>
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de draps" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Location de draps</h3><p>Linge de lit propre.</p><div class="card__foot"><span class="card__price">20 €<small>par lit</small></span></div></div></div>
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de serviettes de bain" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Serviettes de bain</h3><p>Un set complet par personne.</p><div class="card__foot"><span class="card__price">10 €<small>par personne</small></span></div></div></div>
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/animal.jpg" alt="Animaux acceptés" loading="lazy" width="400" height="300"></div><div class="card__body"><h3 style="font-size:1.2rem">Animal de compagnie</h3><p>Vos compagnons sont bienvenus.</p><div class="card__foot"><span class="card__price">50 €<small>par séjour / animal</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/menage.jpg" alt="Service ménage de fin de séjour" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Ménage fin de séjour</h3><p>On s'occupe de tout à votre départ.</p><div class="card__foot"><span class="card__price">35 €<small>par séjour</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de draps" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Location de draps</h3><p>Linge de lit propre.</p><div class="card__foot"><span class="card__price">20 €<small>par lit</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de serviettes de bain" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Serviettes de bain</h3><p>Un set complet par personne.</p><div class="card__foot"><span class="card__price">10 €<small>par personne</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/animal.jpg" alt="Animaux acceptés" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Animal de compagnie</h3><p>Vos compagnons sont bienvenus.</p><div class="card__foot"><span class="card__price">50 €<small>par séjour / animal</small></span></div></div></div>
     </div>
   </div>
 </section>
@@ -338,7 +338,7 @@ def run(g):
       <p class="eyebrow">Connectivité</p>
       <h2>Wi-Fi &amp; télétravail</h2>
       <p>Chaque appartement dispose d'une connexion Wi-Fi haut débit gratuite, idéale pour rester connecté, télétravailler ou préparer vos sorties dans la vallée.</p>
-      <a class="btn btn--brand" href="/reservation/">Réserver un séjour</a>
+      <a class="btn btn--primary" href="/reservation/">Réserver</a>
     </div>
   </div>
 </section>
@@ -377,7 +377,7 @@ def run(g):
 </section>
 {breadcrumb([("Accueil", "/"), ("Activités", None)])}
 <section class="section"><div class="container"><div class="grid grid--3">{acards}</div></div></section>
-<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Réservez votre séjour à Luchon</h2><p>Posez vos valises dans l'un de nos appartements et partez explorer les Pyrénées.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver maintenant</a></div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Réservez votre séjour à Luchon</h2><p>Posez vos valises dans l'un de nos appartements et partez explorer les Pyrénées.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver</a></div></div></section>
 """
     page("activites/index.html", "/activites/", "Activités à Bagnères-de-Luchon : ski, thermes, randonnée | Les Meublés de Luchon",
          "Que faire à Bagnères-de-Luchon ? Ski à Superbagnères, thermes et bien-être, randonnées au lac d'Oô, rafting, parapente, golf et Fête des Fleurs. Toutes les activités près de nos logements.",
@@ -406,14 +406,14 @@ def run(g):
     # RÉSERVATION
     # =====================================================================
     reservation = f"""
-<section class="page-hero"><div class="container"><h1>Réserver votre séjour</h1><p>Choisissez votre appartement, vos dates et le nombre de voyageurs. Réservation sécurisée et confirmation immédiate.</p></div></section>
+<section class="page-hero"><div class="container"><h1>Réserver</h1><p>Choisissez votre appartement, vos dates et le nombre de voyageurs. Réservation sécurisée et confirmation immédiate.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("Réservation", None)])}
 <section class="section">
   <div class="container" style="max-width:760px">
     <div class="card" style="padding:2rem">
-      <h2 style="margin-bottom:.4rem">Vérifier les disponibilités</h2>
+      <h2 style="margin-bottom:.4rem">Réserver</h2>
       <p>Sélectionnez votre appartement et vos dates : vous serez redirigé vers notre moteur de réservation sécurisé (paiement en ligne, confirmation immédiate).</p>
-      {booking_widget(stacked=True, cta="Réserver maintenant")}
+      {booking_widget(stacked=True, cta="Réserver")}
     </div>
   </div>
 </section>
@@ -505,6 +505,8 @@ def run(g):
     <li><a href="/activites/">Activités</a></li>
     <li><a href="/avis/">Avis</a></li>
     <li><a href="/reservation/">Réservation</a></li>
+    <li><a href="/guide/">Guides pratiques</a></li>
+    <li><a href="/faq/">FAQ</a></li>
     <li><a href="/contact/">Contact</a></li>
     <li><a href="/mentions-legales/">Mentions légales</a></li>
     <li><a href="/politique-de-confidentialite/">Politique de confidentialité</a></li>
@@ -617,7 +619,7 @@ def run(g):
     <h1>Votre hébergement pour une cure thermale à Luchon</h1>
     <p>Des appartements meublés, à quelques minutes à pied des Thermes de Luchon, pensés pour le confort des curistes : plain-pied, cuisine équipée, calme et séjours de trois semaines en toute sérénité.</p>
     <div style="margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.8rem">
-      <a class="btn btn--primary btn--lg" href="/reservation/">Réserver mon séjour de cure</a>
+      <a class="btn btn--primary btn--lg" href="/reservation/">Réserver</a>
       <a class="btn btn--light btn--lg" href="#logements">Voir les logements</a>
     </div>
   </div>
@@ -653,7 +655,7 @@ def run(g):
       <p class="eyebrow">Le choix des curistes</p>
       <h2>Le Refuge Thermal, notre appartement dédié aux curistes</h2>
       <p>Situé en rez-de-chaussée pour un accès de plain-pied, Le Refuge Thermal se compose d'une chambre séparée avec un vrai lit double, d'une pièce de vie ouverte avec coin salon et cuisine équipée, et d'une douche à l'italienne. Tout a été pensé pour un séjour de cure confortable et sans effort, à quelques minutes des thermes.</p>
-      <a class="btn btn--brand" href="/nos-logements/le-refuge-thermal/">Découvrir Le Refuge Thermal</a>
+      <a class="btn btn--primary" href="/nos-logements/le-refuge-thermal/">Découvrir Le Refuge Thermal</a>
     </div>
   </div>
 </section>
@@ -676,7 +678,7 @@ def run(g):
       <p class="eyebrow">Services adaptés</p>
       <h2>Tout pour un séjour de trois semaines</h2>
       <p>Parce qu'une cure dure longtemps, nous facilitons votre quotidien : ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, et animaux acceptés. Nathalie vous transmet un livret d'accueil et ses meilleurs conseils.</p>
-      <a class="btn btn--brand" href="/services/">Voir tous nos services</a>
+      <a class="btn btn--primary" href="/services/">Voir tous nos services</a>
     </div>
   </div>
 </section>
@@ -714,7 +716,7 @@ def run(g):
   <h2>Réservez votre séjour de cure à Luchon</h2>
   <p>Vérifiez nos disponibilités pour votre période de cure, ou contactez Nathalie pour un conseil personnalisé.</p>
   <div style="display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center">
-    <a class="btn btn--light btn--lg" href="/reservation/">Vérifier les disponibilités</a>
+    <a class="btn btn--light btn--lg" href="/reservation/">Réserver</a>
     <a class="btn btn--ghost btn--lg" href="/contact/" style="border-color:#fff;color:#fff">Nous contacter</a>
   </div>
 </div></div></section>
@@ -908,7 +910,7 @@ def run(g):
 </section>
 {breadcrumb([("Accueil", "/"), ("Guides", "/guide/"), (gg['short'], None)])}
 <section class="section"><div class="container prose">{gg['body']}</div></section>
-<section class="section" style="padding-top:0"><div class="container"><div class="cta-band reveal"><h2>Envie de séjourner à Luchon ?</h2><p>Découvrez nos appartements meublés au centre-ville et réservez en quelques clics.</p><a class="btn btn--light btn--lg" href="/reservation/">Vérifier les disponibilités</a></div></div></section>
+<section class="section" style="padding-top:0"><div class="container"><div class="cta-band reveal"><h2>Envie de séjourner à Luchon ?</h2><p>Découvrez nos appartements meublés au centre-ville et réservez en quelques clics.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver</a></div></div></section>
 {faq_section(g, gg['faq'])}
 {guides_nav(gg['slug'])}
 """
@@ -1028,7 +1030,7 @@ def logement_card(g, key, reveal=True):
           <div class="card__meta"><span>🛏️ {d['type'].split(' ')[0]}</span><span>👥 {d['capacity']} pers.</span><span>🏢 {d['floor']}</span></div>
           <p>{d['short']}</p>
           <div class="card__foot">
-            <a class="btn btn--brand" href="/nos-logements/{key}/#reserver">Réserver</a>
+            <a class="btn btn--primary" href="/nos-logements/{key}/#reserver">Réserver</a>
           </div>
         </div>
       </article>"""
