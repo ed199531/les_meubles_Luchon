@@ -172,7 +172,7 @@ def run(g):
         </div>
         <a class="btn btn--primary btn--lg" href="/nos-logements/" style="margin-top:1.5rem">Réserver</a>
       </div>
-      <div class="split__media reveal"><img src="/assets/img/logements/perle-bleue/canape.jpg" alt="Intérieur cosy d'un appartement des Meublés de Luchon" loading="lazy" width="600" height="480"></div>
+      <div class="split__media reveal"><img src="/assets/img/logements/refuge-thermal/piece-de-vie.jpg" alt="Pièce de vie d'un appartement des Meublés de Luchon" loading="lazy" width="600" height="480"></div>
     </div>
   </div>
 </section>
@@ -466,13 +466,15 @@ def run(g):
                    f'<span class="act__tag act__tag--sec">{SEC_MAP[sec]}</span></p>'
                    f'<h3>{titre}</h3><p>{desc}</p>{acces}</div></article>')
 
-    def _btns(name, items):
-        out = f'<button type="button" class="filtre is-on" data-{name}="all">Tout</button>'
+    def _select(name, label, tout, items):
+        opts = f'<option value="all">{tout}</option>'
         for it in items:
             key, lab = (it[0], it[2]) if len(it) == 3 else it
-            emo = it[1] + " " if len(it) == 3 else ""
-            out += f'<button type="button" class="filtre" data-{name}="{key}">{emo}{lab}</button>'
-        return out
+            opts += f'<option value="{key}">{lab}</option>'
+        return (f'<div class="filtres__champ">'
+                f'<label class="filtres__label" for="f-{name}">{label}</label>'
+                f'<select id="f-{name}" class="filtres__select" data-filtre="{name}">{opts}</select>'
+                f'</div>')
 
     activites = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/randonnee.jpg" alt="Montagnes des Pyrénées à Luchon" width="1400" height="500"></div>
@@ -482,12 +484,13 @@ def run(g):
 <section class="section">
   <div class="container">
     <div class="filtres reveal" data-filtres>
-      <div class="filtres__row"><span class="filtres__label">Secteur</span><div class="filtres__btns">{_btns("sec", SECTEURS)}</div></div>
-      <div class="filtres__row"><span class="filtres__label">Activité</span><div class="filtres__btns">{_btns("cat", CATEGORIES)}</div></div>
+      {_select("sec", "Secteur", "Tous les secteurs", SECTEURS)}
+      {_select("cat", "Type d'activité", "Toutes les activités", CATEGORIES)}
       <p class="filtres__count" data-filtres-count aria-live="polite"></p>
+      <button type="button" class="filtres__reset" data-filtres-reset hidden>Réinitialiser</button>
     </div>
     <div class="grid grid--3" data-filtres-grid>{acards}</div>
-    <p class="filtres__vide" data-filtres-vide hidden>Aucune activité ne correspond à ces filtres. <button type="button" class="filtres__reset" data-filtres-reset>Tout afficher</button></p>
+    <p class="filtres__vide" data-filtres-vide hidden>Aucune activité ne correspond à ces filtres.</p>
     <div class="reveal" style="max-width:760px;margin:2.5rem auto 0;text-align:center">
       <p>Cette sélection rassemble les incontournables du Luchonnais. Pour l'agenda complet, les horaires et les tarifs à jour, consultez l'<a href="https://www.pyrenees31.com/preparer/activites" target="_blank" rel="noopener">Office de Tourisme Pyrénées 31</a>, qui recense toutes les activités du territoire.</p>
     </div>

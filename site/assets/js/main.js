@@ -416,26 +416,23 @@
       });
       compteur.textContent = n + (n > 1 ? ' activités' : ' activité');
       if (vide) vide.hidden = n > 0;
+      var filtre = etat.sec !== 'all' || etat.cat !== 'all';
+      if (reset) reset.hidden = !filtre;
     }
 
-    ['sec', 'cat'].forEach(function (type) {
-      $all('[data-' + type + ']', filtres).forEach(function (b) {
-        b.addEventListener('click', function () {
-          etat[type] = b.getAttribute('data-' + type);
-          $all('[data-' + type + ']', filtres).forEach(function (o) {
-            o.classList.toggle('is-on', o === b);
-          });
-          appliquer();
-        });
+    var reset = $('[data-filtres-reset]');
+    var selects = $all('[data-filtre]', filtres);
+
+    selects.forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        etat[sel.getAttribute('data-filtre')] = sel.value;
+        appliquer();
       });
     });
 
-    var reset = $('[data-filtres-reset]');
     if (reset) reset.addEventListener('click', function () {
       etat.sec = 'all'; etat.cat = 'all';
-      $all('.filtre', filtres).forEach(function (o) {
-        o.classList.toggle('is-on', o.getAttribute('data-sec') === 'all' || o.getAttribute('data-cat') === 'all');
-      });
+      selects.forEach(function (sel) { sel.value = 'all'; });
       appliquer();
     });
 
