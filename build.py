@@ -89,7 +89,7 @@ LOGEMENTS = {
         "capacity": 4,
         "floor": "Rez-de-chaussée",
         "stars": 2,
-        "booking": "contact",
+        "booking": "superhote",
         "short": "Appartement de plain-pied, idéal pour les curistes et l'accès facile.",
         "intro": "Le Refuge Thermal est un appartement T2 confortable et fonctionnel, situé en rez-de-chaussée pour un accès de plain-pied — un vrai atout pour les curistes et les personnes à mobilité réduite. Il se compose d'une chambre séparée avec un vrai lit double et d'une pièce de vie ouverte avec coin salon et cuisine équipée. À quelques minutes des thermes, il conjugue praticité et sérénité pour un séjour tout en douceur.",
         "images": [

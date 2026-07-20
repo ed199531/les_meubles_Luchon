@@ -7,8 +7,8 @@
   /* ---- Clés de réservation Superhôte (récupérées du site existant) ---- */
   var SUPERHOTE = {
     'perle-bleue':   'propertyKeyhYHKfobjxVxjHhLTkzJPTehXA',
-    'echappee-verte':'propertyKey3VpakNcQ3X2LlAXOTujQsws6e'
-    // 'refuge-thermal' : pas encore de clé Superhôte -> demande par formulaire/contact
+    'echappee-verte':'propertyKey3VpakNcQ3X2LlAXOTujQsws6e',
+    'refuge-thermal':'propertyKey8WSw0zYWOvWLL0rAslYrAKaOu'
   };
   var CONTACT_EMAIL = 'contact@lesmeublesdeluchon.com';
 
