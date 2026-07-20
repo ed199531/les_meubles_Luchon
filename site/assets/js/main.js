@@ -183,6 +183,23 @@
     window.__consentGranted = true;
   }
 
+  /* ---- Avis : déplier les textes tronqués ---- */
+  $all('.review').forEach(function (r) {
+    var t = $('.review__text', r);
+    if (!t) return;
+    if (t.scrollHeight - t.clientHeight > 4) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'review__more'; b.textContent = 'Lire la suite';
+      b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', function () {
+        var open = r.classList.toggle('is-open');
+        b.textContent = open ? 'Réduire' : 'Lire la suite';
+        b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      t.insertAdjacentElement('afterend', b);
+    }
+  });
+
   /* ---- Année dynamique footer ---- */
   $all('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

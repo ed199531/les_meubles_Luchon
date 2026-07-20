@@ -409,12 +409,15 @@ def run(g):
 <section class="page-hero"><div class="container"><h1>Réserver</h1><p>Choisissez votre appartement, vos dates et le nombre de voyageurs. Réservation sécurisée et confirmation immédiate.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("Réservation", None)])}
 <section class="section">
-  <div class="container" style="max-width:760px">
-    <div class="card" style="padding:2rem">
-      <h2 style="margin-bottom:.4rem">Réserver</h2>
-      <p>Sélectionnez votre appartement et vos dates : vous serez redirigé vers notre moteur de réservation sécurisé (paiement en ligne, confirmation immédiate).</p>
-      {booking_widget(stacked=True, cta="Réserver")}
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2rem">
+      <p class="eyebrow">Disponibilités en direct</p>
+      <h2>Réservez en ligne</h2>
+      <p class="lead">Choisissez vos dates et votre appartement : tout se passe ici, sans quitter le site. Paiement sécurisé et confirmation immédiate.</p>
     </div>
+    <iframe class="booking-engine" id="bookingengine" title="Moteur de réservation — Les Meublés de Luchon"
+      src="https://app.superhote.com/#/get-available-rentals/F6JKapWnXQyO5KbHaLjR7siuj"
+      width="100%" height="3879" frameborder="0" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 <section class="section section--tint">
