@@ -231,7 +231,8 @@ def run(g):
         base_img = f"/assets/img/logements/{d['slug']}/"
         # galerie
         gitems = ""
-        for i, (fn, alt) in enumerate(d["images"]):
+        # galerie allégée : le moteur Superhôte réaffiche les photos plus bas
+        for i, (fn, alt) in enumerate(d["images"][:4]):
             src = base_img + fn if not fn.startswith("..") else "/assets/img/logements/" + fn.replace("../", "")
             wide = " gallery__item--wide" if i == 0 else ""
             gitems += (f'<figure class="gallery__item{wide}"><img src="{src}" data-full="{src}" '
