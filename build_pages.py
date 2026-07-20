@@ -458,10 +458,11 @@ def run(g):
       <h2>Nous envoyer un message</h2>
       <p>Ce formulaire ouvre votre messagerie avec un message pré-rempli adressé à Nathalie.</p>
       <form class="form" action="mailto:{NAP['email']}" method="post" enctype="text/plain">
-        <div><label for="c-name">Votre nom</label><input type="text" id="c-name" name="Nom" required></div>
-        <div><label for="c-email">Votre e-mail</label><input type="email" id="c-email" name="Email" required></div>
-        <div><label for="c-subject">Sujet</label><input type="text" id="c-subject" name="Sujet" value="Demande d'information"></div>
-        <div><label for="c-msg">Votre message</label><textarea id="c-msg" name="Message" rows="5" required></textarea></div>
+        <div><label for="c-name">Votre prénom et nom</label><input type="text" id="c-name" name="Nom" placeholder="ex. Marie Dupont" autocomplete="name" required></div>
+        <div><label for="c-email">Votre adresse e-mail</label><input type="email" id="c-email" name="Email" placeholder="ex. marie.dupont@email.fr" autocomplete="email" required></div>
+        <div><label for="c-tel">Votre numéro de téléphone</label><input type="tel" id="c-tel" name="Telephone" placeholder="ex. 06 12 34 56 78" autocomplete="tel"></div>
+        <div><label for="c-subject">Objet de votre message</label><input type="text" id="c-subject" name="Sujet" value="Demande d'information"></div>
+        <div><label for="c-msg">Votre message</label><textarea id="c-msg" name="Message" rows="5" placeholder="Vos dates, le nombre de personnes, vos questions…" required></textarea></div>
         <button class="btn btn--primary btn--lg" type="submit">Envoyer</button>
       </form>
     </div>
@@ -710,9 +711,9 @@ def run(g):
       <p class="lead">Les séjours de cure (18 jours et plus) bénéficient d'un <strong>tarif spécial</strong>, différent des réservations classiques. Indiquez-nous vos dates : Nathalie vous répond sous 24 h.</p>
     </div>
     <form class="form reveal" action="mailto:{NAP['email']}" method="post" enctype="text/plain">
-      <div><label for="cu-name">Votre nom</label><input type="text" id="cu-name" name="Nom" required></div>
-      <div><label for="cu-email">Votre e-mail</label><input type="email" id="cu-email" name="Email" required></div>
-      <div><label for="cu-tel">Votre téléphone</label><input type="tel" id="cu-tel" name="Telephone"></div>
+      <div><label for="cu-name">Votre prénom et nom</label><input type="text" id="cu-name" name="Nom" placeholder="ex. Marie Dupont" autocomplete="name" required></div>
+      <div><label for="cu-email">Votre adresse e-mail</label><input type="email" id="cu-email" name="Email" placeholder="ex. marie.dupont@email.fr" autocomplete="email" required></div>
+      <div><label for="cu-tel">Votre numéro de téléphone</label><input type="tel" id="cu-tel" name="Telephone" placeholder="ex. 06 12 34 56 78" autocomplete="tel"></div>
       <div>
         <label id="cu-dates-l">Dates de votre cure</label>
         <div class="form__dates" data-cal-host aria-labelledby="cu-dates-l">
@@ -720,7 +721,7 @@ def run(g):
           {cal_panel("Arrivee", "Depart", required=True)}
         </div>
       </div>
-      <div><label for="cu-pers">Nombre de personnes</label><input type="text" id="cu-pers" name="Personnes" placeholder="ex. 2 personnes"></div>
+      <div><label for="cu-pers">Nombre de voyageurs</label><input type="text" id="cu-pers" name="Personnes" placeholder="ex. 2 personnes"></div>
       <div><label for="cu-msg">Votre message</label><textarea id="cu-msg" name="Message" rows="4" placeholder="Précisez si vous souhaitez un appartement de plain-pied, des draps, etc."></textarea></div>
       <input type="hidden" name="Objet" value="Demande de tarif - cure thermale">
       <button class="btn btn--primary btn--lg" type="submit">Envoyer ma demande</button>

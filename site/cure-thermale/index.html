@@ -304,9 +304,9 @@
       <p class="lead">Les séjours de cure (18 jours et plus) bénéficient d'un <strong>tarif spécial</strong>, différent des réservations classiques. Indiquez-nous vos dates : Nathalie vous répond sous 24 h.</p>
     </div>
     <form class="form reveal" action="mailto:contact@lesmeublesdeluchon.com" method="post" enctype="text/plain">
-      <div><label for="cu-name">Votre nom</label><input type="text" id="cu-name" name="Nom" required></div>
-      <div><label for="cu-email">Votre e-mail</label><input type="email" id="cu-email" name="Email" required></div>
-      <div><label for="cu-tel">Votre téléphone</label><input type="tel" id="cu-tel" name="Telephone"></div>
+      <div><label for="cu-name">Votre prénom et nom</label><input type="text" id="cu-name" name="Nom" placeholder="ex. Marie Dupont" autocomplete="name" required></div>
+      <div><label for="cu-email">Votre adresse e-mail</label><input type="email" id="cu-email" name="Email" placeholder="ex. marie.dupont@email.fr" autocomplete="email" required></div>
+      <div><label for="cu-tel">Votre numéro de téléphone</label><input type="tel" id="cu-tel" name="Telephone" placeholder="ex. 06 12 34 56 78" autocomplete="tel"></div>
       <div>
         <label id="cu-dates-l">Dates de votre cure</label>
         <div class="form__dates" data-cal-host aria-labelledby="cu-dates-l">
@@ -347,7 +347,7 @@
       </div>
         </div>
       </div>
-      <div><label for="cu-pers">Nombre de personnes</label><input type="text" id="cu-pers" name="Personnes" placeholder="ex. 2 personnes"></div>
+      <div><label for="cu-pers">Nombre de voyageurs</label><input type="text" id="cu-pers" name="Personnes" placeholder="ex. 2 personnes"></div>
       <div><label for="cu-msg">Votre message</label><textarea id="cu-msg" name="Message" rows="4" placeholder="Précisez si vous souhaitez un appartement de plain-pied, des draps, etc."></textarea></div>
       <input type="hidden" name="Objet" value="Demande de tarif - cure thermale">
       <button class="btn btn--primary btn--lg" type="submit">Envoyer ma demande</button>
