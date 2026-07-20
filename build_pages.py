@@ -24,6 +24,7 @@ def pick_avis(keywords, n, used):
 def run(g):
     page = g["page"]; breadcrumb = g["breadcrumb"]; booking_widget = g["booking_widget"]
     booking_engine = g["booking_engine"]; booking_search = g["booking_search"]
+    cal_fields = g["cal_fields"]; cal_panel = g["cal_panel"]
     LOGEMENTS = g["LOGEMENTS"]; NAP = g["NAP"]; stars_html = g["stars_html"]
     jsonld = g["jsonld"]; CHECK = g["CHECK"]; BASE = g["BASE_URL"]; write = g["write"]
 
@@ -598,6 +599,9 @@ def run(g):
     refuge_first_img = "/assets/img/logements/refuge-thermal/piece-de-vie.jpg"
     avis_cure = "".join(avis_card(a) for a in (pick_avis(["curiste","cure","therme"],3,_used) + pick_avis(["équipé","propre","calme"],3,_used))[:3])
 
+    # Page Cure : pas de réservation en ligne (tarif spécial), on renvoie vers le formulaire.
+    CURE_CTA = ("Demander le tarif cure", "#tarif-cure")
+
     cure = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/thermes.jpg" alt="Thermes de Bagnères-de-Luchon" width="1400" height="500"></div>
   <div class="container">
@@ -641,18 +645,18 @@ def run(g):
       <p class="eyebrow">Nos appartements pour votre cure</p>
       <h2>Nos trois appartements accueillent les curistes</h2>
       <p>La Perle Bleue, L'Échappée Verte et Le Refuge Thermal sont tous situés au centre de Luchon, à quelques minutes à pied des thermes. Chacun dispose d'une cuisine équipée et d'un lave-linge, indispensables pour un séjour de trois semaines. Le Refuge Thermal, en rez-de-chaussée, offre en plus un <strong>accès de plain-pied</strong> — particulièrement apprécié en cas de mobilité réduite.</p>
-      <a class="btn btn--primary" href="/nos-logements/">Voir les trois appartements</a>
+      <a class="btn btn--primary" href="#logements">Voir les trois appartements</a>
     </div>
   </div>
 </section>
 
 <section class="section section--tint" id="logements">
   <div class="container">
-    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Nos hébergements</p><h2>Trois appartements pour votre cure</h2><p class="lead">Tous au centre de Luchon, à quelques minutes à pied des thermes.</p></div>
+    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Nos hébergements</p><h2>Trois appartements pour votre cure</h2><p class="lead">Tous au centre de Luchon, à quelques minutes à pied des thermes. Les séjours de cure ne se réservent pas en ligne : ils bénéficient d'un tarif spécial, sur demande.</p></div>
     <div class="grid grid--3">
-      {logement_card(g, "le-refuge-thermal")}
-      {logement_card(g, "la-perle-bleue")}
-      {logement_card(g, "l-echappee-verte")}
+      {logement_card(g, "le-refuge-thermal", cta=CURE_CTA, link_photos=False)}
+      {logement_card(g, "la-perle-bleue", cta=CURE_CTA, link_photos=False)}
+      {logement_card(g, "l-echappee-verte", cta=CURE_CTA, link_photos=False)}
     </div>
   </div>
 </section>
@@ -709,7 +713,13 @@ def run(g):
       <div><label for="cu-name">Votre nom</label><input type="text" id="cu-name" name="Nom" required></div>
       <div><label for="cu-email">Votre e-mail</label><input type="email" id="cu-email" name="Email" required></div>
       <div><label for="cu-tel">Votre téléphone</label><input type="tel" id="cu-tel" name="Telephone"></div>
-      <div><label for="cu-dates">Dates de votre cure</label><input type="text" id="cu-dates" name="Dates" placeholder="ex. du 3 au 21 mars" required></div>
+      <div>
+        <label id="cu-dates-l">Dates de votre cure</label>
+        <div class="form__dates" data-cal-host aria-labelledby="cu-dates-l">
+          {cal_fields("cure", "Arrivée", "Départ")}
+          {cal_panel("Arrivee", "Depart", required=True)}
+        </div>
+      </div>
       <div><label for="cu-pers">Nombre de personnes</label><input type="text" id="cu-pers" name="Personnes" placeholder="ex. 2 personnes"></div>
       <div><label for="cu-msg">Votre message</label><textarea id="cu-msg" name="Message" rows="4" placeholder="Précisez si vous souhaitez un appartement de plain-pied, des draps, etc."></textarea></div>
       <input type="hidden" name="Objet" value="Demande de tarif - cure thermale">
@@ -1009,15 +1019,22 @@ def run(g):
 
 
 # ------- helpers de contenu -------
-def logement_card(g, key, reveal=True):
+def logement_card(g, key, reveal=True, cta=None, link_photos=True):
+    """cta = (libellé, href) pour remplacer le bouton Réserver (page Cure : tarif différent)."""
     LOGEMENTS = g["LOGEMENTS"]; stars_html = g["stars_html"]
     d = LOGEMENTS[key]
     base = f"/assets/img/logements/{d['slug']}/"
     imgs = d["images"][:5]
-    slides = "".join(
-        f'<a class="card__slide" href="/nos-logements/{key}/" aria-label="{alt}">'
-        f'<img src="{base}{fn}" alt="{alt}" loading="lazy" width="600" height="450"></a>'
-        for fn, alt in imgs)
+    if link_photos:
+        slides = "".join(
+            f'<a class="card__slide" href="/nos-logements/{key}/" aria-label="{alt}">'
+            f'<img src="{base}{fn}" alt="{alt}" loading="lazy" width="600" height="450"></a>'
+            for fn, alt in imgs)
+    else:
+        slides = "".join(
+            f'<div class="card__slide">'
+            f'<img src="{base}{fn}" alt="{alt}" loading="lazy" width="600" height="450"></div>'
+            for fn, alt in imgs)
     dots = "".join(
         f'<button class="card__dot" type="button" aria-label="Voir la photo {n + 1}"'
         + (' aria-current="true"' if n == 0 else '') + '></button>'
@@ -1036,7 +1053,7 @@ def logement_card(g, key, reveal=True):
           <div class="card__meta"><span>🛏️ {d['type'].split(' ')[0]}</span><span>👥 {d['capacity']} pers.</span><span>🏢 {d['floor']}</span></div>
           <p>{d['short']}</p>
           <div class="card__foot">
-            <a class="btn btn--primary" href="/nos-logements/{key}/#reserver">Réserver</a>
+            <a class="btn btn--primary" href="{cta[1] if cta else f'/nos-logements/{key}/#reserver'}">{cta[0] if cta else 'Réserver'}</a>
           </div>
         </div>
       </article>"""

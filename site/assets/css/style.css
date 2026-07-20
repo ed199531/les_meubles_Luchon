@@ -193,6 +193,10 @@ li { margin: .3rem 0; }
 .booking__pickbtn:focus-visible { border-color: var(--brand-2); outline: none; }
 .booking.cal-open .booking__pickbtn[aria-expanded="true"] { border-color: var(--brand-2); }
 
+/* Dates dans un formulaire classique (demande de tarif cure) */
+.form__dates { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: end; }
+.form__dates .booking__flabel { font-size: .72rem; }
+
 /* Calendrier */
 .cal {
   position: absolute; z-index: 40; top: calc(100% - .8rem); left: 1.2rem;

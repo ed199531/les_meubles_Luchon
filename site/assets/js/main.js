@@ -149,8 +149,8 @@
     if (!panel) return null;
     var monthsBox = $('[data-cal-months]', panel);
     var titleEl = $('[data-cal-title]', panel);
-    var inHidden = $('[name="checkin"]', form);
-    var outHidden = $('[name="checkout"]', form);
+    var inHidden = $('[data-cal-in]', form);
+    var outHidden = $('[data-cal-out]', form);
     var today = new Date(); today.setHours(0, 0, 0, 0);
 
     var state = { start: null, end: null, hover: null, picking: 'in' };
@@ -285,12 +285,28 @@
     };
   }
 
-  $all('[data-booking]').forEach(function (formEl) {
-    formEl.__cal = initCalendar(formEl);
+  /* Tout conteneur [data-cal-host] reçoit un calendrier : le widget de réservation
+     comme le formulaire de demande de tarif cure. */
+  $all('[data-cal-host]').forEach(function (host) { host.__cal = initCalendar(host); });
 
+  /* Champs de dates obligatoires : on bloque l'envoi et on ouvre le calendrier. */
+  $all('[data-cal-required]').forEach(function (panel) {
+    var host = panel.closest('[data-cal-host]');
+    var form = panel.closest('form');
+    if (!host || !form) return;
+    form.addEventListener('submit', function (e) {
+      var a = $('[data-cal-in]', host), b = $('[data-cal-out]', host);
+      if (a && b && a.value && b.value) return;
+      e.preventDefault();
+      var btn = $('[data-cal-open="in"]', host);
+      if (btn) { btn.click(); btn.focus(); }
+    });
+  });
+
+  $all('[data-booking]').forEach(function (formEl) {
     formEl.addEventListener('submit', function (e) {
       e.preventDefault();
-      var ciEl = $('[name="checkin"]', formEl), coEl = $('[name="checkout"]', formEl);
+      var ciEl = $('[data-cal-in]', formEl), coEl = $('[data-cal-out]', formEl);
       var checkin = ciEl ? ciEl.value : '';
       var checkout = coEl ? coEl.value : '';
       var guests = readGuests(formEl);
@@ -317,6 +333,7 @@
     var search = document.getElementById('bookingsearch');
     if (search) search.src = buildSearchUrl(ci, co, g);
     $all('[data-booking]').forEach(function (f) { if (f.__cal) f.__cal.setRange(ci, co); });
+
     if (search) setTimeout(function () { search.scrollIntoView({ block: 'start' }); }, 300);
   })();
 
