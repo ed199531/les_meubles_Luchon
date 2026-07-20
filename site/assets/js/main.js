@@ -387,7 +387,8 @@
       dots.forEach(function (d, di) { d.setAttribute('aria-current', di === i ? 'true' : 'false'); });
     }
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    function play() { if (reduceMotion) return; stop(); timer = setInterval(function () { go(i + 1); }, 4500); }
+    var delai = parseInt(sl.getAttribute('data-interval'), 10) || 4500;
+    function play() { if (reduceMotion) return; stop(); timer = setInterval(function () { go(i + 1); }, delai); }
     var next = $('.card__arrow--next', sl), prev = $('.card__arrow--prev', sl);
     if (next) next.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); go(i + 1); play(); });
     if (prev) prev.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); go(i - 1); play(); });

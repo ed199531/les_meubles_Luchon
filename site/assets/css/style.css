@@ -352,6 +352,9 @@ li { margin: .3rem 0; }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
 .split--reverse .split__media { order: 2; }
 .split__media img { border-radius: var(--r-lg); box-shadow: var(--shadow); width: 100%; aspect-ratio: 5/4; object-fit: cover; }
+/* Diaporama dans un bloc split : mêmes proportions et mêmes arrondis qu'une photo seule */
+.split__media .diapo { aspect-ratio: 5/4; border-radius: var(--r-lg); box-shadow: var(--shadow); }
+.split__media .diapo img { border-radius: 0; box-shadow: none; aspect-ratio: auto; }
 .split__body h2 { margin-bottom: .8rem; }
 
 /* ---------- Galerie ---------- */

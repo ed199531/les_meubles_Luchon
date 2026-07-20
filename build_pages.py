@@ -172,7 +172,16 @@ def run(g):
         </div>
         <a class="btn btn--primary btn--lg" href="/nos-logements/" style="margin-top:1.5rem">Réserver</a>
       </div>
-      <div class="split__media reveal"><img src="/assets/img/logements/refuge-thermal/piece-de-vie.jpg" alt="Pièce de vie d'un appartement des Meublés de Luchon" loading="lazy" width="600" height="480"></div>
+      <div class="split__media reveal">{diapo(g, [
+        ("perle-bleue", "salon.jpg", "Salon de La Perle Bleue"),
+        ("refuge-thermal", "piece-de-vie.jpg", "Pièce de vie du Refuge Thermal"),
+        ("echappee-verte", "canape.jpg", "Coin salon de L'Échappée Verte"),
+        ("perle-bleue", "chambre.jpg", "Chambre de La Perle Bleue"),
+        ("refuge-thermal", "sejour.jpg", "Séjour du Refuge Thermal"),
+        ("echappee-verte", "cuisine.jpg", "Cuisine équipée de L'Échappée Verte"),
+        ("perle-bleue", "cuisine.jpg", "Cuisine de La Perle Bleue"),
+        ("refuge-thermal", "chambre.jpg", "Chambre du Refuge Thermal"),
+      ], interval=2200)}</div>
     </div>
   </div>
 </section>
@@ -1113,6 +1122,24 @@ def run(g):
 
 
 # ------- helpers de contenu -------
+def diapo(g, photos, interval=2500):
+    """Diaporama automatique : réutilise le carrousel des cartes logement."""
+    slides = "".join(
+        f'<div class="card__slide"><img src="/assets/img/logements/{dossier}/{fichier}" alt="{alt}" '
+        f'loading="lazy" width="600" height="480"></div>'
+        for dossier, fichier, alt in photos)
+    dots = "".join(
+        f'<button class="card__dot" type="button" aria-label="Voir la photo {n + 1}"'
+        + (' aria-current="true"' if n == 0 else '') + '></button>'
+        for n in range(len(photos)))
+    return f"""<div class="card__slider diapo" data-slider data-interval="{interval}">
+        <div class="card__slides">{slides}</div>
+        <button class="card__arrow card__arrow--prev" type="button" aria-label="Photo précédente">‹</button>
+        <button class="card__arrow card__arrow--next" type="button" aria-label="Photo suivante">›</button>
+        <div class="card__dots">{dots}</div>
+      </div>"""
+
+
 def logement_card(g, key, reveal=True, cta=None, link_photos=True):
     """cta = (libellé, href) pour remplacer le bouton Réserver (page Cure : tarif différent)."""
     LOGEMENTS = g["LOGEMENTS"]; stars_html = g["stars_html"]
