@@ -163,52 +163,23 @@
   </div>
 </section>
 <section class="section" style="padding-top:0">
-  <div class="container split" style="align-items:start">
-    <div class="split__body reveal">
+  <div class="container" style="max-width:900px">
+    <div class="reveal">
       <h2>À propos de L'Échappée Verte</h2>
       <p>L'Échappée Verte est un studio cosy et lumineux, pensé pour deux voyageurs. Sa décoration soignée aux tons naturels, son coin cuisine-repas et son canapé convertible en font un nid parfait pour un séjour en amoureux, une cure thermale ou un week-end à la montagne.</p>
       <div class="card__meta" style="font-size:1rem;margin:1.2rem 0"><span>🛏️ T1 — Studio</span><span>👥 2 personnes</span><span>🏢 3ᵉ étage</span><span><span class="stars" aria-label="2 étoiles">★★</span> Meublé de Tourisme</span></div>
       <h3 style="margin-top:1.5rem">Équipements &amp; services</h3>
       <ul class="amenities"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Canapé convertible</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Coin cuisine équipé</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Machine à café Nespresso</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Salle de douche</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Lave-linge / sèche-linge</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Wi-Fi haut débit gratuit</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Télévision</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Linge de maison (option)</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Chauffage individuel</li></ul>
+      <p style="margin-top:1.6rem;font-size:.95rem">Une question avant de réserver ? <a href="tel:+33684816041">📞 06 84 81 60 41</a> · <a href="mailto:contact@lesmeublesdeluchon.com">✉️ Écrire</a></p>
     </div>
-    <aside id="reserver" class="reveal">
-      <div class="card" style="padding:1.6rem">
-        <h3 style="margin-bottom:.4rem">Réserver</h3>
-        <p style="font-size:.95rem">Sélectionnez vos dates : vous serez redirigé vers notre moteur de réservation sécurisé pour confirmer et payer.</p>
-        <form class="booking booking--stack" data-booking data-lodging="echappee-verte" aria-label="Rechercher un séjour">
-      <input type="hidden" name="lodging" value="echappee-verte">
-      <div class="booking__field">
-        <label for="bk-in-echappee-verte">Arrivée</label>
-        <input type="date" name="checkin" id="bk-in-echappee-verte" required>
-      </div>
-      <div class="booking__field">
-        <label for="bk-out-echappee-verte">Départ</label>
-        <input type="date" name="checkout" id="bk-out-echappee-verte" required>
-      </div>
-      <div class="booking__field">
-        <label for="bk-ad-echappee-verte">Voyageurs</label>
-        <select name="adults" id="bk-ad-echappee-verte">
-          <option value="1">1 adulte</option>
-          <option value="2" selected>2 adultes</option>
-          <option value="3">3 adultes</option>
-          <option value="4">4 adultes</option>
-        </select>
-      </div>
-      <button class="btn btn--primary" type="submit">Réserver</button>
-      <p class="booking__note">Réservation sécurisée · confirmation immédiate. Le Refuge Thermal se réserve sur simple demande.</p>
-    </form>
-        
-        <p style="margin:1rem 0 0;font-size:.9rem"><a href="tel:+33684816041">📞 06 84 81 60 41</a> · <a href="mailto:contact@lesmeublesdeluchon.com">✉️ Écrire</a></p>
-      </div>
-    </aside>
   </div>
 </section>
-<section class="section" style="padding-top:0">
+<section class="section" id="reserver" style="padding-top:0">
   <div class="container">
     <div class="center reveal" style="margin-bottom:1.4rem">
       <p class="eyebrow">Réservation en direct</p>
       <h2>Réserver L'Échappée Verte</h2>
-      <p class="lead">Choisissez vos dates ci-dessus : la réservation et le paiement se font ici, sans quitter le site.</p>
+      <p class="lead">Choisissez vos dates ci-dessous : la réservation et le paiement se font ici, sans quitter le site.</p>
     </div>
     <iframe class="booking-engine" id="bookingengine" loading="lazy" allowfullscreen title="Moteur de réservation sécurisé" src="https://app.superhote.com/#/rental/propertyKey3VpakNcQ3X2LlAXOTujQsws6e" width="100%" height="2400" frameborder="0"></iframe>
   </div>

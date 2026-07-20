@@ -355,7 +355,7 @@ def booking_widget(fixed_slug=None, cta="Réserver", stacked=False):
         </select>
       </div>
       <button class="btn btn--primary" type="submit">{cta}</button>
-      <p class="booking__note">Réservation sécurisée · confirmation immédiate. Le Refuge Thermal se réserve sur simple demande.</p>
+      <p class="booking__note">Réservation sécurisée · confirmation immédiate.</p>
     </form>"""
 
 # ============================================================================

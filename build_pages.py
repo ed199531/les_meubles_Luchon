@@ -238,14 +238,6 @@ def run(g):
             gitems += (f'<figure class="gallery__item{wide}"><img src="{src}" data-full="{src}" '
                        f'alt="{alt}" loading="lazy" width="600" height="600"></figure>')
         amen = "".join(f'<li>{CHECK}{a}</li>' for a in d["amenities"])
-        note = f'<p class="booking__note" style="margin-top:1rem">ℹ️ {d["note"]}</p>' if d.get("note") else ""
-        # réservation
-        if d["booking"] == "superhote":
-            reserve_block = booking_widget(fixed_slug=d["slug"], cta="Réserver", stacked=True)
-            reserve_intro = "Sélectionnez vos dates : vous serez redirigé vers notre moteur de réservation sécurisé pour confirmer et payer."
-        else:
-            reserve_block = booking_widget(fixed_slug=d["slug"], cta="Envoyer ma demande", stacked=True)
-            reserve_intro = "Cet appartement se réserve sur simple demande. Indiquez vos dates : votre messagerie s'ouvrira avec une demande pré-remplie, Nathalie vous répond sous 24 h."
         og = (base_img + d["images"][0][0]) if not d["images"][0][0].startswith("..") else "/assets/img/logements/perle-bleue/salon.jpg"
 
         ld_acc = {"@context": "https://schema.org", "@type": "Apartment",
@@ -267,31 +259,23 @@ def run(g):
   </div>
 </section>
 <section class="section" style="padding-top:0">
-  <div class="container split" style="align-items:start">
-    <div class="split__body reveal">
+  <div class="container" style="max-width:900px">
+    <div class="reveal">
       <h2>À propos de {d['name']}</h2>
       <p>{d['intro']}</p>
       <div class="card__meta" style="font-size:1rem;margin:1.2rem 0"><span>🛏️ {d['type']}</span><span>👥 {d['capacity']} personnes</span><span>🏢 {d['floor']}</span><span>{stars_html(d['stars'])} Meublé de Tourisme</span></div>
       <h3 style="margin-top:1.5rem">Équipements &amp; services</h3>
       <ul class="amenities">{amen}</ul>
+      <p style="margin-top:1.6rem;font-size:.95rem">Une question avant de réserver ? <a href="tel:{NAP['tel_link']}">📞 {NAP['tel_display']}</a> · <a href="mailto:{NAP['email']}">✉️ Écrire</a></p>
     </div>
-    <aside id="reserver" class="reveal">
-      <div class="card" style="padding:1.6rem">
-        <h3 style="margin-bottom:.4rem">Réserver</h3>
-        <p style="font-size:.95rem">{reserve_intro}</p>
-        {reserve_block}
-        {note}
-        <p style="margin:1rem 0 0;font-size:.9rem"><a href="tel:{NAP['tel_link']}">📞 {NAP['tel_display']}</a> · <a href="mailto:{NAP['email']}">✉️ Écrire</a></p>
-      </div>
-    </aside>
   </div>
 </section>
-<section class="section" style="padding-top:0">
+<section class="section" id="reserver" style="padding-top:0">
   <div class="container">
     <div class="center reveal" style="margin-bottom:1.4rem">
       <p class="eyebrow">Réservation en direct</p>
       <h2>Réserver {d['name']}</h2>
-      <p class="lead">Choisissez vos dates ci-dessus : la réservation et le paiement se font ici, sans quitter le site.</p>
+      <p class="lead">Choisissez vos dates ci-dessous : la réservation et le paiement se font ici, sans quitter le site.</p>
     </div>
     {booking_engine(d["slug"])}
   </div>
@@ -424,7 +408,7 @@ def run(g):
   <div class="container" style="max-width:760px">
     <div class="card" style="padding:2rem">
       <h2 style="margin-bottom:.4rem">Réserver</h2>
-      <p>Sélectionnez votre appartement et vos dates : vous serez redirigé vers notre moteur de réservation sécurisé (paiement en ligne, confirmation immédiate).</p>
+      <p>Choisissez votre appartement et vos dates : le moteur de réservation s'affiche juste en dessous — paiement et confirmation se font ici, sans quitter le site.</p>
       {booking_widget(stacked=True, cta="Réserver")}
     </div>
   </div>
@@ -447,7 +431,7 @@ def run(g):
 </section>
 {faq_section(g, [
     ("Le paiement est-il sécurisé ?", "Oui. Le paiement s'effectue sur notre plateforme de réservation sécurisée, avec confirmation immédiate par e-mail."),
-    ("Puis-je réserver Le Refuge Thermal en ligne ?", "Le Refuge Thermal se réserve sur simple demande : indiquez vos dates et Nathalie vous confirme la disponibilité sous 24 h."),
+    ("Puis-je réserver Le Refuge Thermal en ligne ?", "Oui, comme nos deux autres appartements : choisissez vos dates sur sa page et réservez en ligne, avec confirmation immédiate."),
     ("Quelle est la politique d'annulation ?", "Les conditions d'annulation sont précisées lors de la réservation, avant tout paiement. N'hésitez pas à nous contacter pour toute question."),
     ("Y a-t-il un montant minimum de nuits ?", "La durée minimale peut varier selon la saison ; elle s'affiche automatiquement lors du choix de vos dates."),
 ])}
@@ -958,7 +942,7 @@ def run(g):
             ("Comment réserver un appartement ?", "Choisissez votre appartement, vos dates et le nombre de voyageurs sur notre page de réservation. Vous êtes redirigé vers notre moteur sécurisé pour confirmer et payer, avec confirmation immédiate par e-mail."),
             ("Le paiement est-il sécurisé ?", "Oui, le paiement s'effectue sur une plateforme de réservation sécurisée. Vous recevez une confirmation immédiate par e-mail."),
             ("Est-ce moins cher de réserver en direct ?", "Réserver directement sur notre site, c'est éviter les commissions des plateformes et bénéficier du meilleur tarif, tout en échangeant directement avec Nathalie, votre hôte."),
-            ("Comment réserver Le Refuge Thermal ?", "Le Refuge Thermal se réserve sur simple demande : indiquez vos dates et nous vous confirmons la disponibilité sous 24 h."),
+            ("Comment réserver Le Refuge Thermal ?", "Comme les autres appartements : rendez-vous sur sa page, choisissez vos dates et réservez directement en ligne."),
             ("Quelle est la politique d'annulation ?", "Les conditions d'annulation sont précisées lors de la réservation, avant tout paiement. Contactez-nous pour toute question."),
             ("Y a-t-il un nombre minimum de nuits ?", "La durée minimale peut varier selon la saison ; elle s'affiche automatiquement au moment de choisir vos dates."),
         ]),
