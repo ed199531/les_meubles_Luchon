@@ -125,26 +125,174 @@
       '&adultsNumber=' + (guests || 1) + '&childrenNumber=0&lang=fr';
   }
 
-  $all('[data-booking]').forEach(function (formEl) {
-    var todayIso = new Date().toISOString().split('T')[0];
-    var ci = $('[name="checkin"]', formEl);
-    var co = $('[name="checkout"]', formEl);
-    if (ci) ci.min = todayIso;
-    if (co) co.min = todayIso;
-    if (ci && co) {
-      ci.addEventListener('change', function () {
-        co.min = ci.value || todayIso;
-        if (co.value && co.value <= ci.value) {
-          var next = new Date(ci.value); next.setDate(next.getDate() + 1);
-          co.value = next.toISOString().split('T')[0];
-        }
-      });
+  /* ---- Calendrier de dates (remplace les champs date natifs) ---- */
+  var MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+              'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  var JOURS = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'];
+
+  function iso(d) {
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  function parseIso(s) {
+    if (!s) return null;
+    var p = s.split('-'); if (p.length !== 3) return null;
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function joli(d) {
+    var m = MOIS[d.getMonth()];
+    return d.getDate() + ' ' + (m.length > 4 ? m.slice(0, 4) + '.' : m) + ' ' + d.getFullYear();
+  }
+
+  function initCalendar(form) {
+    var panel = $('[data-cal]', form);
+    if (!panel) return null;
+    var monthsBox = $('[data-cal-months]', panel);
+    var titleEl = $('[data-cal-title]', panel);
+    var inHidden = $('[name="checkin"]', form);
+    var outHidden = $('[name="checkout"]', form);
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+
+    var state = { start: null, end: null, hover: null, picking: 'in' };
+    var view = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    function nbMonths() {
+      return (window.matchMedia && window.matchMedia('(min-width: 760px)').matches) ? 2 : 1;
     }
+
+    function renderMonth(y, m) {
+      var first = new Date(y, m, 1);
+      var offset = (first.getDay() + 6) % 7;          // semaine qui commence le lundi
+      var total = new Date(y, m + 1, 0).getDate();
+      var cells = '';
+      for (var i = 0; i < offset; i++) cells += '<span class="cal__day cal__day--empty"></span>';
+      for (var day = 1; day <= total; day++) {
+        var d = new Date(y, m, day);
+        var key = iso(d);
+        var past = d < today;
+        var cl = 'cal__day';
+        var end = state.end;
+        if (state.start && key === iso(state.start)) cl += ' is-start';
+        if (state.end && key === iso(state.end)) cl += ' is-end';
+        if (state.start && end && d > state.start && d < end) cl += ' is-in';
+        cells += '<button type="button" class="' + cl + '" data-day="' + key + '"' +
+                 (past ? ' disabled aria-disabled="true"' : '') +
+                 ' aria-label="' + day + ' ' + MOIS[m] + ' ' + y + '">' + day + '</button>';
+      }
+      return '<div class="cal__month"><p class="cal__mname">' + MOIS[m].charAt(0).toUpperCase() +
+             MOIS[m].slice(1) + ' ' + y + '</p><div class="cal__dow">' +
+             JOURS.map(function (j) { return '<span>' + j + '</span>'; }).join('') +
+             '</div><div class="cal__grid">' + cells + '</div></div>';
+    }
+
+    function labels() {
+      var set = function (k, d) {
+        var el = $('[data-cal-label="' + k + '"]', form);
+        if (!el) return;
+        el.textContent = d ? joli(d) : 'Ajouter une date';
+        el.classList.toggle('is-set', !!d);
+      };
+      set('in', state.start); set('out', state.end);
+      if (inHidden) inHidden.value = state.start ? iso(state.start) : '';
+      if (outHidden) outHidden.value = state.end ? iso(state.end) : '';
+    }
+
+    function render() {
+      var n = nbMonths(), html = '', names = [];
+      for (var i = 0; i < n; i++) {
+        var d = new Date(view.getFullYear(), view.getMonth() + i, 1);
+        html += renderMonth(d.getFullYear(), d.getMonth());
+        names.push(MOIS[d.getMonth()].charAt(0).toUpperCase() + MOIS[d.getMonth()].slice(1) + ' ' + d.getFullYear());
+      }
+      monthsBox.innerHTML = html;
+      titleEl.textContent = names.join(' — ');
+      var prev = $('[data-cal-prev]', panel);
+      if (prev) prev.disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
+      labels();
+    }
+
+    function open(v, which) {
+      panel.hidden = !v;
+      form.classList.toggle('cal-open', v);
+      $all('[data-cal-open]', form).forEach(function (b) { b.setAttribute('aria-expanded', v ? 'true' : 'false'); });
+      if (v) {
+        state.picking = which || 'in';
+        var anchor = state.start || today;
+        view = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
+        render();
+        // le panneau est haut : on fait remonter la page juste ce qu'il faut
+        requestAnimationFrame(function () {
+          var over = panel.getBoundingClientRect().bottom - (window.innerHeight - 12);
+          if (over > 0) window.scrollBy({ top: over, behavior: 'smooth' });
+        });
+      }
+    }
+
+    function pick(d) {
+      if (!state.start || state.end || d <= state.start) {
+        state.start = d; state.end = null; state.picking = 'out';
+      } else {
+        state.end = d; state.picking = 'in';
+      }
+      render();
+      if (state.start && state.end) setTimeout(function () { open(false); }, 220);
+    }
+
+    monthsBox.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-day]');
+      if (!b || b.disabled) return;
+      pick(parseIso(b.getAttribute('data-day')));
+    });
+    // Aperçu de la plage au survol : on repeint les classes sans regénérer la grille
+    // (un innerHTML ici supprimerait le bouton entre le mousedown et le mouseup → clic perdu).
+    monthsBox.addEventListener('mouseover', function (e) {
+      var b = e.target.closest('[data-day]');
+      if (!b || b.disabled || state.picking !== 'out' || !state.start || state.end) return;
+      var end = parseIso(b.getAttribute('data-day'));
+      $all('[data-day]', monthsBox).forEach(function (cell) {
+        var d = parseIso(cell.getAttribute('data-day'));
+        cell.classList.toggle('is-in', !!(end && d > state.start && d < end));
+      });
+    });
+
+    $('[data-cal-prev]', panel).addEventListener('click', function () {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+    });
+    $('[data-cal-next]', panel).addEventListener('click', function () {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+    });
+    $('[data-cal-clear]', panel).addEventListener('click', function () {
+      state.start = null; state.end = null; state.hover = null; state.picking = 'in'; render();
+    });
+    $('[data-cal-close]', panel).addEventListener('click', function () { open(false); });
+
+    $all('[data-cal-open]', form).forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        open(panel.hidden, b.getAttribute('data-cal-open'));
+      });
+    });
+    panel.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { if (!panel.hidden) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) open(false); });
+    window.addEventListener('resize', function () { if (!panel.hidden) render(); });
+
+    labels();
+    return {
+      setRange: function (a, b) {
+        state.start = parseIso(a); state.end = parseIso(b); labels();
+      }
+    };
+  }
+
+  $all('[data-booking]').forEach(function (formEl) {
+    formEl.__cal = initCalendar(formEl);
 
     formEl.addEventListener('submit', function (e) {
       e.preventDefault();
-      var checkin = ci ? ci.value : '';
-      var checkout = co ? co.value : '';
+      var ciEl = $('[name="checkin"]', formEl), coEl = $('[name="checkout"]', formEl);
+      var checkin = ciEl ? ciEl.value : '';
+      var checkout = coEl ? coEl.value : '';
       var guests = readGuests(formEl);
       var search = document.getElementById('bookingsearch');
       if (search) {
@@ -168,8 +316,7 @@
     if (!ci && !co && !g.adults) return;
     var search = document.getElementById('bookingsearch');
     if (search) search.src = buildSearchUrl(ci, co, g);
-    var set = function (sel, v) { var el = $(sel); if (el && v) el.value = v; };
-    set('[name="checkin"]', ci); set('[name="checkout"]', co);
+    $all('[data-booking]').forEach(function (f) { if (f.__cal) f.__cal.setRange(ci, co); });
     if (search) setTimeout(function () { search.scrollIntoView({ block: 'start' }); }, 300);
   })();
 

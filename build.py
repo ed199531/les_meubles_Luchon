@@ -355,14 +355,37 @@ def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
             + row("children", "Enfants", "De 2 à 17 ans", 0, 10, 0)
             + row("babies", "Bébés", "− de 2 ans", 0, 5, 0))
 
+    def datebtn(key, titre):
+        return f"""<div class="booking__field booking__field--date">
+        <span class="booking__flabel" id="bk-{key}l-{uid}">{titre}</span>
+        <button type="button" class="booking__pickbtn" id="bk-{key}b-{uid}"
+                aria-labelledby="bk-{key}l-{uid} bk-{key}b-{uid}" aria-expanded="false"
+                aria-haspopup="dialog" data-cal-open="{key}">
+          <span data-cal-label="{key}">Ajouter une date</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+        </button>
+      </div>"""
+
     return f"""<form class="{cls}" data-booking aria-label="Rechercher un séjour">
-      <div class="booking__field">
-        <label for="bk-in-{uid}">Arrivée</label>
-        <input type="date" name="checkin" id="bk-in-{uid}">
-      </div>
-      <div class="booking__field">
-        <label for="bk-out-{uid}">Départ</label>
-        <input type="date" name="checkout" id="bk-out-{uid}">
+      {datebtn("in", "Arrivée")}
+      {datebtn("out", "Départ")}
+      <input type="hidden" name="checkin"><input type="hidden" name="checkout">
+      <div class="cal" data-cal role="dialog" aria-label="Sélectionnez les dates" hidden>
+        <p class="cal__heading">Sélectionnez les dates</p>
+        <div class="cal__head">
+          <button type="button" class="cal__nav" data-cal-prev aria-label="Mois précédent">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <p class="cal__title" data-cal-title aria-live="polite"></p>
+          <button type="button" class="cal__nav" data-cal-next aria-label="Mois suivant">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="cal__months" data-cal-months></div>
+        <div class="cal__foot">
+          <button type="button" class="cal__clear" data-cal-clear>Effacer les dates</button>
+          <button type="button" class="cal__done" data-cal-close>Fermer</button>
+        </div>
       </div>
       <div class="booking__field booking__field--guests" data-guests>
         <span class="booking__flabel" id="bk-gl-{uid}">Voyageurs</span>

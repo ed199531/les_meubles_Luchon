@@ -179,6 +179,68 @@ li { margin: .3rem 0; }
 .booking .btn { height: 52px; padding: 0 1.8rem; white-space: nowrap; justify-self: start; }
 .booking__note { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); margin: 0; text-align: left; }
 
+/* Champs Arrivée / Départ : bouton qui ouvre le calendrier */
+.booking { position: relative; }
+.booking__pickbtn {
+  font-family: var(--font-body); font-size: 1rem; color: var(--muted); text-align: left;
+  height: 52px; padding: 0 .9rem; border: 1.5px solid var(--line); border-radius: var(--r-sm);
+  background: #fff; width: 100%; box-sizing: border-box; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+}
+.booking__pickbtn svg { flex: none; color: var(--muted); }
+.booking__pickbtn [data-cal-label].is-set { color: var(--ink); font-weight: 600; }
+.booking__pickbtn:hover { border-color: var(--brand-2); }
+.booking__pickbtn:focus-visible { border-color: var(--brand-2); outline: none; }
+.booking.cal-open .booking__pickbtn[aria-expanded="true"] { border-color: var(--brand-2); }
+
+/* Calendrier */
+.cal {
+  position: absolute; z-index: 40; top: calc(100% - .8rem); left: 1.2rem;
+  background: #fff; color: var(--ink); text-align: left;
+  border: 1px solid var(--line-2); border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
+  padding: 1.4rem 1.6rem 1.1rem;
+}
+.cal[hidden] { display: none; }
+.cal__heading { font-family: var(--font-title); font-size: 1.3rem; margin: 0 0 1rem; }
+.cal__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .4rem; }
+.cal__title { margin: 0; font-weight: 700; font-size: .95rem; }
+.cal__nav {
+  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--line);
+  background: #fff; color: var(--ink); cursor: pointer; flex: none;
+  display: flex; align-items: center; justify-content: center; transition: border-color .15s, color .15s;
+}
+.cal__nav:hover:not(:disabled) { border-color: var(--brand-2); color: var(--brand-2); }
+.cal__nav:disabled { opacity: .3; cursor: not-allowed; }
+.cal__months { display: flex; gap: 2rem; }
+.cal__month { min-width: 266px; }
+.cal__mname { text-align: center; font-weight: 700; margin: .6rem 0 .8rem; font-size: 1rem; }
+.cal__dow, .cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal__dow span { text-align: center; font-size: .75rem; font-weight: 700; color: var(--muted); padding-bottom: .4rem; }
+.cal__day {
+  aspect-ratio: 1; border: 0; background: none; font-family: var(--font-body); font-size: .95rem;
+  color: var(--ink); cursor: pointer; border-radius: 50%; padding: 0;
+  display: flex; align-items: center; justify-content: center; transition: background .12s, color .12s;
+}
+.cal__day--empty { cursor: default; }
+.cal__day:hover:not(:disabled):not(.cal__day--empty) { background: var(--line-2); }
+.cal__day:disabled { color: var(--line); text-decoration: line-through; cursor: not-allowed; }
+.cal__day.is-in { background: rgba(255, 122, 89, .14); border-radius: 0; }
+.cal__day.is-start, .cal__day.is-end { background: var(--brand-2); color: #fff; font-weight: 700; }
+.cal__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line-2);
+}
+.cal__clear {
+  background: none; border: 0; padding: 0; font-family: var(--font-body); font-size: .95rem;
+  color: var(--ink); text-decoration: underline; cursor: pointer;
+}
+.cal__done {
+  background: var(--ink); color: #fff; border: 0; border-radius: 999px;
+  font-family: var(--font-body); font-size: .95rem; font-weight: 700;
+  padding: .7rem 1.6rem; cursor: pointer;
+}
+.cal__done:hover { opacity: .85; }
+
 /* Sélecteur voyageurs (adultes / enfants / bébés) */
 .booking__field--guests { position: relative; }
 .booking__guests-btn {
@@ -461,6 +523,21 @@ li { margin: .3rem 0; }
   .booking { grid-template-columns: 1fr 1fr; }
   .booking__field--guests, .booking .btn { grid-column: 1 / -1; justify-self: stretch; }
   .guests__panel { min-width: 0; }
+  .cal__month { min-width: 0; width: 100%; }
+  .cal__heading { font-size: 1.15rem; }
+}
+/* Sous 760px le calendrier n'affiche qu'un mois : panneau ancré en bas d'écran,
+   sinon il déborde sous la ligne de flottaison. */
+@media (max-width: 759px) {
+  .cal {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+    max-height: 86vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    border-radius: 20px 20px 0 0; border-bottom: 0;
+    padding: 1.3rem 1.2rem calc(76px + env(safe-area-inset-bottom));
+  }
+  .cal__title { display: none; }   /* doublon avec le nom du mois quand il n'y en a qu'un */
+  .cal__head { justify-content: space-between; }
+  .cal__foot { position: sticky; bottom: 0; background: #fff; }
 }
 @media (max-width: 980px) {
   body { padding-bottom: 68px; } /* place pour mobile-bar */
