@@ -514,6 +514,43 @@ li { margin: .3rem 0; }
 .booking-engine { display: block; width: 100%; border: 0; border-radius: var(--r-lg);
   box-shadow: var(--shadow-sm); background: var(--surface); }
 
+/* ---------- Filtres (page Activités) ---------- */
+.filtres { margin-bottom: 2.2rem; }
+.filtres__row { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .8rem; }
+.filtres__label {
+  flex: none; min-width: 68px; font-size: .78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+}
+.filtres__btns { display: flex; flex-wrap: wrap; gap: .5rem; }
+.filtre {
+  font-family: var(--font-body); font-size: .9rem; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 999px;
+  padding: .45rem 1rem; cursor: pointer; transition: border-color .15s, background .15s, color .15s;
+}
+.filtre:hover { border-color: var(--brand-2); }
+.filtre.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.filtres__count { margin: .4rem 0 0; font-size: .9rem; color: var(--muted); }
+.filtres__vide { text-align: center; padding: 2.5rem 0; color: var(--muted); }
+.filtres__vide[hidden] { display: none; }
+.filtres__reset {
+  background: none; border: 0; padding: 0; font-family: var(--font-body); font-size: 1rem;
+  color: var(--ink); text-decoration: underline; cursor: pointer;
+}
+.act[hidden] { display: none; }
+.act__tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .6rem; }
+.act__tag {
+  font-size: .75rem; font-weight: 700; letter-spacing: .02em;
+  background: var(--line-2); color: var(--ink); border-radius: 999px; padding: .25rem .7rem;
+}
+.act__tag--sec { background: none; border: 1.5px solid var(--line); color: var(--muted); }
+.act__acces { margin: .8rem 0 0; font-size: .88rem; font-weight: 600; color: var(--brand); }
+.card__media--cat {
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(140deg, var(--line-2), #fff);
+  border-bottom: 1px solid var(--line-2);
+}
+.card__media--cat span { font-size: 2.8rem; line-height: 1; }
+
 /* ---------- Prose (pages légales / articles) ---------- */
 .prose { max-width: 760px; margin: 0 auto; }
 .prose h2 { margin-top: 2rem; font-size: 1.6rem; }

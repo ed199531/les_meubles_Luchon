@@ -397,6 +397,51 @@
     play();
   });
 
+  /* ---- Filtres (page Activités) ---- */
+  var filtres = $('[data-filtres]');
+  if (filtres) {
+    var grille = $('[data-filtres-grid]');
+    var compteur = $('[data-filtres-count]', filtres);
+    var vide = $('[data-filtres-vide]');
+    var cartes = $all('.act', grille);
+    var etat = { sec: 'all', cat: 'all' };
+
+    function appliquer() {
+      var n = 0;
+      cartes.forEach(function (c) {
+        var ok = (etat.sec === 'all' || c.getAttribute('data-sec') === etat.sec) &&
+                 (etat.cat === 'all' || c.getAttribute('data-cat') === etat.cat);
+        c.hidden = !ok;
+        if (ok) n++;
+      });
+      compteur.textContent = n + (n > 1 ? ' activités' : ' activité');
+      if (vide) vide.hidden = n > 0;
+    }
+
+    ['sec', 'cat'].forEach(function (type) {
+      $all('[data-' + type + ']', filtres).forEach(function (b) {
+        b.addEventListener('click', function () {
+          etat[type] = b.getAttribute('data-' + type);
+          $all('[data-' + type + ']', filtres).forEach(function (o) {
+            o.classList.toggle('is-on', o === b);
+          });
+          appliquer();
+        });
+      });
+    });
+
+    var reset = $('[data-filtres-reset]');
+    if (reset) reset.addEventListener('click', function () {
+      etat.sec = 'all'; etat.cat = 'all';
+      $all('.filtre', filtres).forEach(function (o) {
+        o.classList.toggle('is-on', o.getAttribute('data-sec') === 'all' || o.getAttribute('data-cat') === 'all');
+      });
+      appliquer();
+    });
+
+    appliquer();
+  }
+
   /* ---- Reveal au scroll ---- */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {

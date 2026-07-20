@@ -381,27 +381,118 @@ def run(g):
     # =====================================================================
     # ACTIVITÉS
     # =====================================================================
-    acts = [
-        ("ski", "ski.jpg", "Sports d'hiver", "Dévalez les pistes de Luchon-Superbagnères, le « balcon des Pyrénées », accessible en télécabine directement depuis le centre-ville. Ski alpin, ski de fond, luge et raquettes pour toute la famille."),
-        ("thermalisme", "thermes.jpg", "Thermes &amp; bien-être", "Offrez-vous une parenthèse détente aux Thermes de Luchon et à son vaporarium naturel unique en Europe. Cures thermales, spa et soins pour se ressourcer en toute saison."),
-        ("randonnee", "randonnee.jpg", "Randonnée &amp; nature", "Partez à la découverte du lac d'Oô, des cascades et des sentiers de la vallée. Des balades familiales aux ascensions sportives, la montagne se dévoile à votre rythme."),
-        ("eaux-vives", "rafting.jpg", "Sports en eaux vives", "Rafting, canyoning et kayak sur la Pique et la Garonne : sensations garanties dans un cadre naturel spectaculaire, encadrées par des professionnels."),
-        ("parapente", "parapente.jpg", "Sports aériens", "Prenez de la hauteur en parapente au-dessus de la vallée du Luchonnais et admirez un panorama à couper le souffle sur les sommets pyrénéens."),
-        ("golf", "golf.jpg", "Golf", "Le golf de Luchon, ancien parcours de montagne au charme unique, vous accueille dans un décor verdoyant entre forêts et sommets."),
-        ("patrimoine", "thermes.jpg", "Patrimoine culturel", "Flânez dans les allées d'Étigny, découvrez l'architecture thermale Belle Époque et l'histoire de cette station prisée depuis l'Antiquité romaine."),
-        ("evenements", "fete-des-fleurs.jpg", "Fêtes &amp; événements", "Ne manquez pas la célèbre Fête des Fleurs en août, ainsi que les concerts, marchés et expositions qui animent Luchon toute l'année."),
+    # Secteurs repris de la logique de l'office de tourisme (Pyrénées 31).
+    SECTEURS = [
+        ("luchon", "Luchon"),
+        ("superbagneres", "Luchon-Superbagnères"),
+        ("autour", "Autour de Luchon"),
+        ("peyragudes", "Peyragudes"),
+        ("mourtis", "Le Mourtis"),
+        ("vallees", "Vallées voisines"),
     ]
+    CATEGORIES = [
+        ("hiver", "❄️", "Sports d'hiver"),
+        ("thermes", "♨️", "Thermes & bien-être"),
+        ("rando", "🥾", "Randonnée & nature"),
+        ("eau", "🌊", "Sports en eaux vives"),
+        ("air", "🪂", "Sports aériens"),
+        ("velo", "🚴", "Vélo & cyclisme"),
+        ("golf", "⛳", "Golf"),
+        ("patrimoine", "🏛️", "Patrimoine & culture"),
+        ("fetes", "🎉", "Fêtes & évènements"),
+    ]
+    # img = photo dédiée quand nous en avons une ; sinon bandeau catégorie.
+    # "pied" = accessible à pied depuis nos appartements (centre de Luchon).
+    ACTIVITES = [
+        ("Les Thermes de Luchon", "luchon", "thermes", "thermes.jpg", True,
+         "L'établissement thermal et son <strong>vaporarium</strong>, une grotte de vapeur naturelle unique en Europe. Cures conventionnées, soins à la journée et espace détente, ouverts toute l'année."),
+        ("Les allées d'Étigny", "luchon", "patrimoine", None, True,
+         "La grande promenade bordée de tilleuls qui mène du centre-ville aux thermes, avec ses façades Belle Époque, ses terrasses et ses boutiques. Le cœur battant de la station."),
+        ("La télécabine de Superbagnères", "luchon", "hiver", None, True,
+         "Elle relie directement Luchon au plateau de Superbagnères. Skieurs l'hiver, promeneurs et vététistes l'été : en quelques minutes, vous passez de la ville au panorama sur la chaîne des Pyrénées."),
+        ("Le casino de Luchon", "luchon", "patrimoine", None, True,
+         "Machines à sous, jeux de table et programmation de spectacles dans un bâtiment emblématique de l'âge d'or thermal. Une sortie de soirée à deux pas de nos appartements."),
+        ("Le golf de Luchon", "luchon", "golf", "golf.jpg", False,
+         "Un parcours de montagne au charme ancien, dessiné entre forêts et sommets. L'un des plus anciens golfs des Pyrénées, à l'écart de l'agitation."),
+        ("La Fête des Fleurs", "luchon", "fetes", "fete-des-fleurs.jpg", True,
+         "Le grand rendez-vous de l'été luchonnais : corso fleuri, chars décorés et fanfares envahissent les allées d'Étigny. Une tradition qui remplit la ville — pensez à réserver tôt."),
+        ("Le ski à Superbagnères", "superbagneres", "hiver", "ski.jpg", False,
+         "Le « balcon des Pyrénées » et son panorama à 360° sur la chaîne frontalière. Un domaine familial où l'on skie face aux sommets, accessible depuis Luchon sans reprendre la voiture."),
+        ("Luge, raquettes et ski de fond", "superbagneres", "hiver", None, False,
+         "Au-delà des pistes : espaces débutants, sentiers raquettes et itinéraires de fond sur le plateau. De quoi occuper une journée de neige même sans chausser les skis alpins."),
+        ("Le parapente au-dessus de la vallée", "superbagneres", "air", "parapente.jpg", False,
+         "Le décollage depuis le plateau offre l'une des plus belles vues du massif : la vallée d'une part, les sommets frontaliers de l'autre. Baptêmes encadrés par des moniteurs locaux."),
+        ("Les cols du Tour de France", "superbagneres", "velo", None, False,
+         "Superbagnères et le col de Peyresourde comptent parmi les ascensions mythiques de la Grande Boucle. Les cyclistes viennent de loin pour les gravir — et le départ se fait depuis Luchon."),
+        ("Le lac d'Oô", "autour", "rando", "randonnee.jpg", False,
+         "La randonnée emblématique du Luchonnais : un lac d'altitude alimenté par une cascade de plusieurs dizaines de mètres. Accessible en famille depuis les Granges d'Astau, spectaculaire à l'arrivée."),
+        ("La vallée du Lys et la cascade d'Enfer", "autour", "rando", None, False,
+         "Une vallée boisée toute proche, ses cascades et son gouffre. Balades courtes et ombragées, idéales pour une demi-journée ou une sortie avec des enfants."),
+        ("L'Hospice de France", "autour", "rando", None, False,
+         "Ancien refuge sur la route des cols vers l'Espagne, dans un cirque de montagne au bout de la vallée de la Pique. Point de départ de nombreux sentiers, but de promenade en soi."),
+        ("Le port de Vénasque", "autour", "rando", None, False,
+         "Une montée exigeante jusqu'à une brèche frontalière, récompensée par la vue sur le massif de la Maladeta et l'Aneto, plus haut sommet des Pyrénées. Pour marcheurs entraînés."),
+        ("Rafting et canyoning", "autour", "eau", "rafting.jpg", False,
+         "Les eaux vives de la Pique et de la Garonne se descendent en raft, en kayak ou en canyoning, encadrées par des professionnels. Le grand classique des journées d'été."),
+        ("Le VTT de descente", "autour", "velo", None, False,
+         "Les pentes du Luchonnais se prêtent à la descente comme au cross-country, avec des itinéraires balisés et des remontées ouvertes l'été pour éviter la montée."),
+        ("Le ski à Peyragudes", "peyragudes", "hiver", None, False,
+         "Un domaine plus vaste, à cheval sur deux versants, connu pour son altiport et ses pistes larges. À moins d'une heure de route pour varier les plaisirs."),
+        ("Le lac de Loudenvielle et Balnéa", "peyragudes", "thermes", None, False,
+         "Un lac de montagne avec promenade aménagée, et le centre de bien-être Balnéa et ses bains inspirés de différentes cultures thermales. La sortie détente par temps incertain."),
+        ("Le ski au Mourtis", "mourtis", "hiver", None, False,
+         "Une petite station familiale où l'on skie entre les sapins, réputée pour son ambiance tranquille et ses tarifs doux. Parfait pour débuter ou pour une première glisse avec des enfants."),
+        ("La vallée d'Oueil", "vallees", "rando", None, False,
+         "Une vallée pastorale préservée, ses hameaux de pierre et ses granges. On y vient pour le calme, les chemins de crête et les villages restés à l'écart du tourisme."),
+        ("Saint-Bertrand-de-Comminges", "vallees", "patrimoine", None, False,
+         "L'un des plus beaux villages de France, dominé par sa cathédrale et bâti sur un site romain. Une demi-journée de visite qui change complètement de la montagne."),
+        ("Saint-Béat, cité du marbre", "vallees", "patrimoine", None, False,
+         "Le marbre extrait ici a servi jusqu'à Versailles. Le village, ses carrières et ses ruelles étroites au bord de la Garonne se découvrent en une matinée."),
+    ]
+    CAT_MAP = {cid: (emo, lab) for cid, emo, lab in CATEGORIES}
+    SEC_MAP = dict(SECTEURS)
+
     acards = ""
-    for aid, img, title, desc in acts:
-        acards += (f'<article class="card reveal" id="{aid}"><div class="card__media"><img src="/assets/img/activites/{img}" '
-                   f'alt="{title.replace("&amp;","&")} à Luchon" loading="lazy" width="500" height="375"></div>'
-                   f'<div class="card__body"><h3>{title}</h3><p>{desc}</p></div></article>')
+    for titre, sec, cat, img, pied, desc in ACTIVITES:
+        emo, clab = CAT_MAP[cat]
+        if img:
+            media = (f'<div class="card__media"><img src="/assets/img/activites/{img}" alt="{titre} — Bagnères-de-Luchon" '
+                     f'loading="lazy" width="500" height="375"></div>')
+        else:
+            media = f'<div class="card__media card__media--cat" aria-hidden="true"><span>{emo}</span></div>'
+        acces = ('<p class="act__acces">🚶 À pied depuis nos appartements</p>' if pied else '')
+        acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}">{media}'
+                   f'<div class="card__body"><p class="act__tags"><span class="act__tag">{emo} {clab}</span>'
+                   f'<span class="act__tag act__tag--sec">{SEC_MAP[sec]}</span></p>'
+                   f'<h3>{titre}</h3><p>{desc}</p>{acces}</div></article>')
+
+    def _btns(name, items):
+        out = f'<button type="button" class="filtre is-on" data-{name}="all">Tout</button>'
+        for it in items:
+            key, lab = (it[0], it[2]) if len(it) == 3 else it
+            emo = it[1] + " " if len(it) == 3 else ""
+            out += f'<button type="button" class="filtre" data-{name}="{key}">{emo}{lab}</button>'
+        return out
+
     activites = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/randonnee.jpg" alt="Montagnes des Pyrénées à Luchon" width="1400" height="500"></div>
   <div class="container"><h1>Activités à Bagnères-de-Luchon</h1><p>Amateur de sensations, de culture ou de détente : Luchon et ses environs offrent une multitude d'activités en toutes saisons.</p></div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Activités", None)])}
-<section class="section"><div class="container"><div class="grid grid--3">{acards}</div></div></section>
+<section class="section">
+  <div class="container">
+    <div class="filtres reveal" data-filtres>
+      <div class="filtres__row"><span class="filtres__label">Secteur</span><div class="filtres__btns">{_btns("sec", SECTEURS)}</div></div>
+      <div class="filtres__row"><span class="filtres__label">Activité</span><div class="filtres__btns">{_btns("cat", CATEGORIES)}</div></div>
+      <p class="filtres__count" data-filtres-count aria-live="polite"></p>
+    </div>
+    <div class="grid grid--3" data-filtres-grid>{acards}</div>
+    <p class="filtres__vide" data-filtres-vide hidden>Aucune activité ne correspond à ces filtres. <button type="button" class="filtres__reset" data-filtres-reset>Tout afficher</button></p>
+    <div class="reveal" style="max-width:760px;margin:2.5rem auto 0;text-align:center">
+      <p>Cette sélection rassemble les incontournables du Luchonnais. Pour l'agenda complet, les horaires et les tarifs à jour, consultez l'<a href="https://www.pyrenees31.com/preparer/activites" target="_blank" rel="noopener">Office de Tourisme Pyrénées 31</a>, qui recense toutes les activités du territoire.</p>
+    </div>
+  </div>
+</section>
 <section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Réservez votre séjour à Luchon</h2><p>Posez vos valises dans l'un de nos appartements et partez explorer les Pyrénées.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a></div></div></section>
 """
     page("activites/index.html", "/activites/", "Activités à Bagnères-de-Luchon : ski, thermes, randonnée | Les Meublés de Luchon",
