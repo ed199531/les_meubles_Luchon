@@ -23,6 +23,7 @@ def pick_avis(keywords, n, used):
 
 def run(g):
     page = g["page"]; breadcrumb = g["breadcrumb"]; booking_widget = g["booking_widget"]
+    booking_engine = g["booking_engine"]
     LOGEMENTS = g["LOGEMENTS"]; NAP = g["NAP"]; stars_html = g["stars_html"]
     jsonld = g["jsonld"]; CHECK = g["CHECK"]; BASE = g["BASE_URL"]; write = g["write"]
 
@@ -284,6 +285,16 @@ def run(g):
     </aside>
   </div>
 </section>
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:1.4rem">
+      <p class="eyebrow">Réservation en direct</p>
+      <h2>Réserver {d['name']}</h2>
+      <p class="lead">Choisissez vos dates ci-dessus : la réservation et le paiement se font ici, sans quitter le site.</p>
+    </div>
+    {booking_engine(d["slug"])}
+  </div>
+</section>
 <section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Envie de découvrir nos autres appartements ?</h2><p>Comparez nos trois logements et trouvez celui qui vous ressemble.</p><a class="btn btn--light btn--lg" href="/nos-logements/">Voir tous les logements</a></div></div></section>
 """
         page(f"nos-logements/{slug}/index.html", "/nos-logements/",
@@ -416,6 +427,9 @@ def run(g):
       {booking_widget(stacked=True, cta="Réserver")}
     </div>
   </div>
+</section>
+<section class="section" style="padding-top:0">
+  <div class="container">{booking_engine(None)}</div>
 </section>
 <section class="section section--tint">
   <div class="container">

@@ -108,6 +108,22 @@ LOGEMENTS = {
     },
 }
 
+# ---- Moteur de réservation Superhôte (clés publiques d'intégration) ----
+SUPERHOTE = {
+    "perle-bleue":    "propertyKeyhYHKfobjxVxjHhLTkzJPTehXA",
+    "echappee-verte": "propertyKey3VpakNcQ3X2LlAXOTujQsws6e",
+    "refuge-thermal": "propertyKey8WSw0zYWOvWLL0rAslYrAKaOu",
+}
+
+def booking_engine(slug=None, height=2400):
+    """iframe officielle Superhôte : la réservation se fait sans quitter le site."""
+    key = SUPERHOTE.get(slug, "")
+    src = f"https://app.superhote.com/#/rental/{key}" if key else ""
+    hidden = "" if key else " hidden"
+    return (f'<iframe class="booking-engine" id="bookingengine" loading="lazy" allowfullscreen{hidden} '
+            f'title="Moteur de réservation sécurisé" src="{src}" width="100%" height="{height}" '
+            f'frameborder="0"></iframe>')
+
 CHECK = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" '
          'stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>')
 

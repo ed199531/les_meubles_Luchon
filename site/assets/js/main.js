@@ -74,8 +74,20 @@
       var adults = $('[name="adults"]', formEl) ? $('[name="adults"]', formEl).value : 1;
       var children = $('[name="children"]', formEl) ? $('[name="children"]', formEl).value : 0;
 
+      var engine = document.getElementById('bookingengine');
       if (SUPERHOTE[slug]) {
-        window.open(buildSuperhoteUrl(SUPERHOTE[slug], checkin, checkout, adults, children), '_blank', 'noopener');
+        var url = buildSuperhoteUrl(SUPERHOTE[slug], checkin, checkout, adults, children);
+        if (engine) {
+          // réservation sans quitter le site : on charge le moteur dans la page
+          engine.hidden = false;
+          engine.src = url;
+          engine.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // pas de moteur sur cette page (ex : accueil) -> on l'ouvre sur la page Réservation
+          window.location.href = '/reservation/?appart=' + encodeURIComponent(slug) +
+            '&checkin=' + encodeURIComponent(checkin) + '&checkout=' + encodeURIComponent(checkout) +
+            '&guests=' + encodeURIComponent(adults);
+        }
       } else {
         // Pas de clé (ex : Le Refuge Thermal) -> demande par email pré-remplie
         var subj = encodeURIComponent('Demande de réservation — ' + (slug ? slug.replace(/-/g, ' ') : 'séjour'));
@@ -89,6 +101,21 @@
       }
     });
   });
+
+  /* ---- Moteur : pré-chargement depuis les paramètres d'URL ---- */
+  (function () {
+    var engine = document.getElementById('bookingengine');
+    if (!engine || !window.URLSearchParams) return;
+    var p = new URLSearchParams(location.search);
+    var slug = p.get('appart');
+    if (!slug || !SUPERHOTE[slug]) return;
+    var ci = p.get('checkin') || '', co = p.get('checkout') || '', g = p.get('guests') || 1;
+    engine.hidden = false;
+    engine.src = buildSuperhoteUrl(SUPERHOTE[slug], ci, co, g, 0);
+    var set = function (sel, val) { var el = $(sel); if (el && val) el.value = val; };
+    set('[name="lodging"]', slug); set('[name="checkin"]', ci);
+    set('[name="checkout"]', co); set('[name="adults"]', g);
+  })();
 
   /* ---- Galerie / Lightbox ---- */
   var lightbox = $('#lightbox');
