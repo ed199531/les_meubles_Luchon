@@ -1,4 +1,24 @@
 # -*- coding: utf-8 -*-
+import json, os, html as _h
+_AVIS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "avis-clients.json")
+AVIS = json.load(open(_AVIS_PATH, encoding="utf-8"))
+
+def avis_card(a):
+    d = f' <span class="review__date">— {a["date"]}</span>' if a.get("date") else ""
+    return ('<blockquote class="review reveal"><p class="review__text">« '
+            + _h.escape(a["texte"], quote=False) + ' »</p><div class="review__author">'
+            + _h.escape(a["auteur"], quote=False) + d + '</div></blockquote>')
+
+def pick_avis(keywords, n, used):
+    out=[]
+    for a in AVIS:
+        if a["auteur"] in used: continue
+        t=a["texte"].lower()
+        if any(k in t for k in keywords) and 60 < len(a["texte"]) < 260:
+            out.append(a); used.add(a["auteur"])
+        if len(out)>=n: break
+    return out
+
 """Contenus des pages — appelé par build.py"""
 
 def run(g):
@@ -22,7 +42,6 @@ def run(g):
         "geo": {"@type": "GeoCoordinates", "latitude": 42.7906, "longitude": 0.5936},
         "areaServed": NAP["city"],
         "sameAs": [NAP["facebook"], NAP["instagram"]],
-        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "reviewCount": "80", "bestRating": "5"},
     }
     home_ld_faq = {
         "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
@@ -36,6 +55,9 @@ def run(g):
              "acceptedAnswer": {"@type": "Answer", "text": "L'arrivée est flexible à partir de 16h grâce à une boîte à clés autonome. Le départ se fait avant 10h."}},
         ]}
 
+    _used=set()
+    avis_home = "".join(avis_card(a) for a in pick_avis(["propre","équipé","situé"],3,_used))
+
     home = f"""
 <section class="hero">
   <div class="hero__media">
@@ -47,7 +69,7 @@ def run(g):
     <p class="hero__sub">Des appartements meublés, chaleureux et bien équipés, à deux pas des thermes, des commerces et des pistes de Superbagnères. Réservez en quelques clics.</p>
     <div class="hero__badges">
       <span>⭐ Classés Meublé de Tourisme</span>
-      <span>💬 80+ avis 5 étoiles</span>
+      <span>💬 {len(AVIS)} avis clients</span>
       <span>🔑 Arrivée autonome dès 16h</span>
       <span>🐾 Animaux bienvenus</span>
     </div>
@@ -126,12 +148,10 @@ def run(g):
     <div class="center reveal" style="margin-bottom:2rem">
       <p class="eyebrow">Ils ont séjourné chez nous</p>
       <h2>Des voyageurs conquis</h2>
-      <div class="rating-banner" style="margin-top:1rem"><span class="big">5,0</span><span>★★★★★<br><small style="font-weight:600">80+ avis vérifiés</small></span></div>
+      <div class="rating-banner" style="margin-top:1rem"><span class="big">{len(AVIS)}</span><span>avis clients<br><small style="font-weight:600">recueillis depuis 2018</small></span></div>
     </div>
     <div class="grid grid--3">
-      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Très beau séjour près des télécabines et des commerces. Appartement propre, cosy et parfaitement équipé. »</p><div class="review__author">Legrand <span class="review__date">— 16/02/2021</span></div></blockquote>
-      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Logement très propre, fonctionnel et très bien situé ! Nous reviendrons avec plaisir. »</p><div class="review__author">Laura S. <span class="review__date">— 07/02/2019</span></div></blockquote>
-      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Accueil chaleureux, appartement conforme aux photos et très bien équipé. Nathalie est aux petits soins. »</p><div class="review__author">Marc D.</div></blockquote>
+      {avis_home}
     </div>
     <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/avis/">Lire tous les avis</a></div>
   </div>
@@ -366,37 +386,21 @@ def run(g):
     # =====================================================================
     # AVIS
     # =====================================================================
-    reviews = [
-        ("★★★★★", "Très beau séjour près des télécabines et des commerces. Appartement propre, cosy et parfaitement équipé.", "Legrand", "16/02/2021"),
-        ("★★★★★", "Logement très propre, fonctionnel et très bien situé ! Nous reviendrons avec plaisir.", "Laura S.", "07/02/2019"),
-        ("★★★★★", "Accueil chaleureux, appartement conforme aux photos et très bien équipé. Nathalie est aux petits soins.", "Marc D.", ""),
-        ("★★★★★", "Idéal pour une cure : à deux pas des thermes, calme et confortable. Tout était impeccable.", "Christine R.", ""),
-        ("★★★★★", "Parfait pour un week-end au ski. La télécabine à quelques minutes, c'est un vrai plus.", "Julien &amp; Emma", ""),
-        ("★★★★★", "Appartement chaleureux, literie très confortable et cuisine complète. On a adoré séjourner ici avec notre chien.", "Sophie L.", ""),
-    ]
-    rcards = "".join(
-        f'<blockquote class="review reveal"><div class="review__stars">{s}</div>'
-        f'<p class="review__text">« {t} »</p><div class="review__author">{a}'
-        + (f' <span class="review__date">— {dt}</span>' if dt else '') + '</div></blockquote>'
-        for s, t, a, dt in reviews)
-    review_ld = {"@context": "https://schema.org", "@type": "LodgingBusiness", "name": NAP["name"],
-                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "reviewCount": "80", "bestRating": "5"},
-                 "review": [{"@type": "Review", "reviewRating": {"@type": "Rating", "ratingValue": "5"},
-                             "author": {"@type": "Person", "name": a}, "reviewBody": t} for s, t, a, dt in reviews[:4]]}
+    rcards = "".join(avis_card(a) for a in AVIS)
     avis = f"""
-<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>Plus de 80 voyageurs nous ont attribué la note maximale. Merci pour votre confiance !</p></div></section>
+<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>{len(AVIS)} avis laissés par nos voyageurs, repris intégralement de notre précédent site.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
 <section class="section">
   <div class="container center" style="margin-bottom:2.5rem">
-    <div class="rating-banner reveal"><span class="big">5,0</span><span>★★★★★<br><small style="font-weight:600">80+ avis vérifiés</small></span></div>
+    <div class="rating-banner reveal"><span class="big">{len(AVIS)}</span><span>avis clients<br><small style="font-weight:600">recueillis depuis 2018</small></span></div>
   </div>
   <div class="container"><div class="grid grid--3">{rcards}</div></div>
 </section>
-<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver mon séjour</a></div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--light btn--lg" href="/reservation/">Réserver</a></div></div></section>
 """
-    page("avis/index.html", "/avis/", "Avis clients — 80+ avis 5 étoiles | Les Meublés de Luchon",
-         "Découvrez les avis de nos voyageurs : plus de 80 avis 5 étoiles pour Les Meublés de Luchon. Propreté, équipement, emplacement central et accueil chaleureux à Bagnères-de-Luchon.",
-         avis, ld_blocks=[review_ld])
+    page("avis/index.html", "/avis/", f"Avis clients — {len(AVIS)} avis | Les Meublés de Luchon",
+         f"Les {len(AVIS)} avis de nos voyageurs à Bagnères-de-Luchon : propreté, équipement, emplacement central et accueil. Avis authentiques.",
+         avis)
 
     # =====================================================================
     # RÉSERVATION
@@ -604,6 +608,8 @@ def run(g):
         ("Quels services proposez-vous aux curistes ?", "Ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, animaux acceptés, et les conseils personnalisés de Nathalie."),
     ]
     refuge_first_img = "/assets/img/logements/refuge-thermal/piece-de-vie.jpg"
+    avis_cure = "".join(avis_card(a) for a in (pick_avis(["curiste","cure","therme"],3,_used) + pick_avis(["équipé","propre","calme"],3,_used))[:3])
+
     cure = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/thermes.jpg" alt="Thermes de Bagnères-de-Luchon" width="1400" height="500"></div>
   <div class="container">
@@ -679,9 +685,7 @@ def run(g):
   <div class="container">
     <div class="center reveal" style="margin-bottom:2rem"><p class="eyebrow">Ils ont fait leur cure chez nous</p><h2>La confiance des curistes</h2></div>
     <div class="grid grid--3">
-      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Idéal pour une cure : à deux pas des thermes, calme et confortable. Tout était impeccable. »</p><div class="review__author">Christine R.</div></blockquote>
-      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Appartement de plain-pied parfait pour mon mari. Nous reviendrons pour notre prochaine cure. »</p><div class="review__author">Danielle M.</div></blockquote>
-      <blockquote class="review reveal"><div class="review__stars">★★★★★</div><p class="review__text">« Très bien équipé pour un séjour de trois semaines, et Nathalie de très bon conseil. »</p><div class="review__author">Jean-Pierre L.</div></blockquote>
+      {avis_cure}
     </div>
     <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/avis/">Lire tous les avis</a></div>
   </div>
