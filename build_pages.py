@@ -419,8 +419,6 @@ def run(g):
          "La grande promenade bordée de tilleuls qui mène du centre-ville aux thermes, avec ses façades Belle Époque, ses terrasses et ses boutiques. Le cœur battant de la station."),
         ("La télécabine de Superbagnères", "luchon", "hiver", None, True,
          "Elle relie directement Luchon au plateau de Superbagnères. Skieurs l'hiver, promeneurs et vététistes l'été : en quelques minutes, vous passez de la ville au panorama sur la chaîne des Pyrénées."),
-        ("Le casino de Luchon", "luchon", "patrimoine", None, True,
-         "Machines à sous, jeux de table et programmation de spectacles dans un bâtiment emblématique de l'âge d'or thermal. Une sortie de soirée à deux pas de nos appartements."),
         ("Le golf de Luchon", "luchon", "golf", "golf.jpg", False,
          "Un parcours de montagne au charme ancien, dessiné entre forêts et sommets. L'un des plus anciens golfs des Pyrénées, à l'écart de l'agitation."),
         ("La Fête des Fleurs", "luchon", "fetes", "fete-des-fleurs.jpg", True,
