@@ -82,7 +82,7 @@ def run(g):
   <div class="container center reveal">
     <p class="eyebrow">Bienvenue</p>
     <h2>Le confort d'un appartement, l'esprit d'une station thermale</h2>
-    <p class="lead">Les Meublés de Luchon, ce sont trois appartements meublés indépendants au centre de Bagnères-de-Luchon, tenus par Nathalie, votre hôte passionnée par sa région. Idéal pour une cure thermale, un week-end au ski ou des vacances nature en famille.</p>
+    <p class="lead">Les Meublés de Luchon, ce sont trois appartements meublés indépendants au centre de Bagnères-de-Luchon, tenus par Nathalie, votre hôte passionnée par sa région. Idéal pour un week-end au ski, des vacances nature en famille ou une <a href="/cure-thermale/">cure thermale</a> (tarif spécial sur demande).</p>
   </div>
 </section>
 
@@ -90,7 +90,7 @@ def run(g):
   <div class="container">
     <div class="center reveal" style="margin-bottom:2.5rem">
       <p class="eyebrow">Nos appartements</p>
-      <h2>Trois appartements, tous équipés avec soin</h2>
+      <h2>Trois appartements chaleureux et confortables</h2>
     </div>
     <div class="grid grid--3">
       {logement_card(g, "la-perle-bleue")}
@@ -253,12 +253,17 @@ def run(g):
   <div class="container"><p class="eyebrow" style="color:#a9e0e4">{d['type']} · {d['floor']} · jusqu'à {d['capacity']} personnes</p><h1>{d['name']}</h1><p>{stars_html(d['stars'])} Meublé de Tourisme — {d['short']}</p></div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Nos appartements", "/nos-logements/"), (d['name'], None)])}
-<section class="section">
+<section class="section" id="reserver">
   <div class="container">
-    <div class="gallery">{gitems}</div>
+    <div class="center reveal" style="margin-bottom:1.4rem">
+      <p class="eyebrow">Réservation en direct</p>
+      <h2>Réserver {d['name']}</h2>
+      <p class="lead">Choisissez vos dates : la réservation et le paiement se font ici, sans quitter le site.</p>
+    </div>
+    {booking_engine(d["slug"])}
   </div>
 </section>
-<section class="section" style="padding-top:0">
+<section class="section section--tint">
   <div class="container" style="max-width:900px">
     <div class="reveal">
       <h2>À propos de {d['name']}</h2>
@@ -268,16 +273,6 @@ def run(g):
       <ul class="amenities">{amen}</ul>
       <p style="margin-top:1.6rem;font-size:.95rem">Une question avant de réserver ? <a href="tel:{NAP['tel_link']}">📞 {NAP['tel_display']}</a> · <a href="mailto:{NAP['email']}">✉️ Écrire</a></p>
     </div>
-  </div>
-</section>
-<section class="section" id="reserver" style="padding-top:0">
-  <div class="container">
-    <div class="center reveal" style="margin-bottom:1.4rem">
-      <p class="eyebrow">Réservation en direct</p>
-      <h2>Réserver {d['name']}</h2>
-      <p class="lead">Choisissez vos dates ci-dessous : la réservation et le paiement se font ici, sans quitter le site.</p>
-    </div>
-    {booking_engine(d["slug"])}
   </div>
 </section>
 <section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Envie de découvrir nos autres appartements ?</h2><p>Comparez nos trois logements et trouvez celui qui vous ressemble.</p><a class="btn btn--light btn--lg" href="/nos-logements/">Voir tous les logements</a></div></div></section>
@@ -298,55 +293,63 @@ def run(g):
     services = f"""
 <section class="page-hero"><div class="container"><h1>Nos services</h1><p>Tout est pensé pour que votre séjour à Luchon soit simple, confortable et sans surprise.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("Services", None)])}
+
 <section class="section">
   <div class="container split">
     <div class="split__media reveal"><img src="/assets/img/brand/nathalie.jpg" alt="Nathalie, votre hôte" loading="lazy" width="600" height="480"></div>
     <div class="split__body reveal">
       <p class="eyebrow">Votre hôte</p>
-      <h2>Un accueil personnalisé</h2>
-      <p>Nathalie, propriétaire passionnée par sa région, vous accompagne avant et pendant votre séjour : livret d'accueil envoyé en amont, conseils sur les activités, les restaurants et les excursions, et une disponibilité de tous les instants.</p>
-      <ul class="amenities">
-        <li>{CHECK}Livret d'accueil pré-séjour</li>
-        <li>{CHECK}Arrivée flexible dès 16h (boîte à clés)</li>
-        <li>{CHECK}Appartements équipés avec soin</li>
-        <li>{CHECK}Wi-Fi haut débit gratuit</li>
-        <li>{CHECK}Conseils activités &amp; restaurants</li>
-        <li>{CHECK}Parking gratuit à proximité</li>
-      </ul>
+      <h2>Nathalie, à votre écoute</h2>
+      <p>Je suis Nathalie, passionnée par notre région et soucieuse de vous offrir un séjour inoubliable à Bagnères-de-Luchon. Accueillir des voyageurs du monde entier est pour moi un véritable plaisir et je mets tout en œuvre pour que vous vous sentiez comme chez vous.</p>
+      <p>Que ce soit pour vous conseiller sur les meilleures activités locales, pour découvrir les environs ou répondre à vos besoins, je suis toujours à votre écoute. Votre confort et votre satisfaction sont ma priorité : je m'engage à rendre votre séjour aussi agréable que possible.</p>
     </div>
   </div>
 </section>
+
 <section class="section section--tint">
   <div class="container">
-    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Prestations en supplément</p><h2>Des services à la carte</h2><p class="lead">Ajoutez les prestations qui vous facilitent la vie. Tarifs clairs, sans frais cachés.</p></div>
-    <div class="grid grid--4">
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/menage.jpg" alt="Service ménage de fin de séjour" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Ménage fin de séjour</h3><p>On s'occupe de tout à votre départ.</p><div class="card__foot"><span class="card__price">35 €<small>par séjour</small></span></div></div></div>
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de draps" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Location de draps</h3><p>Linge de lit propre.</p><div class="card__foot"><span class="card__price">20 €<small>par lit</small></span></div></div></div>
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Location de serviettes de bain" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Serviettes de bain</h3><p>Un set complet par personne.</p><div class="card__foot"><span class="card__price">10 €<small>par personne</small></span></div></div></div>
-      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/animal.jpg" alt="Animaux acceptés" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Animal de compagnie</h3><p>Vos compagnons sont bienvenus.</p><div class="card__foot"><span class="card__price">50 €<small>par séjour / animal</small></span></div></div></div>
+    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Compris dans votre séjour</p><h2>Appartements équipés avec soin</h2><p class="lead">Ces prestations sont incluses, sans supplément.</p></div>
+    <div class="grid grid--2">
+      <div class="card reveal"><div class="card__body"><h3>Le ménage</h3><p>Notre équipe de ménage assure un ménage rigoureux et soigné après chaque séjour. Nous mettons tout en œuvre pour vous accueillir dans un appartement d'une propreté irréprochable.</p></div></div>
+      <div class="card reveal"><div class="card__body"><h3>Votre arrivée</h3><p>Vous êtes libre d'arriver <strong>à partir de 16h</strong>, à l'heure qui vous convient le mieux. Les clefs sont disponibles dans un coffre à clefs : vous recevez le code et toutes les instructions par e-mail avant votre venue.</p></div></div>
+      <div class="card reveal"><div class="card__body"><h3>Le stationnement</h3><p>Des parkings gratuits proches du logement sont disponibles. Le temps de décharger vos bagages, vous pouvez vous garer dans l'impasse pour plus de simplicité.</p></div></div>
+      <div class="card reveal"><div class="card__body"><h3>Le café</h3><p>Vous appréciez un bon café ? Nous mettons à votre disposition, au choix : une <strong>cafetière filtre</strong> ou une <strong>machine Nespresso</strong>.</p></div></div>
+      <div class="card reveal"><div class="card__body"><h3>Le Wi-Fi</h3><p>Une connexion Wi-Fi haut débit gratuite dans chaque appartement, idéale pour rester connecté ou télétravailler.</p></div></div>
+      <div class="card reveal"><div class="card__body"><h3>Nos conseils</h3><p>Un livret d'accueil avant votre séjour, et les bons plans de Nathalie sur les activités, les restaurants et les excursions.</p></div></div>
     </div>
   </div>
 </section>
+
 <section class="section">
-  <div class="container split split--reverse">
-    <div class="split__media reveal"><img src="/assets/img/services/wifi.jpg" alt="Wi-Fi haut débit gratuit" loading="lazy" width="600" height="480"></div>
-    <div class="split__body reveal">
-      <p class="eyebrow">Connectivité</p>
-      <h2>Wi-Fi &amp; télétravail</h2>
-      <p>Chaque appartement dispose d'une connexion Wi-Fi haut débit gratuite, idéale pour rester connecté, télétravailler ou préparer vos sorties dans la vallée.</p>
-      <a class="btn btn--primary" href="/reservation/">Réserver</a>
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2.5rem"><p class="eyebrow">Prestations en supplément</p><h2>À ajouter si vous le souhaitez</h2></div>
+    <div class="grid grid--3">
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Draps de lit fournis" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Draps de lit</h3><p>Linge de lit propre, mis à disposition pour l'ensemble du séjour.</p><div class="card__foot"><span class="card__price">20 €<small>par lit</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/draps.jpg" alt="Serviettes de bain fournies" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Serviettes de bain</h3><p>Un jeu de deux serviettes par personne, pour l'ensemble du séjour.</p><div class="card__foot"><span class="card__price">10 €<small>par personne</small></span></div></div></div>
+      <div class="card reveal"><div class="card__media card__media--portrait"><img src="/assets/img/services/animal.jpg" alt="Animal de compagnie accepté" loading="lazy" width="400" height="300"></div><div class="card__body"><h3>Animal de compagnie</h3><p>Votre animal est le bienvenu. Un lien de paiement vous sera envoyé.</p><div class="card__foot"><span class="card__price">50 €<small>par séjour</small></span></div></div></div>
+    </div>
+    <div class="reveal" style="max-width:760px;margin:2rem auto 0;text-align:center">
+      <p><strong>Comment en profiter ?</strong> Si vous souhaitez ajouter l'une ou l'autre de ces options, merci de nous le faire savoir <a href="/contact/">au moment de la réservation</a> afin que tout soit prêt pour votre arrivée.</p>
     </div>
   </div>
 </section>
+
+<section class="section section--tint"><div class="container"><div class="cta-band reveal">
+  <h2>Prêt à réserver votre séjour ?</h2>
+  <p>Choisissez votre appartement et vos dates : réservation en ligne, confirmation immédiate.</p>
+  <a class="btn btn--light btn--lg" href="/reservation/">Réserver</a>
+</div></div></section>
+
 {faq_section(g, [
-    ("Le ménage est-il inclus ?", "Le logement est livré propre. Le ménage de fin de séjour est en option à 35 € ; vous pouvez aussi le réaliser vous-même avant votre départ."),
-    ("Fournissez-vous les draps et serviettes ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes de bain."),
-    ("Puis-je venir avec mon animal ?", "Oui, les animaux sont acceptés moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation."),
-    ("Comment se passe l'arrivée ?", "L'arrivée est autonome dès 16h grâce à une boîte à clés sécurisée. Vous recevez le code et toutes les instructions par e-mail avant votre venue."),
+    ("Le ménage est-il inclus ?", "Oui. Notre équipe assure un ménage rigoureux après chaque séjour : ce n'est pas une option, c'est compris dans votre réservation."),
+    ("Fournissez-vous les draps et serviettes ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes, pour l'ensemble du séjour. Signalez-le nous à la réservation."),
+    ("Puis-je venir avec mon animal ?", "Oui, votre animal est le bienvenu moyennant 50 € pour l'ensemble du séjour. Un lien de paiement vous sera envoyé."),
+    ("Comment se passe l'arrivée ?", "L'arrivée est libre à partir de 16h grâce à un coffre à clefs. Vous recevez le code et toutes les instructions par e-mail avant votre venue."),
+    ("Où puis-je me garer ?", "Des parkings gratuits sont disponibles à proximité. Le temps de décharger vos bagages, vous pouvez vous garer dans l'impasse."),
 ])}
 """
     page("services/index.html", "/services/", "Nos services — accueil, ménage, linge, Wi-Fi | Les Meublés de Luchon",
-         "Services des Meublés de Luchon : livret d'accueil, arrivée autonome dès 16h, ménage (35 €), location de draps (20 €/lit) et serviettes (10 €/pers.), Wi-Fi gratuit, animaux acceptés (50 €).",
+         "Services des Meublés de Luchon : ménage inclus, arrivée libre dès 16h avec coffre à clefs, parking gratuit, Wi-Fi. En option : draps 20 €/lit, serviettes 10 €/pers., animal 50 €.",
          services, og_image="/assets/img/services/wifi.jpg", ld_blocks=[svc_ld])
 
     # =====================================================================
@@ -616,9 +619,9 @@ def run(g):
   <div class="container">
     <p class="eyebrow" style="color:#a9e0e4">Cure thermale · Bagnères-de-Luchon</p>
     <h1>Votre hébergement pour une cure thermale à Luchon</h1>
-    <p>Des appartements meublés, à quelques minutes à pied des Thermes de Luchon, pensés pour le confort des curistes : plain-pied, cuisine équipée, calme et séjours de trois semaines en toute sérénité.</p>
+    <p>Des appartements meublés, à quelques minutes à pied des Thermes de Luchon, pensés pour le confort des curistes : plain-pied, cuisine équipée, calme et séjours de trois semaines en toute sérénité. <strong>Un tarif spécial cure s'applique : contactez-nous pour votre devis.</strong></p>
     <div style="margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.8rem">
-      <a class="btn btn--primary btn--lg" href="/reservation/">Réserver</a>
+      <a class="btn btn--primary btn--lg" href="/contact/">Demander un devis cure</a>
       <a class="btn btn--light btn--lg" href="#logements">Voir les logements</a>
     </div>
   </div>
@@ -713,10 +716,10 @@ def run(g):
 
 <section class="section section--tint"><div class="container"><div class="cta-band reveal">
   <h2>Réservez votre séjour de cure à Luchon</h2>
-  <p>Vérifiez nos disponibilités pour votre période de cure, ou contactez Nathalie pour un conseil personnalisé.</p>
+  <p>Les séjours de cure bénéficient d'un <strong>tarif spécial</strong> : contactez-nous avec vos dates, Nathalie vous répond sous 24 h.</p>
   <div style="display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center">
-    <a class="btn btn--light btn--lg" href="/reservation/">Réserver</a>
-    <a class="btn btn--ghost btn--lg" href="/contact/" style="border-color:#fff;color:#fff">Nous contacter</a>
+    <a class="btn btn--light btn--lg" href="/contact/">Demander mon devis cure</a>
+    <a class="btn btn--ghost btn--lg" href="tel:+33684816041" style="border-color:#fff;color:#fff">Appeler</a>
   </div>
 </div></div></section>
 """
@@ -962,7 +965,7 @@ def run(g):
         ]),
         ("Animaux & services", [
             ("Les animaux sont-ils acceptés ?", "Oui, moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation."),
-            ("Proposez-vous un service de ménage ?", "Oui, le ménage de fin de séjour est disponible en option à 35 € ; vous pouvez aussi le réaliser vous-même avant le départ."),
+            ("Le ménage est-il inclus ?", "Oui, le ménage est assuré par notre équipe après chaque séjour : ce n'est pas une option payante."),
             ("Y a-t-il un parking ?", "Un parking gratuit se trouve à proximité de nos logements. Les informations de stationnement vous sont transmises avec votre confirmation."),
             ("Proposez-vous des conseils sur place ?", "Oui, Nathalie vous transmet un livret d'accueil et des conseils personnalisés sur les activités, les restaurants et les excursions."),
         ]),
