@@ -165,7 +165,7 @@ li { margin: .3rem 0; }
 .booking {
   background: #fff; border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
   padding: 1.2rem; display: grid; gap: .8rem;
-  grid-template-columns: 1.4fr 1fr 1fr .9fr auto; align-items: end;
+  grid-template-columns: 1fr 1fr auto; align-items: end;
 }
 .booking--stack { grid-template-columns: 1fr; }
 .booking__field { display: flex; flex-direction: column; gap: .3rem; text-align: left; }
@@ -176,7 +176,7 @@ li { margin: .3rem 0; }
   background: #fff; width: 100%; line-height: normal; box-sizing: border-box;
 }
 .booking__field input:focus, .booking__field select:focus { border-color: var(--brand-2); outline: none; }
-.booking .btn { height: 52px; padding-top: 0; padding-bottom: 0; }
+.booking .btn { height: 52px; padding: 0 1.8rem; white-space: nowrap; justify-self: start; }
 .booking__note { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); margin: 0; text-align: left; }
 
 /* ---------- Grilles / cartes ---------- */
@@ -418,7 +418,7 @@ li { margin: .3rem 0; }
   .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .booking { grid-template-columns: 1fr 1fr; }
-  .booking .btn { grid-column: 1 / -1; }
+  .booking .btn { grid-column: 1 / -1; justify-self: stretch; }
 }
 @media (max-width: 980px) {
   body { padding-bottom: 68px; } /* place pour mobile-bar */

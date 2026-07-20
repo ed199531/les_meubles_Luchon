@@ -336,11 +336,9 @@ def page(path, active, title, desc, main_html, og_image="/assets/img/logements/p
 # ============================================================================
 # Widget de réservation réutilisable
 def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
-    """Barre de recherche : dates + nombre de personnes -> page Appartements."""
+    """Barre de recherche : dates -> moteur Superhôte (le nb de voyageurs se choisit dans le moteur)."""
     cls = "booking booking--stack" if stacked else "booking"
     uid = fixed_slug or "w"
-    opts = "".join(f'<option value="{n}"{" selected" if n == 2 else ""}>{n} personne{"s" if n > 1 else ""}</option>'
-                   for n in range(1, 7))
     return f"""<form class="{cls}" data-booking aria-label="Rechercher un séjour">
       <div class="booking__field">
         <label for="bk-in-{uid}">Arrivée</label>
@@ -350,11 +348,7 @@ def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
         <label for="bk-out-{uid}">Départ</label>
         <input type="date" name="checkout" id="bk-out-{uid}">
       </div>
-      <div class="booking__field">
-        <label for="bk-ad-{uid}">Voyageurs</label>
-        <select name="guests" id="bk-ad-{uid}">{opts}</select>
-      </div>
-      <button class="btn btn--primary" type="submit">{cta}</button>
+      <button class="btn btn--primary booking__submit" type="submit">{cta}</button>
       <p class="booking__note">Réservation sécurisée · confirmation immédiate.</p>
     </form>"""
 
