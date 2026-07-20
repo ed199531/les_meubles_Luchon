@@ -466,10 +466,10 @@ def run(g):
             media = (f'<div class="card__media"><img src="/assets/img/activites/{img}" alt="{titre} — Bagnères-de-Luchon" '
                      f'loading="lazy" width="500" height="375"></div>')
         else:
-            media = f'<div class="card__media card__media--cat" aria-hidden="true"><span>{emo}</span></div>'
-        acces = ('<p class="act__acces">🚶 À pied depuis nos appartements</p>' if pied else '')
+            media = f'<div class="card__media card__media--cat"><span>{clab}</span></div>'
+        acces = ('<p class="act__acces">À pied depuis nos appartements</p>' if pied else '')
         acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}">{media}'
-                   f'<div class="card__body"><p class="act__tags"><span class="act__tag">{emo} {clab}</span>'
+                   f'<div class="card__body"><p class="act__tags"><span class="act__tag">{clab}</span>'
                    f'<span class="act__tag act__tag--sec">{SEC_MAP[sec]}</span></p>'
                    f'<h3>{titre}</h3><p>{desc}</p>{acces}</div></article>')
 
