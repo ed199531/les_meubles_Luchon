@@ -212,19 +212,25 @@ def run(g):
   <div class="container"><h1>Nos appartements à Bagnères-de-Luchon</h1><p>Trois appartements meublés, classés Meublé de Tourisme, au centre de la station thermale.</p></div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Nos appartements", None)])}
-<section class="section">
+<section class="section" id="reserver">
   <div class="container">
-    <div class="grid grid--3">{cards}</div>
-  </div>
-</section>
-<section class="section section--tint" id="reserver" style="padding-top:0">
-  <div class="container">
-    <div class="center reveal" style="margin:2.5rem 0 1.4rem">
+    <div class="center reveal" style="margin-bottom:1.6rem">
       <p class="eyebrow">Disponibilités en direct</p>
       <h2>Rechercher un appartement disponible</h2>
-      <p class="lead">Indiquez vos dates : seuls les appartements libres s'affichent. Réservation et paiement se font ici, sans quitter le site.</p>
+      <p class="lead">Indiquez vos dates ci-dessous : seuls les appartements libres s'affichent. Réservation et paiement se font ici, sans quitter le site.</p>
     </div>
+    <div style="max-width:900px;margin:0 auto 2rem">{booking_widget()}</div>
     {booking_search()}
+  </div>
+</section>
+<section class="section section--tint">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:2.5rem">
+      <p class="eyebrow">En détail</p>
+      <h2>Nos trois appartements</h2>
+      <p class="lead">Photos, équipements et descriptif complet de chaque appartement.</p>
+    </div>
+    <div class="grid grid--3">{cards}</div>
   </div>
 </section>
 <section class="section">
