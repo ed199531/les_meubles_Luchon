@@ -173,9 +173,9 @@ def header(active):
 {links}      </ul>
     </nav>
     <div class="nav__cta">
-      <a class="nav__phone" href="tel:{NAP['tel_link']}" aria-label="Appeler le {NAP['tel_display']}">
+      <a class="nav__phone" href="tel:{NAP['tel_link']}" title="Appeler le {NAP['tel_display']}" aria-label="Appeler le {NAP['tel_display']}">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>
-        {NAP['tel_display']}
+        <span class="nav__phone-num">{NAP['tel_display']}</span>
       </a>
       <a class="btn btn--primary" href="/reservation/">Réserver</a>
       <button class="nav__toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
