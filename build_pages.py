@@ -219,7 +219,6 @@ def run(g):
       <h2>Rechercher un appartement disponible</h2>
       <p class="lead">Indiquez vos dates ci-dessous : seuls les appartements libres s'affichent. Réservation et paiement se font ici, sans quitter le site.</p>
     </div>
-    <div style="max-width:900px;margin:0 auto 2rem">{booking_widget()}</div>
     {booking_search()}
   </div>
 </section>

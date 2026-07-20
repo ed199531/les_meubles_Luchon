@@ -42,13 +42,81 @@
   var SITE_KEY = 'bcGpXSkB3NtJCWmMbGnVucHbT';
   var GROUP = 'Les Meublés de Luchon';
 
-  function buildSearchUrl(checkin, checkout, guests) {
+  function buildSearchUrl(checkin, checkout, g) {
+    g = g || {};
     var u = 'https://app.superhote.com/#/get-available-rentals/' + SITE_KEY +
             '?groups=' + encodeURIComponent(GROUP);
     if (checkin) u += '&startDate=' + checkin;
     if (checkout) u += '&endDate=' + checkout;
-    if (guests) u += '&adultsNumber=' + guests;
+    if (g.adults) u += '&adultsNumber=' + g.adults;
+    if (g.children) u += '&childrenNumber=' + g.children;
+    if (g.babies) u += '&babiesNumber=' + g.babies;
     return u;
+  }
+
+  /* ---- Sélecteur voyageurs (adultes / enfants / bébés) ---- */
+  function guestsLabel(box) {
+    var n = 0;
+    ['adults', 'children'].forEach(function (k) {
+      var i = $('[name="' + k + '"]', box); if (i) n += parseInt(i.value, 10) || 0;
+    });
+    var b = $('[name="babies"]', box), nb = b ? parseInt(b.value, 10) || 0 : 0;
+    var txt = n + ' voyageur' + (n > 1 ? 's' : '');
+    if (nb) txt += ' · ' + nb + ' bébé' + (nb > 1 ? 's' : '');
+    return txt;
+  }
+
+  $all('[data-guests]').forEach(function (box) {
+    var btn = $('[data-guests-toggle]', box);
+    var panel = $('.guests__panel', box);
+    var label = $('[data-guests-label]', box);
+    if (!btn || !panel) return;
+
+    function open(v) {
+      panel.hidden = !v;
+      box.classList.toggle('is-open', v);
+      btn.setAttribute('aria-expanded', v ? 'true' : 'false');
+    }
+    function refresh() { label.textContent = guestsLabel(box); }
+
+    btn.addEventListener('click', function (e) { e.stopPropagation(); open(panel.hidden); });
+    var close = $('[data-guests-close]', box);
+    if (close) close.addEventListener('click', function () { open(false); btn.focus(); });
+    panel.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { if (!panel.hidden) open(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); }
+    });
+
+    $all('.guests__btn', box).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var key = b.getAttribute('data-for');
+        var input = $('[name="' + key + '"]', box);
+        var out = $('[data-out="' + key + '"]', box);
+        if (!input) return;
+        var min = parseInt(input.getAttribute('data-min'), 10) || 0;
+        var max = parseInt(input.getAttribute('data-max'), 10) || 12;
+        var v = (parseInt(input.value, 10) || 0) + (parseInt(b.getAttribute('data-step'), 10) || 0);
+        v = Math.max(min, Math.min(max, v));
+        input.value = v;
+        if (out) out.textContent = v;
+        $all('.guests__btn[data-for="' + key + '"]', box).forEach(function (o) {
+          var s = parseInt(o.getAttribute('data-step'), 10);
+          o.disabled = (s < 0 && v <= min) || (s > 0 && v >= max);
+        });
+        refresh();
+      });
+    });
+    refresh();
+  });
+
+  function readGuests(formEl) {
+    var g = {};
+    ['adults', 'children', 'babies'].forEach(function (k) {
+      var i = $('[name="' + k + '"]', formEl);
+      if (i) g[k] = parseInt(i.value, 10) || 0;
+    });
+    return g;
   }
 
   function buildSuperhoteUrl(key, checkin, checkout, guests) {
@@ -77,15 +145,16 @@
       e.preventDefault();
       var checkin = ci ? ci.value : '';
       var checkout = co ? co.value : '';
-      var gEl = $('[name="guests"]', formEl);
-      var guests = gEl ? gEl.value : '';
+      var guests = readGuests(formEl);
       var search = document.getElementById('bookingsearch');
       if (search) {
         search.src = buildSearchUrl(checkin, checkout, guests);
         search.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         window.location.href = '/nos-logements/?checkin=' + encodeURIComponent(checkin) +
-          '&checkout=' + encodeURIComponent(checkout) + '&guests=' + encodeURIComponent(guests);
+          '&checkout=' + encodeURIComponent(checkout) +
+          '&adults=' + (guests.adults || '') + '&children=' + (guests.children || '') +
+          '&babies=' + (guests.babies || '');
       }
     });
   });
@@ -94,12 +163,13 @@
   (function () {
     if (!window.URLSearchParams) return;
     var p = new URLSearchParams(location.search);
-    var ci = p.get('checkin') || '', co = p.get('checkout') || '', g = p.get('guests') || '';
-    if (!ci && !co && !g) return;
+    var ci = p.get('checkin') || '', co = p.get('checkout') || '';
+    var g = { adults: p.get('adults') || '', children: p.get('children') || '', babies: p.get('babies') || '' };
+    if (!ci && !co && !g.adults) return;
     var search = document.getElementById('bookingsearch');
     if (search) search.src = buildSearchUrl(ci, co, g);
     var set = function (sel, v) { var el = $(sel); if (el && v) el.value = v; };
-    set('[name="checkin"]', ci); set('[name="checkout"]', co); set('[name="guests"]', g);
+    set('[name="checkin"]', ci); set('[name="checkout"]', co);
     if (search) setTimeout(function () { search.scrollIntoView({ block: 'start' }); }, 300);
   })();
 

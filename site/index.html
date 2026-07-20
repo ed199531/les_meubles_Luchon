@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="/assets/css/style.css?v=d519c0ba">
+<link rel="stylesheet" href="/assets/css/style.css?v=7ba14cab">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 <script type="application/ld+json">
 {
@@ -153,6 +153,42 @@
       <div class="booking__field">
         <label for="bk-out-w">Départ</label>
         <input type="date" name="checkout" id="bk-out-w">
+      </div>
+      <div class="booking__field booking__field--guests" data-guests>
+        <span class="booking__flabel" id="bk-gl-w">Voyageurs</span>
+        <button type="button" class="booking__guests-btn" id="bk-gb-w" aria-labelledby="bk-gl-w bk-gb-w"
+                aria-expanded="false" aria-haspopup="dialog" data-guests-toggle>
+          <span data-guests-label>2 voyageurs</span>
+          <svg class="booking__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="guests__panel" role="dialog" aria-labelledby="bk-gl-w" hidden>
+          <div class="guests__row">
+            <div><strong>Adultes</strong><span>18 ans et plus</span></div>
+            <div class="guests__stepper">
+              <button type="button" class="guests__btn" data-step="-1" data-for="adults" aria-label="Retirer un adulte">−</button>
+              <output data-out="adults">2</output>
+              <button type="button" class="guests__btn" data-step="1" data-for="adults" aria-label="Ajouter un adulte">+</button>
+            </div>
+            <input type="hidden" name="adults" value="2" data-min="1" data-max="12">
+          </div><div class="guests__row">
+            <div><strong>Enfants</strong><span>De 2 à 17 ans</span></div>
+            <div class="guests__stepper">
+              <button type="button" class="guests__btn" data-step="-1" data-for="children" aria-label="Retirer un enfant">−</button>
+              <output data-out="children">0</output>
+              <button type="button" class="guests__btn" data-step="1" data-for="children" aria-label="Ajouter un enfant">+</button>
+            </div>
+            <input type="hidden" name="children" value="0" data-min="0" data-max="10">
+          </div><div class="guests__row">
+            <div><strong>Bébés</strong><span>− de 2 ans</span></div>
+            <div class="guests__stepper">
+              <button type="button" class="guests__btn" data-step="-1" data-for="babies" aria-label="Retirer un bébé">−</button>
+              <output data-out="babies">0</output>
+              <button type="button" class="guests__btn" data-step="1" data-for="babies" aria-label="Ajouter un bébé">+</button>
+            </div>
+            <input type="hidden" name="babies" value="0" data-min="0" data-max="5">
+          </div>
+          <button type="button" class="guests__close" data-guests-close>Fermer</button>
+        </div>
       </div>
       <button class="btn btn--primary booking__submit" type="submit">Rechercher</button>
       <p class="booking__note">Réservation sécurisée · confirmation immédiate.</p>
@@ -391,6 +427,6 @@
     <a class="btn btn--ghost" href="/politique-de-confidentialite/">En savoir plus</a>
   </div>
 </div>
-<script src="/assets/js/main.js?v=820cd1d6" defer></script>
+<script src="/assets/js/main.js?v=7a0eb805" defer></script>
 </body>
 </html>

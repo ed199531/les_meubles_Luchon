@@ -336,9 +336,25 @@ def page(path, active, title, desc, main_html, og_image="/assets/img/logements/p
 # ============================================================================
 # Widget de réservation réutilisable
 def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
-    """Barre de recherche : dates -> moteur Superhôte (le nb de voyageurs se choisit dans le moteur)."""
+    """Barre de recherche : dates + voyageurs (adultes / enfants / bébés) -> moteur Superhôte."""
     cls = "booking booking--stack" if stacked else "booking"
     uid = fixed_slug or "w"
+
+    def row(key, titre, sous, mini, maxi, val):
+        return f"""<div class="guests__row">
+            <div><strong>{titre}</strong><span>{sous}</span></div>
+            <div class="guests__stepper">
+              <button type="button" class="guests__btn" data-step="-1" data-for="{key}" aria-label="Retirer un {titre.lower().rstrip('s')}">−</button>
+              <output data-out="{key}">{val}</output>
+              <button type="button" class="guests__btn" data-step="1" data-for="{key}" aria-label="Ajouter un {titre.lower().rstrip('s')}">+</button>
+            </div>
+            <input type="hidden" name="{key}" value="{val}" data-min="{mini}" data-max="{maxi}">
+          </div>"""
+
+    rows = (row("adults", "Adultes", "18 ans et plus", 1, 12, 2)
+            + row("children", "Enfants", "De 2 à 17 ans", 0, 10, 0)
+            + row("babies", "Bébés", "− de 2 ans", 0, 5, 0))
+
     return f"""<form class="{cls}" data-booking aria-label="Rechercher un séjour">
       <div class="booking__field">
         <label for="bk-in-{uid}">Arrivée</label>
@@ -347,6 +363,18 @@ def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
       <div class="booking__field">
         <label for="bk-out-{uid}">Départ</label>
         <input type="date" name="checkout" id="bk-out-{uid}">
+      </div>
+      <div class="booking__field booking__field--guests" data-guests>
+        <span class="booking__flabel" id="bk-gl-{uid}">Voyageurs</span>
+        <button type="button" class="booking__guests-btn" id="bk-gb-{uid}" aria-labelledby="bk-gl-{uid} bk-gb-{uid}"
+                aria-expanded="false" aria-haspopup="dialog" data-guests-toggle>
+          <span data-guests-label>2 voyageurs</span>
+          <svg class="booking__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="guests__panel" role="dialog" aria-labelledby="bk-gl-{uid}" hidden>
+          {rows}
+          <button type="button" class="guests__close" data-guests-close>Fermer</button>
+        </div>
       </div>
       <button class="btn btn--primary booking__submit" type="submit">{cta}</button>
       <p class="booking__note">Réservation sécurisée · confirmation immédiate.</p>
