@@ -534,7 +534,6 @@ li { margin: .3rem 0; }
   background-repeat: no-repeat; background-position: right .9rem center;
 }
 .filtres__select:hover, .filtres__select:focus-visible { border-color: var(--brand-2); outline: none; }
-.filtres__count { margin: 0 0 .9rem; font-size: .95rem; font-weight: 600; color: var(--muted); }
 .filtres__vide { text-align: center; padding: 2.5rem 0; color: var(--muted); }
 .filtres__vide[hidden] { display: none; }
 .filtres__reset {

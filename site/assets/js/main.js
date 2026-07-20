@@ -401,7 +401,6 @@
   var filtres = $('[data-filtres]');
   if (filtres) {
     var grille = $('[data-filtres-grid]');
-    var compteur = $('[data-filtres-count]', filtres);
     var vide = $('[data-filtres-vide]');
     var cartes = $all('.act', grille);
     var etat = { sec: 'all', cat: 'all' };
@@ -414,7 +413,6 @@
         c.hidden = !ok;
         if (ok) n++;
       });
-      compteur.textContent = n + (n > 1 ? ' activités' : ' activité');
       if (vide) vide.hidden = n > 0;
       var filtre = etat.sec !== 'all' || etat.cat !== 'all';
       if (reset) reset.hidden = !filtre;

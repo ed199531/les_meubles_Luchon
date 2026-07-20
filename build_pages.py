@@ -486,7 +486,6 @@ def run(g):
     <div class="filtres reveal" data-filtres>
       {_select("sec", "Secteur", "Tous les secteurs", SECTEURS)}
       {_select("cat", "Type d'activité", "Toutes les activités", CATEGORIES)}
-      <p class="filtres__count" data-filtres-count aria-live="polite"></p>
       <button type="button" class="filtres__reset" data-filtres-reset hidden>Réinitialiser</button>
     </div>
     <div class="grid grid--3" data-filtres-grid>{acards}</div>
