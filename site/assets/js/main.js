@@ -38,23 +38,31 @@
     });
   }
 
-  /* ---- Widget de réservation ---- */
-  function buildSuperhoteUrl(key, checkin, checkout, adults, children) {
+  /* ---- Recherche de disponibilités (moteur Superhôte filtré) ---- */
+  var SITE_KEY = 'bcGpXSkB3NtJCWmMbGnVucHbT';
+  var GROUP = 'Les Meublés de Luchon';
+
+  function buildSearchUrl(checkin, checkout, guests) {
+    var u = 'https://app.superhote.com/#/get-available-rentals/' + SITE_KEY +
+            '?groups=' + encodeURIComponent(GROUP);
+    if (checkin) u += '&startDate=' + checkin;
+    if (checkout) u += '&endDate=' + checkout;
+    if (guests) u += '&adultsNumber=' + guests;
+    return u;
+  }
+
+  function buildSuperhoteUrl(key, checkin, checkout, guests) {
     return 'https://app.superhote.com/#/rental/' + key +
-      '?startDate=' + (checkin || '') +
-      '&endDate=' + (checkout || '') +
-      '&adultsNumber=' + (adults || 1) +
-      '&childrenNumber=' + (children || 0) +
-      '&lang=fr';
+      '?startDate=' + (checkin || '') + '&endDate=' + (checkout || '') +
+      '&adultsNumber=' + (guests || 1) + '&childrenNumber=0&lang=fr';
   }
 
   $all('[data-booking]').forEach(function (formEl) {
-    // date min = aujourd'hui
     var todayIso = new Date().toISOString().split('T')[0];
     var ci = $('[name="checkin"]', formEl);
     var co = $('[name="checkout"]', formEl);
-    if (ci) { ci.min = todayIso; }
-    if (co) { co.min = todayIso; }
+    if (ci) ci.min = todayIso;
+    if (co) co.min = todayIso;
     if (ci && co) {
       ci.addEventListener('change', function () {
         co.min = ci.value || todayIso;
@@ -67,54 +75,32 @@
 
     formEl.addEventListener('submit', function (e) {
       e.preventDefault();
-      var lodgingSel = $('[name="lodging"]', formEl);
-      var slug = formEl.getAttribute('data-lodging') || (lodgingSel ? lodgingSel.value : '');
       var checkin = ci ? ci.value : '';
       var checkout = co ? co.value : '';
-      var adults = $('[name="adults"]', formEl) ? $('[name="adults"]', formEl).value : 1;
-      var children = $('[name="children"]', formEl) ? $('[name="children"]', formEl).value : 0;
-
-      var engine = document.getElementById('bookingengine');
-      if (SUPERHOTE[slug]) {
-        var url = buildSuperhoteUrl(SUPERHOTE[slug], checkin, checkout, adults, children);
-        if (engine) {
-          // réservation sans quitter le site : on charge le moteur dans la page
-          engine.hidden = false;
-          engine.src = url;
-          engine.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          // pas de moteur sur cette page (ex : accueil) -> on l'ouvre sur la page Réservation
-          window.location.href = '/reservation/?appart=' + encodeURIComponent(slug) +
-            '&checkin=' + encodeURIComponent(checkin) + '&checkout=' + encodeURIComponent(checkout) +
-            '&guests=' + encodeURIComponent(adults);
-        }
+      var gEl = $('[name="guests"]', formEl);
+      var guests = gEl ? gEl.value : '';
+      var search = document.getElementById('bookingsearch');
+      if (search) {
+        search.src = buildSearchUrl(checkin, checkout, guests);
+        search.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        // Pas de clé (ex : Le Refuge Thermal) -> demande par email pré-remplie
-        var subj = encodeURIComponent('Demande de réservation — ' + (slug ? slug.replace(/-/g, ' ') : 'séjour'));
-        var body = encodeURIComponent(
-          'Bonjour Nathalie,\n\nJe souhaite réserver le logement : ' + (slug || 'à définir') +
-          '.\nArrivée : ' + (checkin || 'à préciser') +
-          '\nDépart : ' + (checkout || 'à préciser') +
-          '\nVoyageurs : ' + adults + ' adulte(s), ' + children + ' enfant(s)' +
-          '\n\nMerci de me confirmer la disponibilité.\n');
-        window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subj + '&body=' + body;
+        window.location.href = '/nos-logements/?checkin=' + encodeURIComponent(checkin) +
+          '&checkout=' + encodeURIComponent(checkout) + '&guests=' + encodeURIComponent(guests);
       }
     });
   });
 
-  /* ---- Moteur : pré-chargement depuis les paramètres d'URL ---- */
+  /* ---- Pré-remplissage depuis l'URL (arrivée depuis l'accueil) ---- */
   (function () {
-    var engine = document.getElementById('bookingengine');
-    if (!engine || !window.URLSearchParams) return;
+    if (!window.URLSearchParams) return;
     var p = new URLSearchParams(location.search);
-    var slug = p.get('appart');
-    if (!slug || !SUPERHOTE[slug]) return;
-    var ci = p.get('checkin') || '', co = p.get('checkout') || '', g = p.get('guests') || 1;
-    engine.hidden = false;
-    engine.src = buildSuperhoteUrl(SUPERHOTE[slug], ci, co, g, 0);
-    var set = function (sel, val) { var el = $(sel); if (el && val) el.value = val; };
-    set('[name="lodging"]', slug); set('[name="checkin"]', ci);
-    set('[name="checkout"]', co); set('[name="adults"]', g);
+    var ci = p.get('checkin') || '', co = p.get('checkout') || '', g = p.get('guests') || '';
+    if (!ci && !co && !g) return;
+    var search = document.getElementById('bookingsearch');
+    if (search) search.src = buildSearchUrl(ci, co, g);
+    var set = function (sel, v) { var el = $(sel); if (el && v) el.value = v; };
+    set('[name="checkin"]', ci); set('[name="checkout"]', co); set('[name="guests"]', g);
+    if (search) setTimeout(function () { search.scrollIntoView({ block: 'start' }); }, 300);
   })();
 
   /* ---- Galerie / Lightbox ---- */

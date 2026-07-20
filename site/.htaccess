@@ -16,7 +16,7 @@ RewriteRule ^(.*)$ /$1/ [R=301,L]
 
 # --- Redirections 301 des anciennes URLs WordPress ---
 Redirect 301 /nos-services/ /services/
-Redirect 301 /reservez-maintenant/ /reservation/
+Redirect 301 /reservez-maintenant/ /nos-logements/
 Redirect 301 /vos-avis/ /avis/
 Redirect 301 /politique-de-confidentialite-2/ /politique-de-confidentialite/
 Redirect 301 /politique-des-cookies/ /politique-de-confidentialite/

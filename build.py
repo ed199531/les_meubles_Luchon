@@ -30,8 +30,7 @@ NAV = [
     ("/cure-thermale/", "Cure thermale"),
     ("/services/", "Services"),
     ("/activites/", "Activités"),
-    ("/guide/", "Guides"),
-    ("/faq/", "FAQ"),
+    ("/guide/", "Infos pratiques"),
     ("/avis/", "Avis"),
     ("/contact/", "Contact"),
 ]
@@ -44,6 +43,7 @@ LOGEMENTS = {
         "type": "T2 — 2 pièces",
         "capacity": 4,
         "floor": "2ᵉ étage",
+        "adresse": "5 bis rue Azémar, étage 2",
         "stars": 3,
         "booking": "superhote",
         "short": "Appartement deux pièces cosy et moderne, au cœur de Luchon.",
@@ -66,6 +66,7 @@ LOGEMENTS = {
         "type": "T1 — Studio",
         "capacity": 2,
         "floor": "3ᵉ étage",
+        "adresse": "5 bis rue Azémar, étage 3",
         "stars": 2,
         "booking": "superhote",
         "short": "Studio douillet et lumineux, à la décoration soignée.",
@@ -88,6 +89,7 @@ LOGEMENTS = {
         "type": "T2 — 2 pièces",
         "capacity": 4,
         "floor": "Rez-de-chaussée",
+        "adresse": "5A rue Azémar, rez-de-chaussée",
         "stars": 2,
         "booking": "superhote",
         "short": "Appartement de plain-pied, idéal pour les curistes et l'accès facile.",
@@ -115,6 +117,18 @@ SUPERHOTE = {
     "refuge-thermal": "propertyKey8WSw0zYWOvWLL0rAslYrAKaOu",
 }
 
+SUPERHOTE_SITE_KEY = "bcGpXSkB3NtJCWmMbGnVucHbT"
+SUPERHOTE_GROUP = "Les Meublés de Luchon"   # filtre : n'affiche que les biens de la marque
+
+def booking_search(height=1500):
+    """Moteur multi-logements : recherche par dates, uniquement nos 3 appartements."""
+    from urllib.parse import quote
+    src = (f"https://app.superhote.com/#/get-available-rentals/{SUPERHOTE_SITE_KEY}"
+           f"?groups={quote(SUPERHOTE_GROUP)}")
+    return (f'<iframe class="booking-engine" id="bookingsearch" loading="lazy" allowfullscreen '
+            f'title="Rechercher un appartement disponible" src="{src}" width="100%" height="{height}" '
+            f'frameborder="0"></iframe>')
+
 def booking_engine(slug=None, height=2400):
     """iframe officielle Superhôte : la réservation se fait sans quitter le site."""
     key = SUPERHOTE.get(slug, "")
@@ -140,6 +154,8 @@ def asset_v(relpath):
 CSS_V = asset_v("/assets/css/style.css")
 JS_V = asset_v("/assets/js/main.js")
 
+# NB : le texte des <li class='amenities'> doit être encapsulé dans un <span>
+# sinon chaque mot/<strong> devient un élément flex et l'alignement casse.
 CHECK = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" '
          'stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>')
 
@@ -209,7 +225,7 @@ def header(active):
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>
         <span class="nav__phone-num">{NAP['tel_display']}</span>
       </a>
-      <a class="btn btn--primary" href="/reservation/">Réserver</a>
+      <a class="btn btn--primary" href="/nos-logements/">Réserver</a>
       <button class="nav__toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -265,7 +281,7 @@ def footer():
           <li><a href="/nos-logements/la-perle-bleue/">La Perle Bleue</a></li>
           <li><a href="/nos-logements/l-echappee-verte/">L'Échappée Verte</a></li>
           <li><a href="/nos-logements/le-refuge-thermal/">Le Refuge Thermal</a></li>
-          <li><a href="/reservation/">Réserver</a></li>
+          <li><a href="/nos-logements/">Réserver</a></li>
         </ul>
       </div>
       <div>
@@ -289,7 +305,7 @@ def footer():
 </footer>
 <div class="mobile-bar">
   <a class="btn btn--ghost" href="tel:{NAP['tel_link']}" aria-label="Appeler">📞 Appeler</a>
-  <a class="btn btn--primary" href="/reservation/">Réserver</a>
+  <a class="btn btn--primary" href="/nos-logements/">Réserver</a>
 </div>
 <div class="cookie" id="cookie" role="dialog" aria-live="polite" aria-label="Consentement aux cookies">
   <h4>🍪 Nous respectons votre vie privée</h4>
@@ -319,40 +335,24 @@ def page(path, active, title, desc, main_html, og_image="/assets/img/logements/p
 
 # ============================================================================
 # Widget de réservation réutilisable
-def booking_widget(fixed_slug=None, cta="Réserver", stacked=False):
+def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
+    """Barre de recherche : dates + nombre de personnes -> page Appartements."""
     cls = "booking booking--stack" if stacked else "booking"
-    if fixed_slug:
-        lodging_field = f'<input type="hidden" name="lodging" value="{fixed_slug}">'
-        data_lodging = f' data-lodging="{fixed_slug}"'
-    else:
-        data_lodging = ""
-        lodging_field = """<div class="booking__field">
-        <label for="bk-lodging">Appartement</label>
-        <select name="lodging" id="bk-lodging">
-          <option value="perle-bleue">La Perle Bleue · T2 · 4 pers.</option>
-          <option value="echappee-verte">L'Échappée Verte · T1 · 2 pers.</option>
-          <option value="refuge-thermal">Le Refuge Thermal · T2 · 4 pers.</option>
-        </select>
-      </div>"""
     uid = fixed_slug or "w"
-    return f"""<form class="{cls}" data-booking{data_lodging} aria-label="Rechercher un séjour">
-      {lodging_field}
+    opts = "".join(f'<option value="{n}"{" selected" if n == 2 else ""}>{n} personne{"s" if n > 1 else ""}</option>'
+                   for n in range(1, 7))
+    return f"""<form class="{cls}" data-booking aria-label="Rechercher un séjour">
       <div class="booking__field">
         <label for="bk-in-{uid}">Arrivée</label>
-        <input type="date" name="checkin" id="bk-in-{uid}" required>
+        <input type="date" name="checkin" id="bk-in-{uid}">
       </div>
       <div class="booking__field">
         <label for="bk-out-{uid}">Départ</label>
-        <input type="date" name="checkout" id="bk-out-{uid}" required>
+        <input type="date" name="checkout" id="bk-out-{uid}">
       </div>
       <div class="booking__field">
         <label for="bk-ad-{uid}">Voyageurs</label>
-        <select name="adults" id="bk-ad-{uid}">
-          <option value="1">1 adulte</option>
-          <option value="2" selected>2 adultes</option>
-          <option value="3">3 adultes</option>
-          <option value="4">4 adultes</option>
-        </select>
+        <select name="guests" id="bk-ad-{uid}">{opts}</select>
       </div>
       <button class="btn btn--primary" type="submit">{cta}</button>
       <p class="booking__note">Réservation sécurisée · confirmation immédiate.</p>

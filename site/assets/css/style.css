@@ -286,6 +286,17 @@ li { margin: .3rem 0; }
 .rating-banner { display: inline-flex; align-items: center; gap: 1rem; background: var(--brand-tint); border-radius: 999px; padding: .6rem 1.4rem; font-weight: 700; color: var(--brand-dark); }
 .rating-banner .big { font-size: 1.8rem; font-family: var(--font-display); }
 
+/* ---------- Avis défilants (accueil) ---------- */
+.avis-marquee { overflow: hidden; position: relative; padding: .5rem 0; }
+.avis-marquee::before, .avis-marquee::after { content: ""; position: absolute; top: 0; bottom: 0; width: 90px; z-index: 2; pointer-events: none; }
+.avis-marquee::before { left: 0; background: linear-gradient(90deg, var(--surface), transparent); }
+.avis-marquee::after { right: 0; background: linear-gradient(270deg, var(--surface), transparent); }
+.avis-marquee__track { display: flex; gap: 1.2rem; width: max-content; animation: avis-scroll 80s linear infinite; }
+.avis-marquee:hover .avis-marquee__track { animation-play-state: paused; }
+.avis-marquee .review { width: 330px; flex: 0 0 330px; }
+@keyframes avis-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .avis-marquee__track { animation: none; } .avis-marquee { overflow-x: auto; } }
+
 /* ---------- Étapes / How-to ---------- */
 .steps { counter-reset: step; display: grid; gap: 1.5rem; }
 .step { display: flex; gap: 1.2rem; align-items: flex-start; }
