@@ -391,9 +391,9 @@ def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
             <input type="hidden" name="{key}" value="{val}" data-min="{mini}" data-max="{maxi}">
           </div>"""
 
-    rows = (row("adults", "Adultes", "18 ans et plus", 1, 12, 2)
-            + row("children", "Enfants", "De 2 à 17 ans", 0, 10, 0)
-            + row("babies", "Bébés", "− de 2 ans", 0, 5, 0))
+    rows = (row("adults", "Adultes", "18 ans et plus", 1, 4, 2)
+            + row("children", "Enfants", "De 2 à 17 ans", 0, 4, 0)
+            + row("babies", "Bébés", "− de 2 ans", 0, 1, 0))
 
     return f"""<form class="{cls}" data-booking data-cal-host aria-label="Rechercher un séjour">
       {cal_fields(uid)}
