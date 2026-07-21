@@ -72,7 +72,7 @@ def run(g):
     <p class="hero__sub">Des appartements meublés, chaleureux et bien équipés, à deux pas des thermes, des commerces et des pistes de Superbagnères. Réservez en quelques clics.</p>
     <div class="hero__badges">
       <span>⭐ Classés Meublé de Tourisme</span>
-      <span>💬 {len(AVIS)} avis clients</span>
+      <span>💬 Voyageurs conquis depuis 2018</span>
       <span>🔑 Arrivée autonome dès 16h</span>
       <span>🐾 Animaux bienvenus</span>
     </div>
@@ -151,7 +151,7 @@ def run(g):
     <div class="center reveal" style="margin-bottom:2rem">
       <p class="eyebrow">Ils ont séjourné chez nous</p>
       <h2>Des voyageurs conquis</h2>
-      <div class="rating-banner" style="margin-top:1rem"><span class="big">{len(AVIS)}</span><span>avis clients<br><small style="font-weight:600">recueillis depuis 2018</small></span></div>
+      <div class="rating-banner" style="margin-top:1rem">La confiance de nos voyageurs, saison après saison — depuis 2018</div>
     </div>
     <div class="avis-marquee"><div class="avis-marquee__track">{avis_home}</div></div>
     <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/avis/">Lire tous les avis</a></div>
@@ -516,18 +516,18 @@ def run(g):
     # =====================================================================
     rcards = "".join(avis_card(a) for a in AVIS)
     avis = f"""
-<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : {len(AVIS)} témoignages sincères, récoltés depuis 2018.</p></div></section>
+<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : des témoignages sincères, récoltés au fil des saisons depuis 2018.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
 <section class="section">
   <div class="container center" style="margin-bottom:2.5rem">
-    <div class="rating-banner reveal"><span class="big">{len(AVIS)}</span><span>avis clients<br><small style="font-weight:600">recueillis depuis 2018</small></span></div>
+    <div class="rating-banner reveal">La confiance de nos voyageurs, saison après saison — depuis 2018</div>
   </div>
   <div class="container"><div class="grid grid--3">{rcards}</div></div>
 </section>
 <section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a></div></div></section>
 """
-    page("avis/index.html", "/avis/", f"Avis clients — {len(AVIS)} avis | Les Meublés de Luchon",
-         f"Les {len(AVIS)} avis de nos voyageurs à Bagnères-de-Luchon : propreté, équipement, emplacement central et accueil. Avis authentiques.",
+    page("avis/index.html", "/avis/", "Avis clients — ce que disent nos voyageurs | Les Meublés de Luchon",
+         "Les avis de nos voyageurs à Bagnères-de-Luchon : propreté, équipement, emplacement central et accueil. Témoignages authentiques recueillis depuis 2018.",
          avis)
 
 
@@ -791,7 +791,7 @@ def run(g):
     <div class="grid grid--3">
       {avis_cure}
     </div>
-    <p class="center" style="margin-top:1.5rem;font-size:.95rem;color:var(--muted)">Plus de 77 séjours notés par nos voyageurs — <a class="link-more" href="/avis/">lire tous les avis →</a></p>
+    <p class="center" style="margin-top:1.5rem;font-size:.95rem;color:var(--muted)">Ils ont fait leur cure chez nous et le racontent — <a class="link-more" href="/avis/">lire tous les avis →</a></p>
   </div>
 </section>
 
