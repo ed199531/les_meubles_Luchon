@@ -468,13 +468,16 @@ def run(g):
         else:
             media = f'<div class="card__media card__media--cat"><span>{clab}</span></div>'
         acces = ('<p class="act__acces">À pied depuis nos appartements</p>' if pied else '')
-        acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}">{media}'
+        pied_attr = ' data-pied="1"' if pied else ''
+        acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}"{pied_attr}>{media}'
                    f'<div class="card__body"><p class="act__tags"><span class="act__tag">{clab}</span>'
                    f'<span class="act__tag act__tag--sec">{SEC_MAP[sec]}</span></p>'
                    f'<h3>{titre}</h3><p>{desc}</p>{acces}</div></article>')
 
-    def _select(name, label, tout, items):
+    def _select(name, label, tout, items, extra=None):
         opts = f'<option value="all">{tout}</option>'
+        for val, lab in (extra or []):
+            opts += f'<option value="{val}">{lab}</option>'
         for it in items:
             key, lab = (it[0], it[2]) if len(it) == 3 else it
             opts += f'<option value="{key}">{lab}</option>'
@@ -491,7 +494,7 @@ def run(g):
 <section class="section">
   <div class="container">
     <div class="filtres reveal" data-filtres>
-      {_select("sec", "Secteur", "Tous les secteurs", SECTEURS)}
+      {_select("sec", "Secteur", "Tous les secteurs", SECTEURS, extra=[("pied", "À pied depuis nos appartements")])}
       {_select("cat", "Type d'activité", "Toutes les activités", CATEGORIES)}
       <button type="button" class="filtres__reset" data-filtres-reset hidden>Réinitialiser</button>
     </div>

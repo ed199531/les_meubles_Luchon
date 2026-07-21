@@ -409,8 +409,10 @@
     function appliquer() {
       var n = 0;
       cartes.forEach(function (c) {
-        var ok = (etat.sec === 'all' || c.getAttribute('data-sec') === etat.sec) &&
-                 (etat.cat === 'all' || c.getAttribute('data-cat') === etat.cat);
+        var secOk = etat.sec === 'all' ||
+                    (etat.sec === 'pied' ? c.getAttribute('data-pied') === '1'
+                                         : c.getAttribute('data-sec') === etat.sec);
+        var ok = secOk && (etat.cat === 'all' || c.getAttribute('data-cat') === etat.cat);
         c.hidden = !ok;
         if (ok) n++;
       });
