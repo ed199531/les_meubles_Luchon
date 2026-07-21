@@ -769,7 +769,7 @@ def run(g):
       <p class="eyebrow">Services adaptés</p>
       <h2>Tout pour un séjour de trois semaines</h2>
       <p>Parce qu'une cure dure longtemps, nous facilitons votre quotidien : ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, et animaux acceptés. Nathalie vous transmet un livret d'accueil et ses meilleurs conseils.</p>
-      <a class="btn btn--primary" href="/services/">Voir tous nos services</a>
+      <p style="margin-top:.4rem"><a class="link-more" href="/services/">Voir le détail de nos services et tarifs →</a></p>
     </div>
   </div>
 </section>
@@ -780,7 +780,7 @@ def run(g):
     <div class="grid grid--3">
       {avis_cure}
     </div>
-    <div class="center" style="margin-top:2rem"><a class="btn btn--ghost" href="/avis/">Lire tous les avis</a></div>
+    <p class="center" style="margin-top:1.5rem;font-size:.95rem;color:var(--muted)">Plus de 77 séjours notés par nos voyageurs — <a class="link-more" href="/avis/">lire tous les avis →</a></p>
   </div>
 </section>
 
