@@ -700,7 +700,6 @@ def run(g):
         ("Combien de temps dure une cure et est-elle remboursée ?", "La cure conventionnée dure 18 jours de soins, prescrite par votre médecin et prise en charge à 65 % par la Sécurité sociale. Consultez notre guide complet pour les détails."),
         ("Quels services proposez-vous aux curistes ?", "Ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, animaux acceptés, et les conseils personnalisés de Nathalie."),
     ]
-    refuge_first_img = "/assets/img/logements/refuge-thermal/piece-de-vie.jpg"
     avis_cure = "".join(avis_card(a) for a in (pick_avis(["curiste","cure","therme"],3,_used) + pick_avis(["équipé","propre","calme"],3,_used))[:3])
 
     # Page Cure : pas de réservation en ligne (tarif spécial), on renvoie vers le formulaire.
@@ -744,7 +743,16 @@ def run(g):
 
 <section class="section">
   <div class="container split">
-    <div class="split__media reveal"><img src="{refuge_first_img}" alt="Le Refuge Thermal, appartement de plain-pied pour curistes à Luchon" loading="lazy" width="600" height="480"></div>
+    <div class="split__media reveal">{diapo(g, [
+        ("refuge-thermal", "piece-de-vie.jpg", "Pièce de vie du Refuge Thermal, de plain-pied"),
+        ("perle-bleue", "salon.jpg", "Salon de La Perle Bleue"),
+        ("echappee-verte", "canape.jpg", "Coin salon de L'Échappée Verte"),
+        ("refuge-thermal", "chambre.jpg", "Chambre du Refuge Thermal"),
+        ("perle-bleue", "chambre.jpg", "Chambre de La Perle Bleue"),
+        ("echappee-verte", "cuisine.jpg", "Cuisine équipée de L'Échappée Verte"),
+        ("refuge-thermal", "cuisine.jpg", "Cuisine du Refuge Thermal"),
+        ("perle-bleue", "cuisine.jpg", "Cuisine de La Perle Bleue"),
+      ], interval=2200)}</div>
     <div class="split__body reveal">
       <p class="eyebrow">Nos appartements pour votre cure</p>
       <h2>Nos trois appartements accueillent les curistes</h2>
