@@ -516,7 +516,7 @@ def run(g):
     # =====================================================================
     rcards = "".join(avis_card(a) for a in AVIS)
     avis = f"""
-<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>{len(AVIS)} avis laissés par nos voyageurs, repris intégralement de notre précédent site.</p></div></section>
+<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : {len(AVIS)} témoignages sincères, récoltés depuis 2018.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
 <section class="section">
   <div class="container center" style="margin-bottom:2.5rem">
