@@ -1061,39 +1061,48 @@ def run(g):
     # FAQ (page dédiée et étoffée, une seule FAQPage schema)
     # =====================================================================
     faq_cats = [
-        ("Réservation & paiement", [
-            ("Comment réserver un appartement ?", "Choisissez votre appartement, vos dates et le nombre de voyageurs sur notre page de réservation. Vous êtes redirigé vers notre moteur sécurisé pour confirmer et payer, avec confirmation immédiate par e-mail."),
-            ("Le paiement est-il sécurisé ?", "Oui, le paiement s'effectue sur une plateforme de réservation sécurisée. Vous recevez une confirmation immédiate par e-mail."),
-            ("Est-ce moins cher de réserver en direct ?", "Réserver directement sur notre site, c'est éviter les commissions des plateformes et bénéficier du meilleur tarif, tout en échangeant directement avec Nathalie, votre hôte."),
-            ("Comment réserver Le Refuge Thermal ?", "Comme les autres appartements : rendez-vous sur sa page, choisissez vos dates et réservez directement en ligne."),
-            ("Quelle est la politique d'annulation ?", "Les conditions d'annulation sont précisées lors de la réservation, avant tout paiement. Contactez-nous pour toute question."),
-            ("Y a-t-il un nombre minimum de nuits ?", "La durée minimale peut varier selon la saison ; elle s'affiche automatiquement au moment de choisir vos dates."),
+        ("Réserver un appartement à Luchon", [
+            ("Comment réserver un appartement à Luchon ?", "Indiquez vos dates sur notre page Nos appartements : les logements disponibles à Bagnères-de-Luchon s'affichent automatiquement. Vous choisissez le vôtre, confirmez et payez en ligne, avec une confirmation immédiate par e-mail."),
+            ("Est-ce moins cher de réserver en direct plutôt que sur Airbnb ou Booking ?", "Oui. En réservant en direct sur notre site, vous évitez les commissions des plateformes et bénéficiez du meilleur tarif, tout en échangeant directement avec Nathalie, votre hôte à Luchon."),
+            ("Le paiement en ligne est-il sécurisé ?", "Oui, le paiement s'effectue sur une plateforme de réservation sécurisée, avec confirmation immédiate par e-mail."),
+            ("Y a-t-il un nombre minimum de nuits à Luchon ?", "La durée minimale varie selon la saison et s'affiche automatiquement au moment de choisir vos dates. Les séjours d'une semaine ou plus sont fréquents, notamment pour les curistes."),
+            ("Quelle est la politique d'annulation ?", "Les conditions d'annulation sont précisées lors de la réservation, avant tout paiement. Pour toute question, contactez directement Nathalie."),
+            ("Peut-on réserver un long séjour ou une cure de trois semaines ?", "Oui. Pour les séjours de cure (18 jours et plus), un tarif spécial s'applique : il ne se réserve pas en ligne mais sur simple demande via notre page Cure thermale."),
         ]),
-        ("Arrivée, départ & clés", [
-            ("À quelle heure puis-je arriver ?", "L'arrivée est autonome et flexible à partir de 16h, grâce à une boîte à clés sécurisée. Vous recevez le code et les instructions par e-mail avant votre venue."),
-            ("À quelle heure dois-je partir ?", "Le départ se fait avant 10h le jour du check-out."),
-            ("Comment récupérer les clés ?", "Via une boîte à clés autonome : aucun rendez-vous nécessaire, vous êtes libre de vos horaires d'arrivée à partir de 16h."),
-            ("Puis-je arriver tard le soir ?", "Oui, grâce à l'arrivée autonome. Prévenez-nous simplement de votre horaire approximatif."),
+        ("Où se situent vos appartements à Luchon ?", [
+            ("Où sont situés vos appartements à Luchon ?", "Nos trois appartements sont au centre de Bagnères-de-Luchon, rue Azémar, à quelques minutes à pied des Thermes de Luchon, des allées d'Étigny et des commerces."),
+            ("Peut-on loger à pied des thermes de Luchon ?", "Oui. Nos appartements sont tous à quelques minutes à pied des Thermes de Luchon : idéal pour une cure, sans avoir à prendre la voiture chaque jour."),
+            ("Vos logements sont-ils proches de la télécabine de Superbagnères ?", "Oui. Depuis le centre de Luchon, la télécabine Crémaillère Express rejoint les pistes de Superbagnères en environ 8 minutes, à courte distance de nos appartements."),
+            ("Faut-il une voiture pour séjourner à Luchon ?", "Non pour la ville : les thermes, les commerces, les restaurants et la télécabine se rejoignent à pied depuis nos appartements. Une voiture reste utile pour les excursions autour de Luchon (lac d'Oô, Hospice de France, vallées voisines)."),
         ]),
-        ("Logements & équipements", [
-            ("Les appartements ont-ils le Wi-Fi ?", "Oui, chaque appartement dispose d'une connexion Wi-Fi haut débit gratuite."),
-            ("Les cuisines sont-elles équipées ?", "Oui : plaques, four ou micro-ondes, réfrigérateur, vaisselle, et machine à café Nespresso. La Perle Bleue dispose aussi d'un lave-vaisselle."),
-            ("Y a-t-il un lave-linge ?", "Oui, nos logements sont équipés d'un lave-linge (et sèche-linge selon l'appartement)."),
+        ("Arrivée, clés et départ", [
+            ("À quelle heure puis-je arriver dans mon appartement à Luchon ?", "L'arrivée est autonome et flexible à partir de 16h, grâce à une boîte à clés sécurisée. Vous recevez le code et toutes les instructions par e-mail avant votre venue."),
+            ("Comment récupérer les clés ?", "Via une boîte à clés autonome : aucun rendez-vous nécessaire. Vous êtes libre de vos horaires d'arrivée à partir de 16h."),
+            ("Puis-je arriver tard le soir à Luchon ?", "Oui, grâce à l'arrivée autonome. Signalez-nous simplement votre horaire approximatif."),
+            ("À quelle heure dois-je libérer le logement ?", "Le départ se fait avant 10h le jour du check-out."),
+        ]),
+        ("Équipements des logements", [
             ("Combien de personnes peut-on accueillir ?", "La Perle Bleue (T2) et Le Refuge Thermal (T2) accueillent jusqu'à 4 personnes ; L'Échappée Verte (studio) jusqu'à 2 personnes."),
-            ("Les draps et serviettes sont-ils fournis ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes."),
-            ("Y a-t-il un appartement de plain-pied ?", "Oui, Le Refuge Thermal est au rez-de-chaussée — idéal pour les curistes et les personnes à mobilité réduite."),
+            ("Avez-vous un logement adapté aux personnes à mobilité réduite à Luchon ?", "Oui. Le Refuge Thermal est un appartement de plain-pied au rez-de-chaussée, particulièrement adapté aux curistes et aux personnes à mobilité réduite."),
+            ("Les cuisines sont-elles équipées ?", "Oui : plaques, four ou micro-ondes, réfrigérateur, vaisselle et machine à café Nespresso. La Perle Bleue dispose en plus d'un lave-vaisselle."),
+            ("Les appartements ont-ils le Wi-Fi et un lave-linge ?", "Oui. Chaque appartement dispose d'une connexion Wi-Fi haut débit gratuite et d'un lave-linge — indispensable pour un séjour de plusieurs semaines."),
+            ("Les draps et serviettes sont-ils fournis ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes, pour l'ensemble du séjour."),
         ]),
-        ("Animaux & services", [
-            ("Les animaux sont-ils acceptés ?", "Oui, moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation."),
-            ("Le ménage est-il inclus ?", "Oui, le ménage est assuré par notre équipe après chaque séjour : ce n'est pas une option payante."),
-            ("Y a-t-il un parking ?", "Un parking gratuit se trouve à proximité de nos logements. Les informations de stationnement vous sont transmises avec votre confirmation."),
-            ("Proposez-vous des conseils sur place ?", "Oui, Nathalie vous transmet un livret d'accueil et des conseils personnalisés sur les activités, les restaurants et les excursions."),
+        ("Animaux, ménage et services", [
+            ("Peut-on venir à Luchon avec son chien ?", "Oui, les animaux sont les bienvenus dans nos appartements, moyennant 50 € par séjour et par animal. Merci de nous le signaler à la réservation. Luchon et les Pyrénées se prêtent parfaitement aux séjours avec un chien."),
+            ("Le ménage est-il inclus ?", "Oui, le ménage est assuré par notre équipe après chaque séjour : ce n'est pas une option payante, c'est compris dans votre réservation."),
+            ("Y a-t-il un parking à proximité à Luchon ?", "Oui, un parking gratuit se trouve à proximité de nos appartements. Les informations de stationnement vous sont transmises avec votre confirmation."),
+            ("Nathalie donne-t-elle des conseils sur place ?", "Oui. Nathalie vous transmet un livret d'accueil et ses meilleurs conseils sur les activités, les restaurants et les excursions autour de Luchon."),
         ]),
-        ("Luchon pratique", [
-            ("Les appartements sont-ils proches des thermes ?", "Oui, tous nos logements sont au centre de Luchon, à quelques minutes à pied des thermes, des commerces et de la télécabine de Superbagnères."),
-            ("Comment venir à Luchon ?", "En voiture depuis Toulouse (≈ 1h45, 140 km) ou en train direct depuis Toulouse Matabiau (≈ 2h10), la gare étant en centre-ville. Voir notre guide d'accès."),
-            ("Peut-on skier facilement depuis Luchon ?", "Oui : la télécabine Crémaillère Express relie le centre-ville aux pistes de Superbagnères en 8 minutes."),
-            ("Convient-il pour une cure thermale ?", "Tout à fait. Nos appartements sont à quelques minutes des thermes ; Le Refuge Thermal, de plain-pied, est spécialement adapté aux curistes."),
+        ("Cure thermale à Luchon", [
+            ("Où loger pour une cure thermale à Luchon ?", "Nos trois appartements, au centre de Bagnères-de-Luchon, sont à quelques minutes à pied des thermes et pensés pour les séjours de cure. Le Refuge Thermal, de plain-pied, est spécialement adapté aux curistes et aux personnes à mobilité réduite."),
+            ("Vos appartements conviennent-ils pour une cure de 18 jours ?", "Tout à fait. Cuisine équipée, lave-linge, calme et proximité immédiate des thermes : nos appartements sont adaptés aux cures conventionnées de trois semaines à Luchon."),
+            ("Comment obtenir le tarif cure ?", "Les séjours de cure bénéficient d'un tarif spécial, différent des réservations classiques. Indiquez vos dates via le formulaire de notre page Cure thermale : Nathalie vous répond sous 24 h."),
+        ]),
+        ("Venir et se déplacer à Luchon", [
+            ("Comment venir à Luchon depuis Toulouse ?", "En voiture, comptez environ 1h45 (140 km) par l'A64. En train, une ligne directe relie Toulouse-Matabiau à Luchon en environ 2h10, et la gare est en centre-ville, à courte distance de nos appartements."),
+            ("Peut-on venir à Luchon en train ?", "Oui. La gare de Luchon est en centre-ville, accessible à pied depuis nos appartements : un séjour à Luchon est tout à fait possible sans voiture."),
+            ("Que faire à Luchon et dans les environs ?", "Thermes et vaporarium, ski à Superbagnères, randonnées vers le lac d'Oô, rafting, parapente, et villages autour de Luchon comme Saint-Bertrand-de-Comminges. Retrouvez notre sélection sur la page Activités."),
         ]),
     ]
     faq_all = []
@@ -1108,14 +1117,14 @@ def run(g):
               "mainEntity": [{"@type": "Question", "name": q,
                               "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_all]}
     faq_page = f"""
-<section class="page-hero"><div class="container"><h1>Foire aux questions</h1><p>Toutes les réponses sur la réservation, l'arrivée, les équipements et votre séjour à Bagnères-de-Luchon.</p></div></section>
+<section class="page-hero"><div class="container"><h1>Questions fréquentes sur nos appartements à Luchon</h1><p>Réservation, arrivée, équipements, animaux, accès et cure thermale : tout ce qu'il faut savoir pour louer un appartement à Bagnères-de-Luchon.</p></div></section>
 {breadcrumb([("Accueil", "/"), ("FAQ", None)])}
 <section class="section"><div class="container" style="max-width:860px">{groups_html}
   <div class="cta-band reveal" style="margin-top:2.5rem"><h2>Une autre question ?</h2><p>Nathalie vous répond avec plaisir, avant comme pendant votre séjour.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a></div>
 </div></section>
 """
-    page("faq/index.html", "/guide/", "FAQ — Réservation, séjour, équipements | Les Meublés de Luchon",
-         "Foire aux questions des Meublés de Luchon : réservation, paiement, arrivée autonome, équipements, animaux, accès et cure thermale à Bagnères-de-Luchon.",
+    page("faq/index.html", "/guide/", "FAQ — Louer un appartement à Luchon : réservation, séjour, accès | Les Meublés de Luchon",
+         "Questions fréquentes sur la location d'un appartement à Luchon (Bagnères-de-Luchon) : réserver en direct, arrivée autonome, proximité des thermes, animaux, cure thermale et accès depuis Toulouse.",
          faq_page, ld_blocks=[faq_ld])
 
     # =====================================================================
