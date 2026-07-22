@@ -204,7 +204,9 @@ def run(g):
     <h2>Prêt à poser vos valises à Luchon ?</h2>
     <p>Réservez dès maintenant votre appartement et vivez les Pyrénées comme à la maison.</p>
     <a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
-  </div></div>
+  
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
+</div></div>
 </section>
 """
     page("index.html", "/", "Les Meublés de Luchon — Appartements meublés à Bagnères-de-Luchon",
@@ -248,7 +250,9 @@ def run(g):
     <div class="grid grid--3">{cards}</div>
   </div>
 </section>
-<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Une question sur nos logements ?</h2><p>Nathalie vous répond avec plaisir pour vous aider à choisir l'appartement idéal.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a></div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Une question sur nos logements ?</h2><p>Nathalie vous répond avec plaisir pour vous aider à choisir l'appartement idéal.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a>
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
+</div></div></section>
 """
     page("nos-logements/index.html", "/nos-logements/", "Nos appartements meublés à Bagnères-de-Luchon | Les Meublés de Luchon",
          "Découvrez nos trois appartements meublés à Bagnères-de-Luchon : La Perle Bleue (T2), L'Échappée Verte (studio) et Le Refuge Thermal (T2, plain-pied). Classés Meublé de Tourisme.",
@@ -305,7 +309,9 @@ def run(g):
     </div>
   </div>
 </section>
-<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Envie de découvrir nos autres appartements ?</h2><p>Comparez nos trois logements et trouvez celui qui vous ressemble.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Voir tous les logements</a></div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Envie de découvrir nos autres appartements ?</h2><p>Comparez nos trois logements et trouvez celui qui vous ressemble.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Voir tous les logements</a>
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
+</div></div></section>
 """
         page(f"nos-logements/{slug}/index.html", "/nos-logements/",
              f"{d['name']} — {d['type']} à Bagnères-de-Luchon | Les Meublés de Luchon",
@@ -376,6 +382,8 @@ def run(g):
   <h2>Prêt à réserver votre séjour ?</h2>
   <p>Choisissez votre appartement et vos dates : réservation en ligne, confirmation immédiate.</p>
   <a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
 </div></div></section>
 """
     page("services/index.html", "/services/", "Nos services — accueil, ménage, linge, Wi-Fi | Les Meublés de Luchon",
@@ -500,7 +508,9 @@ def run(g):
     </div>
   </div>
 </section>
-<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Réservez votre séjour à Luchon</h2><p>Posez vos valises dans l'un de nos appartements et partez explorer les Pyrénées.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a></div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>Réservez votre séjour à Luchon</h2><p>Posez vos valises dans l'un de nos appartements et partez explorer les Pyrénées.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
+</div></div></section>
 """
     page("activites/index.html", "/activites/", "Activités à Bagnères-de-Luchon : ski, thermes, randonnée | Les Meublés de Luchon",
          "Que faire à Bagnères-de-Luchon ? Ski à Superbagnères, thermes et bien-être, randonnées au lac d'Oô, rafting, parapente, golf et Fête des Fleurs. Toutes les activités près de nos logements.",
@@ -519,7 +529,9 @@ def run(g):
   </div>
   <div class="container"><div class="grid grid--3">{rcards}</div></div>
 </section>
-<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a></div></div></section>
+<section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
+</div></div></section>
 """
     page("avis/index.html", "/avis/", "Avis clients — ce que disent nos voyageurs | Les Meublés de Luchon",
          "Les avis de nos voyageurs à Bagnères-de-Luchon : propreté, équipement, emplacement central et accueil. Témoignages authentiques recueillis depuis 2018.",
@@ -842,6 +854,8 @@ def run(g):
     <a class="btn btn--primary btn--lg" href="#tarif-cure">Demander le tarif cure</a>
     <a class="btn btn--ghost btn--lg" href="tel:+33684816041" style="border-color:#fff;color:#fff">Appeler</a>
   </div>
+
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
 </div></div></section>
 """
     page("cure-thermale/index.html", "/cure-thermale/",
@@ -1031,9 +1045,11 @@ def run(g):
 <section class="page-hero has-img"><div class="page-hero__img"><img src="{gg['hero']}" alt="{gg['hero_alt']}" width="1400" height="500"></div>
   <div class="container"><p class="eyebrow" style="color:#a9e0e4">{gg['eyebrow']}</p><h1>{gg['h1']}</h1><p>{gg['lead']}</p></div>
 </section>
-{breadcrumb([("Accueil", "/"), ("Guides", "/guide/"), (gg['short'], None)])}
+{breadcrumb([("Accueil", "/"), ("Guides pratiques", "/guide/"), (gg['short'], None)])}
 <section class="section"><div class="container prose">{gg['body']}</div></section>
-<section class="section" style="padding-top:0"><div class="container"><div class="cta-band reveal"><h2>Envie de séjourner à Luchon ?</h2><p>Découvrez nos appartements meublés au centre-ville et réservez en quelques clics.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a></div></div></section>
+<section class="section" style="padding-top:0"><div class="container"><div class="cta-band reveal"><h2>Envie de séjourner à Luchon ?</h2><p>Découvrez nos appartements meublés au centre-ville et réservez en quelques clics.</p><a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
+</div></div></section>
 {faq_section(g, gg['faq'])}
 {guides_nav(gg['slug'])}
 """
@@ -1049,7 +1065,7 @@ def run(g):
         for gg in GUIDES)
     guide_index = f"""
 <section class="page-hero"><div class="container">{EYEBROW}<h1>Guides pratiques pour votre séjour à Luchon</h1><p>Cure thermale, ski, accès, séjour avec animaux : tous nos conseils pour préparer votre venue à Bagnères-de-Luchon.</p>{BADGES}</div></section>
-{breadcrumb([("Accueil", "/"), ("Guides", None)])}
+{breadcrumb([("Accueil", "/"), ("Guides pratiques", None)])}
 <section class="section"><div class="container"><div class="grid grid--2">{gcards}</div>
   <p class="center" style="margin-top:2rem">Vous cherchez une réponse précise ? Consultez notre <a href="/faq/"><strong>foire aux questions</strong></a>.</p>
 </div></section>
@@ -1057,6 +1073,8 @@ def run(g):
   <h2>Votre séjour à Luchon commence ici</h2>
   <p>Maintenant que vous avez toutes les clés, choisissez vos dates et votre appartement au centre de Bagnères-de-Luchon.</p>
   <a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+
+  <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
 </div></div></section>
 """
     page("guide/index.html", "/guide/", "Guides pratiques — Luchon (cure, ski, accès) | Les Meublés de Luchon",
@@ -1126,7 +1144,8 @@ def run(g):
 <section class="page-hero"><div class="container">{EYEBROW}<h1>Questions fréquentes sur nos appartements à Luchon</h1><p>Réservation, arrivée, équipements, animaux, accès et cure thermale : tout ce qu'il faut savoir pour louer un appartement à Bagnères-de-Luchon.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("FAQ", None)])}
 <section class="section"><div class="container" style="max-width:860px">{groups_html}
-  <div class="cta-band reveal" style="margin-top:2.5rem"><h2>Une autre question ?</h2><p>Nathalie vous répond avec plaisir, avant comme pendant votre séjour.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a></div>
+  <div class="cta-band reveal" style="margin-top:2.5rem"><h2>Une autre question ?</h2><p>Nathalie vous répond avec plaisir, avant comme pendant votre séjour.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a>
+</div>
 </div></section>
 """
     page("faq/index.html", "/guide/", "FAQ — Louer un appartement à Luchon : réservation, séjour, accès | Les Meublés de Luchon",

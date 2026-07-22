@@ -30,7 +30,7 @@ NAV = [
     ("/cure-thermale/", "Cure thermale"),
     ("/services/", "Services"),
     ("/activites/", "Activités"),
-    ("/guide/", "Infos pratiques"),
+    ("/guide/", "Guides pratiques"),
     ("/avis/", "Avis"),
     ("/contact/", "Contact"),
 ]
@@ -244,15 +244,18 @@ def header(active):
 <main id="main">"""
 
 def breadcrumb(items):
-    """items: liste de (label, href|None). Le dernier = page courante."""
+    """items: liste de (label, href|None). Le dernier = page courante.
+
+    L'accueil reste dans les données structurées (Google a besoin de la
+    hiérarchie complète) mais n'est plus affiché : le logo et le menu y mènent.
+    """
     lis, ld_items = "", []
     for i, (label, href) in enumerate(items):
-        if href:
-            lis += f'<li><a href="{href}">{html.escape(label)}</a></li>'
-            url = BASE_URL + href
-        else:
-            lis += f'<li aria-current="page">{html.escape(label)}</li>'
-            url = BASE_URL + items[i][1] if items[i][1] else None
+        if href != "/":
+            if href:
+                lis += f'<li><a href="{href}">{html.escape(label)}</a></li>'
+            else:
+                lis += f'<li aria-current="page">{html.escape(label)}</li>'
         ld_items.append({"@type": "ListItem", "position": i + 1, "name": label,
                          **({"item": BASE_URL + href} if href else {})})
     ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": ld_items}
