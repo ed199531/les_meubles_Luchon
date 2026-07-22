@@ -704,7 +704,7 @@ def run(g):
         ("Vos logements sont-ils proches des Thermes de Luchon ?", "Oui, nos trois appartements sont au centre de Luchon, à quelques minutes à pied des thermes — vous rejoignez vos soins sans voiture."),
         ("Quel appartement choisir pour une cure ?", "Le Refuge Thermal, notre T2 de plain-pied au rez-de-chaussée, est spécialement adapté aux curistes et aux personnes à mobilité réduite. La Perle Bleue et L'Échappée Verte conviennent également très bien."),
         ("Proposez-vous des séjours de trois semaines ?", "Oui, nos logements sont pensés pour les séjours de cure de 18 jours et plus, avec cuisine équipée, lave-linge et Wi-Fi pour vivre confortablement sur la durée."),
-        ("Combien de temps dure une cure et est-elle remboursée ?", "La cure conventionnée dure 18 jours de soins, prescrite par votre médecin et prise en charge à 65 % par la Sécurité sociale. Consultez notre guide complet pour les détails."),
+        ("Combien de temps dure une cure et est-elle remboursée ?", "La cure conventionnée dure 18 jours de soins et se fait sur prescription de votre médecin. La prise en charge par l'Assurance Maladie dépend de votre situation : votre médecin et votre caisse vous renseigneront précisément."),
         ("Quels services proposez-vous aux curistes ?", "Ménage de fin de séjour, location de draps et de serviettes, Wi-Fi haut débit, parking gratuit à proximité, animaux acceptés, et les conseils personnalisés de Nathalie."),
     ]
     avis_cure = "".join(avis_card(a) for a in (pick_avis(["curiste","cure","therme"],3,_used) + pick_avis(["équipé","propre","calme"],3,_used))[:3])
@@ -809,7 +809,7 @@ def run(g):
       <h2>La cure thermale de Luchon en quelques mots</h2>
       <ul class="amenities" style="margin-top:1rem">
         <li>{CHECK}<span>Cure conventionnée de <strong>18 jours</strong></span></li>
-        <li>{CHECK}<span>Remboursée à <strong>65 %</strong> sur prescription</span></li>
+        <li>{CHECK}<span>Prise en charge possible <strong>sur prescription médicale</strong></span></li>
         <li>{CHECK}<span>Orientations <strong>rhumatologie</strong> et <strong>voies respiratoires</strong></span></li>
         <li>{CHECK}<span>Le <strong>vaporarium</strong>, hammam naturel unique en Europe</span></li>
       </ul>
@@ -870,15 +870,15 @@ def run(g):
         {
             "slug": "cure-thermale-a-luchon",
             "meta_title": "Cure thermale à Luchon : guide complet et où loger | Les Meublés de Luchon",
-            "desc": "Tout sur la cure thermale de Bagnères-de-Luchon : durée (18 jours), remboursement (65 %), indications (rhumatologie, voies respiratoires), le vaporarium, et où loger près des thermes.",
+            "desc": "Tout sur la cure thermale de Bagnères-de-Luchon : durée (18 jours), prise en charge, indications (rhumatologie, voies respiratoires), le vaporarium, et où loger près des thermes.",
             "h1": "Cure thermale à Luchon : le guide complet (et où loger)",
             "hero": "/assets/img/activites/thermes-bassin.jpg",
             "hero_alt": "Thermes de Bagnères-de-Luchon",
             "eyebrow": "Guide pratique · Thermalisme",
-            "lead": "La cure thermale conventionnée de Luchon dure 18 jours et est prise en charge à 65 % par la Sécurité sociale. Voici l'essentiel à savoir — et comment bien se loger à deux pas des thermes.",
+            "lead": "La cure thermale conventionnée de Luchon dure 18 jours et se fait sur prescription médicale. Voici l'essentiel à savoir — et comment bien se loger à deux pas des thermes.",
             "short": "Cure thermale à Luchon",
             "body": """
-<p><strong>En bref :</strong> Bagnères-de-Luchon est une station thermale reconnue pour ses eaux sulfurées, avec une double orientation <strong>rhumatologie</strong> et <strong>voies respiratoires</strong>. La cure conventionnée dure <strong>18 jours</strong> (remboursée à 65 % sur prescription médicale), et la ville abrite le <strong>seul hammam naturel d'Europe</strong>, le vaporarium.</p>
+<p><strong>En bref :</strong> Bagnères-de-Luchon est une station thermale reconnue pour ses eaux sulfurées, avec une double orientation <strong>rhumatologie</strong> et <strong>voies respiratoires</strong>. La cure conventionnée dure <strong>18 jours</strong> et se fait sur prescription médicale, et la ville abrite le <strong>seul hammam naturel d'Europe</strong>, le vaporarium.</p>
 
 <h2>Qu'est-ce que la cure thermale de Luchon ?</h2>
 <p>Les Thermes de Luchon exploitent des eaux hypothermales sulfurées aux bienfaits reconnus. L'établissement, récemment rénové, propose des cures conventionnées de 18 jours, des mini-cures et des séjours bien-être. Sa particularité : le <strong>vaporarium</strong>, un hammam naturel unique en Europe, où l'on profite de galeries creusées dans la roche alimentées par des vapeurs sulfureuses à <strong>38-42 °C</strong>.</p>
@@ -890,7 +890,7 @@ def run(g):
 </ul>
 
 <h2>Durée, prescription et remboursement</h2>
-<p>La cure conventionnée s'étend sur <strong>18 jours de soins</strong>, prescrite par votre médecin et prise en charge à <strong>65 % par l'Assurance Maladie</strong> (sous conditions de ressources, l'hébergement et le transport peuvent aussi être partiellement remboursés). Il faut donc prévoir un hébergement pour <strong>environ trois semaines</strong> — d'où l'importance de bien le choisir.</p>
+<p>La cure conventionnée s'étend sur <strong>18 jours de soins</strong>, prescrite par votre médecin et prise en charge par l'<strong>Assurance Maladie</strong> (le taux et les conditions dépendent de votre situation ; l'hébergement et le transport peuvent aussi faire l'objet d'une aide sous conditions de ressources). Il faut donc prévoir un hébergement pour <strong>environ trois semaines</strong> — d'où l'importance de bien le choisir.</p>
 
 <h2>Où loger pour sa cure à Luchon ?</h2>
 <p>Nos trois appartements meublés sont situés au centre de Luchon, à quelques minutes à pied des thermes — idéal pour rejoindre vos soins sans voiture. Découvrez notre <a href="/cure-thermale/"><strong>page dédiée à la cure thermale</strong></a> et nos hébergements pour curistes. Pour une cure, nous recommandons particulièrement <a href="/appartements/le-refuge-thermal/"><strong>Le Refuge Thermal</strong></a>, un T2 de plain-pied (rez-de-chaussée) pensé pour les curistes et l'accès facile. <a href="/appartements/la-perle-bleue/">La Perle Bleue</a> et <a href="/appartements/l-echappee-verte/">L'Échappée Verte</a> conviennent aussi parfaitement.</p>
@@ -905,7 +905,7 @@ def run(g):
 """,
             "faq": [
                 ("Combien de temps dure une cure thermale à Luchon ?", "Une cure conventionnée dure 18 jours de soins, prescrite par votre médecin. Prévoyez donc un hébergement d'environ trois semaines."),
-                ("La cure est-elle remboursée ?", "Oui, la cure conventionnée est prise en charge à 65 % par la Sécurité sociale sur prescription médicale. L'hébergement et le transport peuvent aussi être partiellement remboursés selon vos ressources."),
+                ("La cure est-elle remboursée ?", "Oui, la cure conventionnée fait l'objet d'une prise en charge par l'Assurance Maladie sur prescription médicale. Le taux et les conditions dépendent de votre situation : renseignez-vous auprès de votre médecin ou de votre caisse. L'hébergement et le transport peuvent aussi faire l'objet d'une aide selon vos ressources."),
                 ("Quel appartement choisir pour une cure ?", "Le Refuge Thermal, notre T2 de plain-pied au rez-de-chaussée, est idéal pour les curistes et les personnes à mobilité réduite. Nos trois appartements sont à quelques minutes à pied des thermes."),
                 ("Quelles sont les indications des Thermes de Luchon ?", "Deux orientations : la rhumatologie (arthrose, douleurs articulaires) et les voies respiratoires (sinusites, bronchites, asthme), avec le vaporarium, hammam naturel unique en Europe."),
             ],

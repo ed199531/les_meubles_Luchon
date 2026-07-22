@@ -583,6 +583,8 @@ li { margin: .3rem 0; }
 /* Photo verticale du chien : dans un cadre horizontal (carte 4/3, bannière large),
    un cadrage centré coupe la tête. On cadre par le haut partout où elle apparaît. */
 img[src*="/services/animal.jpg"] { object-position: center top; }
+/* Portrait carré dans un cadre 5/4 : sans ça, le haut du crâne est rogné. */
+img[src*="/brand/nathalie.jpg"] { object-position: center top; }
 
 /* ---------- Prose (pages légales / articles) ---------- */
 .prose { max-width: 760px; margin: 0 auto; }
