@@ -50,20 +50,16 @@
     if (checkout) u += '&endDate=' + checkout;
     if (g.adults) u += '&adultsNumber=' + g.adults;
     if (g.children) u += '&childrenNumber=' + g.children;
-    if (g.babies) u += '&babiesNumber=' + g.babies;
     return u;
   }
 
-  /* ---- Sélecteur voyageurs (adultes / enfants / bébés) ---- */
+  /* ---- Sélecteur voyageurs (adultes / enfants) ---- */
   function guestsLabel(box) {
     var n = 0;
     ['adults', 'children'].forEach(function (k) {
       var i = $('[name="' + k + '"]', box); if (i) n += parseInt(i.value, 10) || 0;
     });
-    var b = $('[name="babies"]', box), nb = b ? parseInt(b.value, 10) || 0 : 0;
-    var txt = n + ' voyageur' + (n > 1 ? 's' : '');
-    if (nb) txt += ' · ' + nb + ' bébé' + (nb > 1 ? 's' : '');
-    return txt;
+    return n + ' voyageur' + (n > 1 ? 's' : '');
   }
 
   $all('[data-guests]').forEach(function (box) {
@@ -112,7 +108,7 @@
 
   function readGuests(formEl) {
     var g = {};
-    ['adults', 'children', 'babies'].forEach(function (k) {
+    ['adults', 'children'].forEach(function (k) {
       var i = $('[name="' + k + '"]', formEl);
       if (i) g[k] = parseInt(i.value, 10) || 0;
     });
@@ -317,8 +313,7 @@
       } else {
         window.location.href = '/nos-logements/?checkin=' + encodeURIComponent(checkin) +
           '&checkout=' + encodeURIComponent(checkout) +
-          '&adults=' + (guests.adults || '') + '&children=' + (guests.children || '') +
-          '&babies=' + (guests.babies || '');
+          '&adults=' + (guests.adults || '') + '&children=' + (guests.children || '');
       }
     });
   });
@@ -328,7 +323,7 @@
     if (!window.URLSearchParams) return;
     var p = new URLSearchParams(location.search);
     var ci = p.get('checkin') || '', co = p.get('checkout') || '';
-    var g = { adults: p.get('adults') || '', children: p.get('children') || '', babies: p.get('babies') || '' };
+    var g = { adults: p.get('adults') || '', children: p.get('children') || '' };
     if (!ci && !co && !g.adults) return;
     var search = document.getElementById('bookingsearch');
     if (search) search.src = buildSearchUrl(ci, co, g);

@@ -25,6 +25,7 @@ def run(g):
     page = g["page"]; breadcrumb = g["breadcrumb"]; booking_widget = g["booking_widget"]
     booking_engine = g["booking_engine"]; booking_search = g["booking_search"]
     cal_fields = g["cal_fields"]; cal_panel = g["cal_panel"]
+    EYEBROW = g["HERO_EYEBROW"]; BADGES = g["HERO_BADGES"]
     LOGEMENTS = g["LOGEMENTS"]; NAP = g["NAP"]; stars_html = g["stars_html"]
     jsonld = g["jsonld"]; CHECK = g["CHECK"]; BASE = g["BASE_URL"]; write = g["write"]
 
@@ -219,7 +220,7 @@ def run(g):
          "name": LOGEMENTS[slug]["name"]} for i, slug in enumerate(LOGEMENTS)]}
     nl = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/logements/perle-bleue/salon.jpg" alt="Intérieur d'un appartement des Meublés de Luchon" width="1400" height="500"></div>
-  <div class="container"><h1>Nos appartements à Bagnères-de-Luchon</h1><p>Trois appartements meublés, classés Meublé de Tourisme, au centre de la station thermale.</p></div>
+  <div class="container">{EYEBROW}<h1>Nos appartements à Bagnères-de-Luchon</h1><p>Trois appartements meublés, classés Meublé de Tourisme, au centre de la station thermale.</p>{BADGES}</div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Nos appartements", None)])}
 <section class="section" id="reserver">
@@ -320,7 +321,7 @@ def run(g):
               "areaServed": NAP["city"],
               "description": "Livret d'accueil, arrivée autonome dès 16h, ménage, location de linge, Wi-Fi et conseils personnalisés."}
     services = f"""
-<section class="page-hero"><div class="container"><h1>Nos services</h1><p>Tout est pensé pour que votre séjour à Luchon soit simple, confortable et sans surprise.</p></div></section>
+<section class="page-hero"><div class="container">{EYEBROW}<h1>Nos services</h1><p>Tout est pensé pour que votre séjour à Luchon soit simple, confortable et sans surprise.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Services", None)])}
 
 <section class="section">
@@ -363,12 +364,6 @@ def run(g):
   </div>
 </section>
 
-<section class="section section--tint"><div class="container"><div class="cta-band reveal">
-  <h2>Prêt à réserver votre séjour ?</h2>
-  <p>Choisissez votre appartement et vos dates : réservation en ligne, confirmation immédiate.</p>
-  <a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
-</div></div></section>
-
 {faq_section(g, [
     ("Le ménage est-il inclus ?", "Oui. Notre équipe assure un ménage rigoureux après chaque séjour : ce n'est pas une option, c'est compris dans votre réservation."),
     ("Fournissez-vous les draps et serviettes ?", "Vous pouvez apporter votre linge ou le louer : 20 € par lit pour les draps, 10 € par personne pour les serviettes, pour l'ensemble du séjour. Signalez-le nous à la réservation."),
@@ -376,6 +371,12 @@ def run(g):
     ("Comment se passe l'arrivée ?", "L'arrivée est libre à partir de 16h grâce à un coffre à clefs. Vous recevez le code et toutes les instructions par e-mail avant votre venue."),
     ("Où puis-je me garer ?", "Des parkings gratuits sont disponibles à proximité. Le temps de décharger vos bagages, vous pouvez vous garer dans l'impasse."),
 ])}
+
+<section class="section section--tint"><div class="container"><div class="cta-band reveal">
+  <h2>Prêt à réserver votre séjour ?</h2>
+  <p>Choisissez votre appartement et vos dates : réservation en ligne, confirmation immédiate.</p>
+  <a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+</div></div></section>
 """
     page("services/index.html", "/services/", "Nos services — accueil, ménage, linge, Wi-Fi | Les Meublés de Luchon",
          "Services des Meublés de Luchon : ménage inclus, arrivée libre dès 16h avec coffre à clefs, parking gratuit, Wi-Fi. En option : draps 20 €/lit, serviettes 10 €/pers., animal 50 €.",
@@ -482,7 +483,7 @@ def run(g):
 
     activites = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="/assets/img/activites/randonnee.jpg" alt="Montagnes des Pyrénées à Luchon" width="1400" height="500"></div>
-  <div class="container"><h1>Activités à Bagnères-de-Luchon</h1><p>Amateur de sensations, de culture ou de détente : Luchon et ses environs offrent une multitude d'activités en toutes saisons.</p></div>
+  <div class="container">{EYEBROW}<h1>Activités à Bagnères-de-Luchon</h1><p>Amateur de sensations, de culture ou de détente : Luchon et ses environs offrent une multitude d'activités en toutes saisons.</p>{BADGES}</div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Activités", None)])}
 <section class="section">
@@ -510,7 +511,7 @@ def run(g):
     # =====================================================================
     rcards = "".join(avis_card(a) for a in AVIS)
     avis = f"""
-<section class="page-hero"><div class="container"><h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : des témoignages sincères, récoltés au fil des saisons depuis 2018.</p></div></section>
+<section class="page-hero"><div class="container">{EYEBROW}<h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : des témoignages sincères, récoltés au fil des saisons depuis 2018.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
 <section class="section">
   <div class="container center" style="margin-bottom:2.5rem">
@@ -534,7 +535,7 @@ def run(g):
                               "postalCode": NAP["postal"], "addressRegion": NAP["region"], "addressCountry": "FR"},
                   "url": BASE + "/contact/"}
     contact = f"""
-<section class="page-hero"><div class="container"><h1>Nous contacter</h1><p>Une question, une demande particulière ? Nathalie vous répond avec plaisir.</p></div></section>
+<section class="page-hero"><div class="container">{EYEBROW}<h1>Nous contacter</h1><p>Une question, une demande particulière ? Nathalie vous répond avec plaisir.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Contact", None)])}
 <section class="section">
   <div class="container contact-grid">
@@ -1047,7 +1048,7 @@ def run(g):
         f'<div class="card__foot"><a class="btn btn--ghost" href="/guide/{gg["slug"]}/">Lire le guide</a></div></div></article>'
         for gg in GUIDES)
     guide_index = f"""
-<section class="page-hero"><div class="container"><h1>Guides pratiques pour votre séjour à Luchon</h1><p>Cure thermale, ski, accès, séjour avec animaux : tous nos conseils pour préparer votre venue à Bagnères-de-Luchon.</p></div></section>
+<section class="page-hero"><div class="container">{EYEBROW}<h1>Guides pratiques pour votre séjour à Luchon</h1><p>Cure thermale, ski, accès, séjour avec animaux : tous nos conseils pour préparer votre venue à Bagnères-de-Luchon.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Guides", None)])}
 <section class="section"><div class="container"><div class="grid grid--2">{gcards}</div>
   <p class="center" style="margin-top:2rem">Vous cherchez une réponse précise ? Consultez notre <a href="/faq/"><strong>foire aux questions</strong></a>.</p>
@@ -1122,7 +1123,7 @@ def run(g):
               "mainEntity": [{"@type": "Question", "name": q,
                               "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_all]}
     faq_page = f"""
-<section class="page-hero"><div class="container"><h1>Questions fréquentes sur nos appartements à Luchon</h1><p>Réservation, arrivée, équipements, animaux, accès et cure thermale : tout ce qu'il faut savoir pour louer un appartement à Bagnères-de-Luchon.</p></div></section>
+<section class="page-hero"><div class="container">{EYEBROW}<h1>Questions fréquentes sur nos appartements à Luchon</h1><p>Réservation, arrivée, équipements, animaux, accès et cure thermale : tout ce qu'il faut savoir pour louer un appartement à Bagnères-de-Luchon.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("FAQ", None)])}
 <section class="section"><div class="container" style="max-width:860px">{groups_html}
   <div class="cta-band reveal" style="margin-top:2.5rem"><h2>Une autre question ?</h2><p>Nathalie vous répond avec plaisir, avant comme pendant votre séjour.</p><a class="btn btn--light btn--lg" href="/contact/">Nous contacter</a></div>

@@ -159,6 +159,17 @@ JS_V = asset_v("/assets/js/main.js")
 CHECK = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" '
          'stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>')
 
+# Éléments repris du hero d'accueil, réutilisés sur les bannières des autres pages
+HERO_EYEBROW = ('<p class="eyebrow" style="color:#a9e0e4">'
+                'Locations saisonnières · Bagnères-de-Luchon</p>')
+HERO_BADGES = ('<div class="hero__badges">'
+               '<span>⭐ Classés Meublé de Tourisme</span>'
+               '<span>💬 Voyageurs conquis depuis 2018</span>'
+               '<span>🔑 Arrivée autonome dès 16h</span>'
+               '<span>🐾 Animaux bienvenus</span>'
+               '</div>')
+
+
 def stars_html(n):
     return '<span class="stars" aria-label="%d étoiles">%s</span>' % (n, "★" * n)
 
@@ -392,8 +403,7 @@ def booking_widget(fixed_slug=None, cta="Rechercher", stacked=False):
           </div>"""
 
     rows = (row("adults", "Adultes", "18 ans et plus", 1, 4, 2)
-            + row("children", "Enfants", "De 2 à 17 ans", 0, 4, 0)
-            + row("babies", "Bébés", "− de 2 ans", 0, 1, 0))
+            + row("children", "Enfants", "De 2 à 17 ans", 0, 4, 0))
 
     return f"""<form class="{cls}" data-booking data-cal-host aria-label="Rechercher un séjour">
       {cal_fields(uid)}
