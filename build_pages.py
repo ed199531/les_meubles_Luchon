@@ -1052,6 +1052,11 @@ def run(g):
 <section class="section"><div class="container"><div class="grid grid--2">{gcards}</div>
   <p class="center" style="margin-top:2rem">Vous cherchez une réponse précise ? Consultez notre <a href="/faq/"><strong>foire aux questions</strong></a>.</p>
 </div></section>
+<section class="section section--tint"><div class="container"><div class="cta-band reveal">
+  <h2>Votre séjour à Luchon commence ici</h2>
+  <p>Maintenant que vous avez toutes les clés, choisissez vos dates et votre appartement au centre de Bagnères-de-Luchon.</p>
+  <a class="btn btn--primary btn--lg" href="/nos-logements/">Réserver</a>
+</div></div></section>
 """
     page("guide/index.html", "/guide/", "Guides pratiques — Luchon (cure, ski, accès) | Les Meublés de Luchon",
          "Guides pratiques pour préparer votre séjour à Bagnères-de-Luchon : cure thermale, ski à Superbagnères, accès et transport, location avec animaux.",
