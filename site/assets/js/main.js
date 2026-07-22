@@ -311,7 +311,7 @@
         search.src = buildSearchUrl(checkin, checkout, guests);
         search.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        window.location.href = '/nos-logements/?checkin=' + encodeURIComponent(checkin) +
+        window.location.href = '/appartements/?checkin=' + encodeURIComponent(checkin) +
           '&checkout=' + encodeURIComponent(checkout) +
           '&adults=' + (guests.adults || '') + '&children=' + (guests.children || '');
       }

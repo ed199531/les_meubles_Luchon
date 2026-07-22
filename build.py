@@ -26,7 +26,7 @@ NAP = {
 
 NAV = [
     ("/", "Accueil"),
-    ("/nos-logements/", "Appartements"),
+    ("/appartements/", "Nos appartements"),
     ("/cure-thermale/", "Cure thermale"),
     ("/services/", "Services"),
     ("/activites/", "Activités"),
@@ -236,7 +236,7 @@ def header(active):
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>
         <span class="nav__phone-num">{NAP['tel_display']}</span>
       </a>
-      <a class="btn btn--primary" href="/nos-logements/">Réserver</a>
+      <a class="btn btn--primary" href="/appartements/">Réserver</a>
       <button class="nav__toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -279,7 +279,7 @@ def footer():
         <h4>Navigation</h4>
         <ul class="footer-links">
           <li><a href="/">Accueil</a></li>
-          <li><a href="/nos-logements/">Nos appartements</a></li>
+          <li><a href="/appartements/">Nos appartements</a></li>
           <li><a href="/cure-thermale/">Cure thermale</a></li>
           <li><a href="/services/">Services</a></li>
           <li><a href="/activites/">Activités</a></li>
@@ -292,10 +292,10 @@ def footer():
       <div>
         <h4>Nos appartements</h4>
         <ul class="footer-links">
-          <li><a href="/nos-logements/la-perle-bleue/">La Perle Bleue</a></li>
-          <li><a href="/nos-logements/l-echappee-verte/">L'Échappée Verte</a></li>
-          <li><a href="/nos-logements/le-refuge-thermal/">Le Refuge Thermal</a></li>
-          <li><a href="/nos-logements/">Réserver</a></li>
+          <li><a href="/appartements/la-perle-bleue/">La Perle Bleue</a></li>
+          <li><a href="/appartements/l-echappee-verte/">L'Échappée Verte</a></li>
+          <li><a href="/appartements/le-refuge-thermal/">Le Refuge Thermal</a></li>
+          <li><a href="/appartements/">Réserver</a></li>
         </ul>
       </div>
       <div>
@@ -319,7 +319,7 @@ def footer():
 </footer>
 <div class="mobile-bar">
   <a class="btn btn--ghost" href="tel:{NAP['tel_link']}" aria-label="Appeler">📞 Appeler</a>
-  <a class="btn btn--primary" href="/nos-logements/">Réserver</a>
+  <a class="btn btn--primary" href="/appartements/">Réserver</a>
 </div>
 <div class="cookie" id="cookie" role="dialog" aria-live="polite" aria-label="Consentement aux cookies">
   <h4>🍪 Nous respectons votre vie privée</h4>
