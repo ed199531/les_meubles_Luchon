@@ -466,10 +466,10 @@ li { margin: .3rem 0; }
 .cta-band { background: linear-gradient(120deg, var(--brand), var(--brand-2)); color: #fff; border-radius: var(--r-xl); padding: clamp(2.2rem,5vw,3.5rem); text-align: center; }
 .cta-band h2 { color: #fff; }
 .cta-band p { color: #e4f3f4; max-width: 54ch; margin: 0 auto 1.6rem; }
-/* Lien secondaire vers la FAQ, sous le bouton principal */
-.cta-band__more { margin: 1.4rem auto 0; font-size: .95rem; color: #cfe8ea; }
-.cta-band__more a { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.cta-band__more a:hover { color: #fff; opacity: .85; }
+/* Lien secondaire vers la FAQ, sous le bandeau CTA (sur le fond de page) */
+.cta-band__more { margin: 1.4rem auto 0; text-align: center; font-size: .95rem; color: var(--muted); }
+.cta-band__more a { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.cta-band__more a:hover { color: var(--brand-2); }
 
 /* ---------- Partners ---------- */
 .partners { display: flex; flex-wrap: wrap; gap: 2rem 3rem; align-items: center; justify-content: center; }
