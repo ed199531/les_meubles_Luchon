@@ -560,7 +560,7 @@ def run(g):
         <div><label for="c-tel">Votre numéro de téléphone</label><input type="tel" id="c-tel" name="Telephone" placeholder="ex. 06 12 34 56 78" autocomplete="tel"></div>
         <div><label for="c-subject">Objet de votre message</label><input type="text" id="c-subject" name="Sujet" value="Demande d'information"></div>
         <div><label for="c-msg">Votre message</label><textarea id="c-msg" name="Message" rows="5" placeholder="Vos dates, le nombre de personnes, vos questions…" required></textarea></div>
-        <button class="btn btn--primary btn--lg" type="submit">Envoyer</button>
+        <button class="btn btn--dark btn--lg" type="submit">Envoyer ma demande</button>
       </form>
     </div>
   </div>
@@ -829,7 +829,7 @@ def run(g):
       <div><label for="cu-pers">Nombre de voyageurs</label><input type="text" id="cu-pers" name="Personnes" placeholder="ex. 2 personnes"></div>
       <div><label for="cu-msg">Votre message</label><textarea id="cu-msg" name="Message" rows="4" placeholder="Précisez si vous souhaitez un appartement de plain-pied, des draps, etc."></textarea></div>
       <input type="hidden" name="Objet" value="Demande de tarif - cure thermale">
-      <button class="btn btn--primary btn--lg" type="submit">Envoyer ma demande</button>
+      <button class="btn btn--dark btn--lg" type="submit">Envoyer ma demande</button>
     </form>
     <p class="center" style="margin-top:1.2rem;font-size:.95rem">Ou par téléphone : <a href="tel:{NAP['tel_link']}"><strong>{NAP['tel_display']}</strong></a></p>
   </div>
