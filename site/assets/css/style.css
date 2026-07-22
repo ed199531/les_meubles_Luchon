@@ -563,6 +563,11 @@ li { margin: .3rem 0; }
 }
 .filtres__reset[hidden] { display: none; }
 .act[hidden] { display: none; }
+/* .review est en display:flex, qui neutraliserait l'attribut hidden */
+.review[hidden] { display: none; }
+.filtres__champ--large { flex: 1 1 280px; }
+input.filtres__select { background-image: none; padding-right: .9rem; }
+input.filtres__select::-webkit-search-cancel-button { cursor: pointer; }
 .act__tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .6rem; }
 .act__tag {
   font-size: .75rem; font-weight: 700; letter-spacing: .02em;

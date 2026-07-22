@@ -435,6 +435,51 @@
     appliquer();
   }
 
+  /* ---- Page Avis : recherche, thèmes et affichage progressif ---- */
+  var avisGrid = $('[data-avis-grid]');
+  if (avisGrid) {
+    var PAS = 12;                                  // avis affichés par palier
+    var avisCards = $all('.review', avisGrid);
+    var champ = $('[data-avis-search]');
+    var theme = $('[data-avis-theme]');
+    var plus = $('[data-avis-more]');
+    var videAvis = $('[data-avis-vide]');
+    var resetAvis = $('[data-avis-reset]');
+    var limite = PAS;
+
+    function sansAccents(t) {
+      return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function rendreAvis() {
+      var q = sansAccents((champ.value || '').trim());
+      var th = theme.value;
+      var vus = 0, correspondants = 0;
+      avisCards.forEach(function (c) {
+        var ok = (th === 'all' || (c.getAttribute('data-themes') || '').split(' ').indexOf(th) !== -1) &&
+                 (!q || (c.getAttribute('data-txt') || '').indexOf(q) !== -1);
+        if (ok) {
+          correspondants++;
+          if (vus < limite) { c.hidden = false; vus++; }
+          else c.hidden = true;
+        } else c.hidden = true;
+      });
+      if (videAvis) videAvis.hidden = correspondants > 0;
+      if (plus) plus.parentElement.hidden = correspondants <= limite;
+      var filtre = q !== '' || th !== 'all';
+      if (resetAvis) resetAvis.hidden = !filtre;
+    }
+
+    champ.addEventListener('input', function () { limite = PAS; rendreAvis(); });
+    theme.addEventListener('change', function () { limite = PAS; rendreAvis(); });
+    if (plus) plus.addEventListener('click', function () { limite += PAS; rendreAvis(); });
+    if (resetAvis) resetAvis.addEventListener('click', function () {
+      champ.value = ''; theme.value = 'all'; limite = PAS; rendreAvis();
+    });
+
+    rendreAvis();
+  }
+
   /* ---- Reveal au scroll ---- */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {

@@ -3,9 +3,35 @@ import json, os, html as _h
 _AVIS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "avis-clients.json")
 AVIS = json.load(open(_AVIS_PATH, encoding="utf-8"))
 
-def avis_card(a):
+AVIS_THEMES = [
+    ("proprete",    "Propreté",            ["propre", "proprete", "nickel", "impeccable"]),
+    ("emplacement", "Emplacement",         ["emplacement", "centre", "proche", "a pied", "situe", "idealement", "commerce"]),
+    ("equipement",  "Équipement & confort", ["equipe", "cuisine", "literie", "lit ", "wifi", "linge", "fonctionnel", "confort"]),
+    ("calme",       "Calme",               ["calme", "tranquill", "reposant", "silenc"]),
+    ("montagne",    "Ski & montagne",      ["ski", "neige", "piste", "superbagnere", "montagne", "randonn"]),
+    ("accueil",     "Accueil",             ["accueil", "nathalie", "hote", "disponib", "sympa", "chaleureu", "contact"]),
+    ("cure",        "Cure thermale",       ["cure", "curiste", "therme", "thermal"]),
+]
+
+
+def _sans_accents(t):
+    import unicodedata
+    t = unicodedata.normalize("NFD", t.lower())
+    return "".join(c for c in t if unicodedata.category(c) != "Mn")
+
+
+def avis_themes(a):
+    t = _sans_accents(a["texte"])
+    return [cid for cid, _lab, mots in AVIS_THEMES if any(m in t for m in mots)]
+
+
+def avis_card(a, filtrable=False):
     d = f' <span class="review__date">— {a["date"]}</span>' if a.get("date") else ""
-    return ('<blockquote class="review reveal"><p class="review__text">« '
+    attrs = ""
+    if filtrable:
+        rech = _h.escape(_sans_accents(a["texte"] + " " + a["auteur"]), quote=True)
+        attrs = f' data-themes="{" ".join(avis_themes(a))}" data-txt="{rech}"'
+    return (f'<blockquote class="review reveal"{attrs}><p class="review__text">« '
             + _h.escape(a["texte"], quote=False) + ' »</p><div class="review__author">'
             + _h.escape(a["auteur"], quote=False) + d + '</div></blockquote>')
 
@@ -519,7 +545,9 @@ def run(g):
     # =====================================================================
     # AVIS
     # =====================================================================
-    rcards = "".join(avis_card(a) for a in AVIS)
+    rcards = "".join(avis_card(a, filtrable=True) for a in AVIS)
+    theme_opts = "".join(f'<option value="{cid}">{lab}</option>'
+                         for cid, lab, _m in AVIS_THEMES)
     avis = f"""
 <section class="page-hero"><div class="container">{EYEBROW}<h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : des témoignages sincères, récoltés au fil des saisons depuis 2018.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
@@ -527,7 +555,24 @@ def run(g):
   <div class="container center" style="margin-bottom:2.5rem">
     <div class="rating-banner reveal">La confiance de nos voyageurs, saison après saison — depuis 2018</div>
   </div>
-  <div class="container"><div class="grid grid--3">{rcards}</div></div>
+  <div class="container">
+    <div class="filtres reveal" data-avis-filtres>
+      <div class="filtres__champ filtres__champ--large">
+        <label class="filtres__label" for="avis-q">Rechercher dans les avis</label>
+        <input type="search" id="avis-q" class="filtres__select" placeholder="ex. propre, calme, thermes, parking…" data-avis-search>
+      </div>
+      <div class="filtres__champ">
+        <label class="filtres__label" for="avis-theme">Thème</label>
+        <select id="avis-theme" class="filtres__select" data-avis-theme>
+          <option value="all">Tous les thèmes</option>{theme_opts}
+        </select>
+      </div>
+      <button type="button" class="filtres__reset" data-avis-reset hidden>Réinitialiser</button>
+    </div>
+    <div class="grid grid--3" data-avis-grid>{rcards}</div>
+    <p class="filtres__vide" data-avis-vide hidden>Aucun avis ne correspond à cette recherche.</p>
+    <div class="center" style="margin-top:2rem"><button type="button" class="btn btn--ghost" data-avis-more>Voir plus d'avis</button></div>
+  </div>
 </section>
 <section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--primary btn--lg" href="/appartements/">Réserver</a></div>
   <p class="cta-band__more">Une question avant de réserver ? <a href="/faq/">Consultez notre foire aux questions</a></p>
