@@ -6,7 +6,7 @@
   "redirects": [
     { "source": "/nos-services/", "destination": "/services/", "permanent": true },
     { "source": "/nos-logements/", "destination": "/appartements/", "permanent": true },
-    { "source": "/nos-logements/:slug", "destination": "/appartements/:slug", "permanent": true },
+    { "source": "/nos-logements/:slug/", "destination": "/appartements/:slug/", "permanent": true },
     { "source": "/reservation/", "destination": "/appartements/", "permanent": true },
     { "source": "/reservez-maintenant/", "destination": "/appartements/", "permanent": true },
     { "source": "/vos-avis/", "destination": "/avis/", "permanent": true },
