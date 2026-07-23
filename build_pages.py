@@ -99,8 +99,8 @@ def run(g):
     <p class="hero__sub">Des appartements meublés, chaleureux et bien équipés, à deux pas des thermes, des commerces et des pistes de Superbagnères. Réservez en quelques clics.</p>
     <div class="hero__badges">
       <span>⭐ Classés Meublé de Tourisme</span>
-      <span>💬 Voyageurs conquis depuis 2018</span>
-      <span>🔑 Arrivée autonome dès 16h</span>
+      <span>💬 Des voyageurs satisfaits depuis 2018</span>
+      <span>📍 Centre-ville</span>
       <span>🐾 Animaux bienvenus</span>
     </div>
     <div style="margin-top:2rem">{booking_widget()}</div>
@@ -763,6 +763,7 @@ def run(g):
     <p class="eyebrow" style="color:#a9e0e4">Cure thermale · Bagnères-de-Luchon</p>
     <h1>Votre hébergement pour une cure thermale à Luchon</h1>
     <p>Des appartements meublés, à quelques minutes à pied des Thermes de Luchon, pensés pour le confort des curistes : cuisine équipée, calme et séjours de trois semaines en toute sérénité. <strong>Un tarif spécial s'applique aux séjours de cure : demandez-nous le tarif.</strong></p>
+    {BADGES}
   </div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Cure thermale", None)])}

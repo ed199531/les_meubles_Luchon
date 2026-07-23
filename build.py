@@ -164,8 +164,8 @@ HERO_EYEBROW = ('<p class="eyebrow" style="color:#a9e0e4">'
                 'Locations saisonnières · Bagnères-de-Luchon</p>')
 HERO_BADGES = ('<div class="hero__badges">'
                '<span>⭐ Classés Meublé de Tourisme</span>'
-               '<span>💬 Voyageurs conquis depuis 2018</span>'
-               '<span>🔑 Arrivée autonome dès 16h</span>'
+               '<span>💬 Des voyageurs satisfaits depuis 2018</span>'
+               '<span>📍 Centre-ville</span>'
                '<span>🐾 Animaux bienvenus</span>'
                '</div>')
 
