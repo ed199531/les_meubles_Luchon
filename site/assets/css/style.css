@@ -535,6 +535,23 @@ li { margin: .3rem 0; }
   box-shadow: var(--shadow-sm); background: var(--surface); }
 
 /* ---------- Filtres (page Activités) ---------- */
+/* Filtres de la page Avis : recherche + chips par catégorie */
+.avis-filtres { margin-bottom: 2.2rem; }
+.avis-search { max-width: 520px; margin-bottom: 1.1rem; }
+.avis-search label { display: block; margin-bottom: .35rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .55rem; }
+.chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--font-body); font-size: .9rem; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 999px;
+  padding: .5rem .95rem; cursor: pointer; transition: border-color .15s, background .15s, color .15s;
+}
+.chip:hover { border-color: var(--brand-2); }
+.chip.is-on { background: var(--brand-dark); border-color: var(--brand-dark); color: #fff; }
+.chip__star { color: #e8b04b; flex: none; }
+.chip.is-on .chip__star { color: #ffcf70; }
+.chip__n { font-size: .78rem; font-weight: 700; opacity: .6; }
+
 .filtres {
   display: flex; align-items: end; flex-wrap: wrap; gap: 1rem;
   margin-bottom: 2.2rem; padding: 1.2rem 1.4rem;
@@ -574,6 +591,7 @@ input.filtres__select::-webkit-search-cancel-button { cursor: pointer; }
   background: var(--line-2); color: var(--ink); border-radius: 999px; padding: .25rem .7rem;
 }
 .act__tag--sec { background: none; border: 1.5px solid var(--line); color: var(--muted); }
+.act__tag--saison { background: var(--brand-tint); color: var(--brand-dark); }
 .act__acces { margin: .8rem 0 0; font-size: .88rem; font-weight: 600; color: var(--brand); }
 .card__media--cat {
   display: flex; align-items: center; justify-content: center;

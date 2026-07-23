@@ -6,7 +6,7 @@ AVIS = json.load(open(_AVIS_PATH, encoding="utf-8"))
 AVIS_THEMES = [
     ("proprete",    "Propreté",            ["propre", "proprete", "nickel", "impeccable"]),
     ("emplacement", "Emplacement",         ["emplacement", "centre", "proche", "a pied", "situe", "idealement", "commerce"]),
-    ("equipement",  "Équipement & confort", ["equipe", "cuisine", "literie", "lit ", "wifi", "linge", "fonctionnel", "confort"]),
+    ("equipement",  "Équipement", ["equipe", "cuisine", "literie", "lit ", "wifi", "linge", "fonctionnel", "confort"]),
     ("calme",       "Calme",               ["calme", "tranquill", "reposant", "silenc"]),
     ("montagne",    "Ski & montagne",      ["ski", "neige", "piste", "superbagnere", "montagne", "randonn"]),
     ("accueil",     "Accueil",             ["accueil", "nathalie", "hote", "disponib", "sympa", "chaleureu", "contact"]),
@@ -442,54 +442,55 @@ def run(g):
     # img = photo dédiée quand nous en avons une ; sinon bandeau catégorie.
     # "pied" = accessible à pied depuis nos appartements (centre de Luchon).
     ACTIVITES = [
-        ("Les Thermes de Luchon", "luchon", "thermes", "thermes-luchon.jpg", True,
+        ("Les Thermes de Luchon", "luchon", "thermes", "thermes-luchon.jpg", True, "toutes",
          "L'établissement thermal et son <strong>vaporarium</strong>, une grotte de vapeur naturelle unique en Europe. Cures conventionnées, soins à la journée et espace détente, ouverts toute l'année."),
-        ("Les allées d'Étigny", "luchon", "patrimoine", "allees-etigny.jpg", True,
+        ("Les allées d'Étigny", "luchon", "patrimoine", "allees-etigny.jpg", True, "toutes",
          "La grande promenade bordée de tilleuls qui mène du centre-ville aux thermes, avec ses façades Belle Époque, ses terrasses et ses boutiques. Le cœur battant de la station."),
-        ("La télécabine de Superbagnères", "luchon", "hiver", "telecabine-superbagneres.jpg", True,
+        ("La télécabine de Superbagnères", "luchon", "hiver", "telecabine-superbagneres.jpg", True, "toutes",
          "Elle relie directement Luchon au plateau de Superbagnères. Skieurs l'hiver, promeneurs et vététistes l'été : en quelques minutes, vous passez de la ville au panorama sur la chaîne des Pyrénées."),
-        ("Le golf de Luchon", "luchon", "golf", "golf.jpg", False,
+        ("Le golf de Luchon", "luchon", "golf", "golf.jpg", False, "ete",
          "Un parcours de montagne au charme ancien, dessiné entre forêts et sommets. L'un des plus anciens golfs des Pyrénées, à l'écart de l'agitation."),
-        ("La Fête des Fleurs", "luchon", "fetes", "fete-des-fleurs.jpg", True,
+        ("La Fête des Fleurs", "luchon", "fetes", "fete-des-fleurs.jpg", True, "ete",
          "Le grand rendez-vous de l'été luchonnais : corso fleuri, chars décorés et fanfares envahissent les allées d'Étigny. Une tradition qui remplit la ville — pensez à réserver tôt."),
-        ("Le ski à Superbagnères", "superbagneres", "hiver", "ski.jpg", False,
+        ("Le ski à Superbagnères", "superbagneres", "hiver", "ski.jpg", False, "hiver",
          "Le « balcon des Pyrénées » et son panorama à 360° sur la chaîne frontalière. Un domaine familial où l'on skie face aux sommets, accessible depuis Luchon sans reprendre la voiture."),
-        ("Luge, raquettes et ski de fond", "superbagneres", "hiver", "luge-raquettes-fond.jpg", False,
+        ("Luge, raquettes et ski de fond", "superbagneres", "hiver", "luge-raquettes-fond.jpg", False, "hiver",
          "Au-delà des pistes : espaces débutants, sentiers raquettes et itinéraires de fond sur le plateau. De quoi occuper une journée de neige même sans chausser les skis alpins."),
-        ("Le parapente au-dessus de la vallée", "superbagneres", "air", "parapente.jpg", False,
+        ("Le parapente au-dessus de la vallée", "superbagneres", "air", "parapente.jpg", False, "ete",
          "Le décollage depuis le plateau offre l'une des plus belles vues du massif : la vallée d'une part, les sommets frontaliers de l'autre. Baptêmes encadrés par des moniteurs locaux."),
-        ("Les cols du Tour de France", "superbagneres", "velo", "cols-tour-de-france.jpg", False,
+        ("Les cols du Tour de France", "superbagneres", "velo", "cols-tour-de-france.jpg", False, "ete",
          "Superbagnères et le col de Peyresourde comptent parmi les ascensions mythiques de la Grande Boucle. Les cyclistes viennent de loin pour les gravir — et le départ se fait depuis Luchon."),
-        ("Le lac d'Oô", "autour", "rando", "randonnee.jpg", False,
+        ("Le lac d'Oô", "autour", "rando", "randonnee.jpg", False, "ete",
          "La randonnée emblématique du Luchonnais : un lac d'altitude alimenté par une cascade de plusieurs dizaines de mètres. Accessible en famille depuis les Granges d'Astau, spectaculaire à l'arrivée."),
-        ("La vallée du Lys et la cascade d'Enfer", "autour", "rando", "vallee-du-lys.jpg", False,
+        ("La vallée du Lys et la cascade d'Enfer", "autour", "rando", "vallee-du-lys.jpg", False, "ete",
          "Une vallée boisée toute proche, ses cascades et son gouffre. Balades courtes et ombragées, idéales pour une demi-journée ou une sortie avec des enfants."),
-        ("L'Hospice de France", "autour", "rando", "hospice-de-france.jpg", False,
+        ("L'Hospice de France", "autour", "rando", "hospice-de-france.jpg", False, "ete",
          "Ancien refuge sur la route des cols vers l'Espagne, dans un cirque de montagne au bout de la vallée de la Pique. Point de départ de nombreux sentiers, but de promenade en soi."),
-        ("Le port de Vénasque", "autour", "rando", "port-de-venasque.jpg", False,
+        ("Le port de Vénasque", "autour", "rando", "port-de-venasque.jpg", False, "ete",
          "Une montée exigeante jusqu'à une brèche frontalière, récompensée par la vue sur le massif de la Maladeta et l'Aneto, plus haut sommet des Pyrénées. Pour marcheurs entraînés."),
-        ("Rafting et canyoning", "autour", "eau", "rafting.jpg", False,
+        ("Rafting et canyoning", "autour", "eau", "rafting.jpg", False, "ete",
          "Les eaux vives de la Pique et de la Garonne se descendent en raft, en kayak ou en canyoning, encadrées par des professionnels. Le grand classique des journées d'été."),
-        ("Le VTT de descente", "autour", "velo", "vtt-descente.jpg", False,
+        ("Le VTT de descente", "autour", "velo", "vtt-descente.jpg", False, "ete",
          "Les pentes du Luchonnais se prêtent à la descente comme au cross-country, avec des itinéraires balisés et des remontées ouvertes l'été pour éviter la montée."),
-        ("Le ski à Peyragudes", "peyragudes", "hiver", "peyragudes.jpg", False,
+        ("Le ski à Peyragudes", "peyragudes", "hiver", "peyragudes.jpg", False, "hiver",
          "Un domaine plus vaste, à cheval sur deux versants, connu pour son altiport et ses pistes larges. À moins d'une heure de route pour varier les plaisirs."),
-        ("Le lac de Loudenvielle et Balnéa", "peyragudes", "thermes", "loudenvielle-balnea.jpg", False,
+        ("Le lac de Loudenvielle et Balnéa", "peyragudes", "thermes", "loudenvielle-balnea.jpg", False, "toutes",
          "Un lac de montagne avec promenade aménagée, et le centre de bien-être Balnéa et ses bains inspirés de différentes cultures thermales. La sortie détente par temps incertain."),
-        ("Le ski au Mourtis", "mourtis", "hiver", "le-mourtis.jpg", False,
+        ("Le ski au Mourtis", "mourtis", "hiver", "le-mourtis.jpg", False, "hiver",
          "Une petite station familiale où l'on skie entre les sapins, réputée pour son ambiance tranquille et ses tarifs doux. Parfait pour débuter ou pour une première glisse avec des enfants."),
-        ("La vallée d'Oueil", "vallees", "rando", "vallee-oueil.jpg", False,
+        ("La vallée d'Oueil", "vallees", "rando", "vallee-oueil.jpg", False, "toutes",
          "Une vallée pastorale préservée, ses hameaux de pierre et ses granges. On y vient pour le calme, les chemins de crête et les villages restés à l'écart du tourisme."),
-        ("Saint-Bertrand-de-Comminges", "vallees", "patrimoine", "saint-bertrand-de-comminges.jpg", False,
+        ("Saint-Bertrand-de-Comminges", "vallees", "patrimoine", "saint-bertrand-de-comminges.jpg", False, "toutes",
          "L'un des plus beaux villages de France, dominé par sa cathédrale et bâti sur un site romain. Une demi-journée de visite qui change complètement de la montagne."),
-        ("Saint-Béat, cité du marbre", "vallees", "patrimoine", "saint-beat.jpg", False,
+        ("Saint-Béat, cité du marbre", "vallees", "patrimoine", "saint-beat.jpg", False, "toutes",
          "Le marbre extrait ici a servi jusqu'à Versailles. Le village, ses carrières et ses ruelles étroites au bord de la Garonne se découvrent en une matinée."),
     ]
     CAT_MAP = {cid: (emo, lab) for cid, emo, lab in CATEGORIES}
     SEC_MAP = dict(SECTEURS)
 
+    SAISON_LAB = {"ete": "Été", "hiver": "Hiver", "toutes": "Toutes saisons"}
     acards = ""
-    for titre, sec, cat, img, pied, desc in ACTIVITES:
+    for titre, sec, cat, img, pied, saison, desc in ACTIVITES:
         emo, clab = CAT_MAP[cat]
         if img:
             media = (f'<div class="card__media"><img src="/assets/img/activites/{img}" alt="{titre} — Bagnères-de-Luchon" '
@@ -498,9 +499,10 @@ def run(g):
             media = f'<div class="card__media card__media--cat"><span>{clab}</span></div>'
         acces = ('<p class="act__acces">À pied depuis nos appartements</p>' if pied else '')
         pied_attr = ' data-pied="1"' if pied else ''
-        acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}"{pied_attr}>{media}'
+        acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}" data-saison="{saison}"{pied_attr}>{media}'
                    f'<div class="card__body"><p class="act__tags"><span class="act__tag">{clab}</span>'
-                   f'<span class="act__tag act__tag--sec">{SEC_MAP[sec]}</span></p>'
+                   f'<span class="act__tag act__tag--sec">{SEC_MAP[sec]}</span>'
+                   f'<span class="act__tag act__tag--saison">{SAISON_LAB[saison]}</span></p>'
                    f'<h3>{titre}</h3><p>{desc}</p>{acces}</div></article>')
 
     def _select(name, label, tout, items, extra=None):
@@ -525,6 +527,7 @@ def run(g):
     <div class="filtres reveal" data-filtres>
       {_select("sec", "Secteur", "Tous les secteurs", SECTEURS, extra=[("pied", "À pied depuis nos appartements")])}
       {_select("cat", "Type d'activité", "Toutes les activités", CATEGORIES)}
+      {_select("saison", "Saison", "Toutes saisons", [("ete", "Été"), ("hiver", "Hiver")])}
       <button type="button" class="filtres__reset" data-filtres-reset hidden>Réinitialiser</button>
     </div>
     <div class="grid grid--3" data-filtres-grid>{acards}</div>
@@ -546,8 +549,14 @@ def run(g):
     # AVIS
     # =====================================================================
     rcards = "".join(avis_card(a, filtrable=True) for a in AVIS)
-    theme_opts = "".join(f'<option value="{cid}">{lab}</option>'
-                         for cid, lab, _m in AVIS_THEMES)
+    _star = ('<svg class="chip__star" viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true">'
+             '<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg>')
+    _counts = {cid: sum(cid in avis_themes(a) for a in AVIS) for cid, _l, _m in AVIS_THEMES}
+    chips = f'<button type="button" class="chip is-on" data-avis-cat="all">Tous les avis</button>'
+    chips += "".join(
+        f'<button type="button" class="chip" data-avis-cat="{cid}">{_star}{lab} '
+        f'<span class="chip__n">{_counts[cid]}</span></button>'
+        for cid, lab, _m in AVIS_THEMES if _counts[cid] > 0)
     avis = f"""
 <section class="page-hero"><div class="container">{EYEBROW}<h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : des témoignages sincères, récoltés au fil des saisons depuis 2018.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
@@ -556,18 +565,12 @@ def run(g):
     <div class="rating-banner reveal">La confiance de nos voyageurs, saison après saison — depuis 2018</div>
   </div>
   <div class="container">
-    <div class="filtres reveal" data-avis-filtres>
-      <div class="filtres__champ filtres__champ--large">
+    <div class="avis-filtres reveal" data-avis-filtres>
+      <div class="avis-search">
         <label class="filtres__label" for="avis-q">Rechercher dans les avis</label>
         <input type="search" id="avis-q" class="filtres__select" placeholder="ex. propre, calme, thermes, parking…" data-avis-search>
       </div>
-      <div class="filtres__champ">
-        <label class="filtres__label" for="avis-theme">Thème</label>
-        <select id="avis-theme" class="filtres__select" data-avis-theme>
-          <option value="all">Tous les thèmes</option>{theme_opts}
-        </select>
-      </div>
-      <button type="button" class="filtres__reset" data-avis-reset hidden>Réinitialiser</button>
+      <div class="chips" role="group" aria-label="Filtrer les avis par catégorie">{chips}</div>
     </div>
     <div class="grid grid--3" data-avis-grid>{rcards}</div>
     <p class="filtres__vide" data-avis-vide hidden>Aucun avis ne correspond à cette recherche.</p>

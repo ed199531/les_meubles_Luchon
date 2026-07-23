@@ -399,7 +399,7 @@
     var grille = $('[data-filtres-grid]');
     var vide = $('[data-filtres-vide]');
     var cartes = $all('.act', grille);
-    var etat = { sec: 'all', cat: 'all' };
+    var etat = { sec: 'all', cat: 'all', saison: 'all' };
 
     function appliquer() {
       var n = 0;
@@ -407,12 +407,16 @@
         var secOk = etat.sec === 'all' ||
                     (etat.sec === 'pied' ? c.getAttribute('data-pied') === '1'
                                          : c.getAttribute('data-sec') === etat.sec);
-        var ok = secOk && (etat.cat === 'all' || c.getAttribute('data-cat') === etat.cat);
+        // "toutes saisons" reste visible quel que soit le filtre été/hiver
+        var saisonOk = etat.saison === 'all' ||
+                       c.getAttribute('data-saison') === etat.saison ||
+                       c.getAttribute('data-saison') === 'toutes';
+        var ok = secOk && saisonOk && (etat.cat === 'all' || c.getAttribute('data-cat') === etat.cat);
         c.hidden = !ok;
         if (ok) n++;
       });
       if (vide) vide.hidden = n > 0;
-      var filtre = etat.sec !== 'all' || etat.cat !== 'all';
+      var filtre = etat.sec !== 'all' || etat.cat !== 'all' || etat.saison !== 'all';
       if (reset) reset.hidden = !filtre;
     }
 
@@ -427,7 +431,7 @@
     });
 
     if (reset) reset.addEventListener('click', function () {
-      etat.sec = 'all'; etat.cat = 'all';
+      etat.sec = 'all'; etat.cat = 'all'; etat.saison = 'all';
       selects.forEach(function (sel) { sel.value = 'all'; });
       appliquer();
     });
@@ -441,11 +445,11 @@
     var PAS = 12;                                  // avis affichés par palier
     var avisCards = $all('.review', avisGrid);
     var champ = $('[data-avis-search]');
-    var theme = $('[data-avis-theme]');
+    var chips = $all('.chip', $('[data-avis-filtres]'));
     var plus = $('[data-avis-more]');
     var videAvis = $('[data-avis-vide]');
-    var resetAvis = $('[data-avis-reset]');
     var limite = PAS;
+    var catActive = 'all';
 
     function sansAccents(t) {
       return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -453,10 +457,9 @@
 
     function rendreAvis() {
       var q = sansAccents((champ.value || '').trim());
-      var th = theme.value;
       var vus = 0, correspondants = 0;
       avisCards.forEach(function (c) {
-        var ok = (th === 'all' || (c.getAttribute('data-themes') || '').split(' ').indexOf(th) !== -1) &&
+        var ok = (catActive === 'all' || (c.getAttribute('data-themes') || '').split(' ').indexOf(catActive) !== -1) &&
                  (!q || (c.getAttribute('data-txt') || '').indexOf(q) !== -1);
         if (ok) {
           correspondants++;
@@ -466,16 +469,17 @@
       });
       if (videAvis) videAvis.hidden = correspondants > 0;
       if (plus) plus.parentElement.hidden = correspondants <= limite;
-      var filtre = q !== '' || th !== 'all';
-      if (resetAvis) resetAvis.hidden = !filtre;
     }
 
     champ.addEventListener('input', function () { limite = PAS; rendreAvis(); });
-    theme.addEventListener('change', function () { limite = PAS; rendreAvis(); });
-    if (plus) plus.addEventListener('click', function () { limite += PAS; rendreAvis(); });
-    if (resetAvis) resetAvis.addEventListener('click', function () {
-      champ.value = ''; theme.value = 'all'; limite = PAS; rendreAvis();
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        catActive = chip.getAttribute('data-avis-cat');
+        chips.forEach(function (o) { o.classList.toggle('is-on', o === chip); });
+        limite = PAS; rendreAvis();
+      });
     });
+    if (plus) plus.addEventListener('click', function () { limite += PAS; rendreAvis(); });
 
     rendreAvis();
   }
