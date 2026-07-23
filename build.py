@@ -40,6 +40,7 @@ LOGEMENTS = {
     "la-perle-bleue": {
         "slug": "perle-bleue",
         "name": "La Perle Bleue",
+        "tagline": "Le choix polyvalent pour couples et familles",
         "type": "T2 — 2 pièces",
         "capacity": 4,
         "floor": "2ᵉ étage",
@@ -63,14 +64,15 @@ LOGEMENTS = {
     "l-echappee-verte": {
         "slug": "echappee-verte",
         "name": "L'Échappée Verte",
+        "tagline": "Le cocon idéal pour 1 à 3 personnes",
         "type": "T1 — Studio",
-        "capacity": 2,
+        "capacity": 3,
         "floor": "3ᵉ étage",
         "adresse": "5 bis rue Azémar, étage 3",
         "stars": 2,
         "booking": "superhote",
         "short": "Studio douillet et lumineux, à la décoration soignée.",
-        "intro": "L'Échappée Verte est un studio cosy et lumineux, pensé pour deux voyageurs. Sa décoration soignée aux tons naturels, son coin cuisine-repas et son canapé convertible en font un nid parfait pour un séjour en amoureux, une cure thermale ou un week-end à la montagne.",
+        "intro": "L'Échappée Verte est un studio cosy et lumineux, pensé pour accueillir jusqu'à 3 personnes. Sa décoration soignée aux tons naturels, son coin cuisine-repas et son canapé convertible en font un nid parfait pour un séjour à deux ou en petit comité, une cure thermale ou un week-end à la montagne.",
         "images": [
             ("cuisine.jpg", "Coin cuisine et repas de L'Échappée Verte"),
             ("cuisine-2.jpg", "Espace repas lumineux"),
@@ -86,6 +88,7 @@ LOGEMENTS = {
     "le-refuge-thermal": {
         "slug": "refuge-thermal",
         "name": "Le Refuge Thermal",
+        "tagline": "Le choix privilégié pour curistes et accès facile",
         "type": "T2 — 2 pièces",
         "capacity": 4,
         "floor": "Rez-de-chaussée",

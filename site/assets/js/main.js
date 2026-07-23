@@ -358,7 +358,17 @@
     });
   }
 
-  /* ---- FAQ accordéon ---- */
+  /* ---- FAQ : accordéon de catégorie (niveau 1) ---- */
+  $all('.faq-group__head').forEach(function (head) {
+    head.addEventListener('click', function () {
+      var open = head.getAttribute('aria-expanded') === 'true';
+      head.setAttribute('aria-expanded', open ? 'false' : 'true');
+      var body = head.nextElementSibling;
+      if (body) body.hidden = open;
+    });
+  });
+
+  /* ---- FAQ : accordéon de question (niveau 2) ---- */
   $all('.faq__q').forEach(function (q) {
     q.addEventListener('click', function () {
       var expanded = q.getAttribute('aria-expanded') === 'true';
@@ -439,39 +449,65 @@
     appliquer();
   }
 
-  /* ---- Page Avis : recherche, thèmes et affichage progressif ---- */
+  /* ---- Avis : bouton « Lire la suite » (idempotent, ne s'exécute qu'une fois
+     l'avis visible — sinon la hauteur mesurée vaut 0 et le bouton manque) ---- */
+  function ensureReadMore(r) {
+    if (r.__moreDone) return;
+    var t = $('.review__text', r);
+    if (!t || t.clientHeight === 0) return;      // pas encore visible : on réessaiera
+    r.__moreDone = true;
+    if (t.scrollHeight - t.clientHeight > 4) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'review__more'; b.textContent = 'Lire la suite';
+      b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', function () {
+        var open = r.classList.toggle('is-open');
+        b.textContent = open ? 'Réduire' : 'Lire la suite';
+        b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      t.insertAdjacentElement('afterend', b);
+    }
+  }
+
+  /* ---- Page Avis : recherche, thèmes, langue et affichage progressif ---- */
   var avisGrid = $('[data-avis-grid]');
   if (avisGrid) {
     var PAS = 12;                                  // avis affichés par palier
     var avisCards = $all('.review', avisGrid);
     var champ = $('[data-avis-search]');
     var chips = $all('.chip', $('[data-avis-filtres]'));
+    var natSel = $('[data-avis-nat]');
     var plus = $('[data-avis-more]');
     var videAvis = $('[data-avis-vide]');
     var limite = PAS;
     var catActive = 'all';
 
     function sansAccents(t) {
-      return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
     }
 
     function rendreAvis() {
       var q = sansAccents((champ.value || '').trim());
+      var nat = natSel ? natSel.value : 'all';
       var vus = 0, correspondants = 0;
       avisCards.forEach(function (c) {
         var ok = (catActive === 'all' || (c.getAttribute('data-themes') || '').split(' ').indexOf(catActive) !== -1) &&
+                 (nat === 'all' || c.getAttribute('data-nat') === nat) &&
                  (!q || (c.getAttribute('data-txt') || '').indexOf(q) !== -1);
-        if (ok) {
-          correspondants++;
-          if (vus < limite) { c.hidden = false; vus++; }
-          else c.hidden = true;
-        } else c.hidden = true;
+        if (ok && vus < limite) {
+          correspondants++; c.hidden = false; vus++;
+          ensureReadMore(c);
+        } else {
+          if (ok) correspondants++;
+          c.hidden = true;
+        }
       });
       if (videAvis) videAvis.hidden = correspondants > 0;
       if (plus) plus.parentElement.hidden = correspondants <= limite;
     }
 
     champ.addEventListener('input', function () { limite = PAS; rendreAvis(); });
+    if (natSel) natSel.addEventListener('change', function () { limite = PAS; rendreAvis(); });
     chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
         catActive = chip.getAttribute('data-avis-cat');
@@ -517,22 +553,8 @@
     window.__consentGranted = true;
   }
 
-  /* ---- Avis : déplier les textes tronqués ---- */
-  $all('.review').forEach(function (r) {
-    var t = $('.review__text', r);
-    if (!t) return;
-    if (t.scrollHeight - t.clientHeight > 4) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'review__more'; b.textContent = 'Lire la suite';
-      b.setAttribute('aria-expanded', 'false');
-      b.addEventListener('click', function () {
-        var open = r.classList.toggle('is-open');
-        b.textContent = open ? 'Réduire' : 'Lire la suite';
-        b.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-      t.insertAdjacentElement('afterend', b);
-    }
-  });
+  /* ---- Avis : déplier les textes tronqués (marquee accueil + avis visibles) ---- */
+  $all('.review').forEach(ensureReadMore);
 
   /* ---- Année dynamique footer ---- */
   $all('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });

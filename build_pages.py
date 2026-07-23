@@ -25,12 +25,36 @@ def avis_themes(a):
     return [cid for cid, _lab, mots in AVIS_THEMES if any(m in t for m in mots)]
 
 
+# Détection simple de la langue de l'avis (proxy de nationalité)
+_MOTS_ES = [" que ", " muy ", " con ", " para ", " apartamento", "estancia", "gracias",
+            "limpio", "perfecto", " los ", " las ", " una ", " nos ", "habitacion", " todo ", " bien "]
+_MOTS_EN = [" the ", " and ", " very ", " was ", " we ", " apartment", " stay", " clean",
+            " perfect", " great", " nice", " would ", " is ", " for ", " with ", " everything "]
+_MOTS_FR = [" et ", " le ", " la ", " est ", " tres ", " nous ", " appartement", " avec ", " pour "]
+
+
+def avis_langue(a):
+    t = " " + _sans_accents(a["texte"]) + " "
+    es = sum(t.count(w) for w in _MOTS_ES)
+    en = sum(t.count(w) for w in _MOTS_EN)
+    fr = sum(t.count(w) for w in _MOTS_FR)
+    if es >= 2 and es > fr and es >= en:
+        return "es"
+    if en >= 3 and en > fr and en > es:
+        return "en"
+    return "fr"
+
+
+AVIS_LANGUES = [("fr", "Français"), ("es", "Espagnol"), ("en", "Anglais")]
+
+
 def avis_card(a, filtrable=False):
     d = f' <span class="review__date">— {a["date"]}</span>' if a.get("date") else ""
     attrs = ""
     if filtrable:
         rech = _h.escape(_sans_accents(a["texte"] + " " + a["auteur"]), quote=True)
-        attrs = f' data-themes="{" ".join(avis_themes(a))}" data-txt="{rech}"'
+        attrs = (f' data-themes="{" ".join(avis_themes(a))}" data-nat="{avis_langue(a)}"'
+                 f' data-txt="{rech}"')
     return (f'<blockquote class="review reveal"{attrs}><p class="review__text">« '
             + _h.escape(a["texte"], quote=False) + ' »</p><div class="review__author">'
             + _h.escape(a["auteur"], quote=False) + d + '</div></blockquote>')
@@ -95,8 +119,8 @@ def run(g):
   </div>
   <div class="container hero__inner">
     <p class="eyebrow" style="color:#a9e0e4">Locations saisonnières · Bagnères-de-Luchon</p>
-    <h1>Votre pied-à-terre au cœur des Pyrénées</h1>
-    <p class="hero__sub">Des appartements meublés, chaleureux et bien équipés, à deux pas des thermes, des commerces et des pistes de Superbagnères. Réservez en quelques clics.</p>
+    <h1>Vos appartements au cœur de Bagnères-de-Luchon, à deux pas des Thermes et de Superbagnères</h1>
+    <p class="hero__sub">3 appartements confortables, parfaitement équipés, pour vos séjours à la montagne et escapades dans les Pyrénées ou vos cures thermales.</p>
     <div class="hero__badges">
       <span>⭐ Classés Meublé de Tourisme</span>
       <span>💬 Des voyageurs satisfaits depuis 2018</span>
@@ -148,9 +172,8 @@ def run(g):
     <div class="split__media reveal"><img src="/assets/img/brand/nathalie.jpg" alt="Nathalie, votre hôte aux Meublés de Luchon" loading="lazy" width="600" height="480"></div>
     <div class="split__body reveal">
       <p class="eyebrow">Votre hôte</p>
-      <h2>Nathalie, à vos côtés</h2>
-      <p>Passionnée par sa région, Nathalie met tout en œuvre pour rendre votre séjour mémorable : livret d'accueil, conseils personnalisés sur les activités et les meilleures tables, et une disponibilité de tous les instants.</p>
-      <p>Chaque appartement est préparé avec soin pour que vous vous sentiez comme chez vous, dès votre arrivée.</p>
+      <h2>Bienvenue à Luchon !</h2>
+      <p>Je suis Nathalie et je serai heureuse de vous accueillir dans l'un de nos trois appartements. Je connais Luchon depuis de nombreuses années et je serai ravie de vous conseiller selon vos envies : cure thermale, randonnée, ski, vélo ou simplement quelques jours pour profiter de la montagne.</p>
       <a class="btn btn--primary" href="/services/">Découvrir nos services</a>
     </div>
   </div>
@@ -310,7 +333,7 @@ def run(g):
                   "image": BASE + og}
         body = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="{og}" alt="{d['name']} — {d['type']}" width="1400" height="500"></div>
-  <div class="container"><p class="eyebrow" style="color:#a9e0e4">{d['type']} · {d['floor']} · jusqu'à {d['capacity']} personnes</p><h1>{d['name']}</h1><p>{stars_html(d['stars'])} Meublé de Tourisme — {d['short']}</p></div>
+  <div class="container"><p class="eyebrow" style="color:#a9e0e4">{d['tagline']}</p><h1>{d['name']}</h1><p>{d['type'].split('—')[0].strip()} · Jusqu'à {d['capacity']} personnes · {d['floor']} · Centre-ville · {stars_html(d['stars'])} Meublé de Tourisme</p></div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Nos appartements", "/appartements/"), (d['name'], None)])}
 <section class="section" id="reserver">
@@ -497,7 +520,15 @@ def run(g):
                      f'loading="lazy" width="500" height="375"></div>')
         else:
             media = f'<div class="card__media card__media--cat"><span>{clab}</span></div>'
-        acces = ('<p class="act__acces">À pied depuis nos appartements</p>' if pied else '')
+        MARCHE = {
+            "Les Thermes de Luchon": "5 min à pied",
+            "Les allées d'Étigny": "2 min à pied",
+            "La télécabine de Superbagnères": "8 min à pied",
+            "La Fête des Fleurs": "2 min à pied",
+        }
+        acces = (f'<p class="act__acces">À {MARCHE[titre]} depuis nos appartements</p>'
+                 if pied and titre in MARCHE else
+                 ('<p class="act__acces">À pied depuis nos appartements</p>' if pied else ''))
         pied_attr = ' data-pied="1"' if pied else ''
         acards += (f'<article class="card act reveal" data-sec="{sec}" data-cat="{cat}" data-saison="{saison}"{pied_attr}>{media}'
                    f'<div class="card__body"><p class="act__tags"><span class="act__tag">{clab}</span>'
@@ -522,6 +553,19 @@ def run(g):
   <div class="container">{EYEBROW}<h1>Activités à Bagnères-de-Luchon</h1><p>Amateur de sensations, de culture ou de détente : Luchon et ses environs offrent une multitude d'activités en toutes saisons.</p>{BADGES}</div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Activités", None)])}
+<section class="section" style="padding-bottom:0">
+  <div class="container">
+    <div class="distances reveal">
+      <span class="distances__label">À pied depuis nos appartements</span>
+      <ul>
+        <li><strong>Commerces</strong> 2 min</li>
+        <li><strong>Thermes de Luchon</strong> 5 min</li>
+        <li><strong>Gare</strong> 5 min</li>
+        <li><strong>Télécabine de Superbagnères</strong> 8 min</li>
+      </ul>
+    </div>
+  </div>
+</section>
 <section class="section">
   <div class="container">
     <div class="filtres reveal" data-filtres>
@@ -552,29 +596,39 @@ def run(g):
     _star = ('<svg class="chip__star" viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true">'
              '<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg>')
     _counts = {cid: sum(cid in avis_themes(a) for a in AVIS) for cid, _l, _m in AVIS_THEMES}
-    chips = f'<button type="button" class="chip is-on" data-avis-cat="all">Tous les avis</button>'
+    chips = f'<button type="button" class="chip is-on" data-avis-cat="all">Tous</button>'
     chips += "".join(
         f'<button type="button" class="chip" data-avis-cat="{cid}">{_star}{lab} '
         f'<span class="chip__n">{_counts[cid]}</span></button>'
         for cid, lab, _m in AVIS_THEMES if _counts[cid] > 0)
+    _nat_counts = {code: sum(avis_langue(a) == code for a in AVIS) for code, _l in AVIS_LANGUES}
+    nat_opts = "".join(f'<option value="{code}">{lab}</option>'
+                       for code, lab in AVIS_LANGUES if _nat_counts[code] > 0)
     avis = f"""
 <section class="page-hero"><div class="container">{EYEBROW}<h1>Vos avis</h1><p>Ce que nos voyageurs retiennent de leur séjour : des témoignages sincères, récoltés au fil des saisons depuis 2018.</p>{BADGES}</div></section>
 {breadcrumb([("Accueil", "/"), ("Avis", None)])}
 <section class="section">
-  <div class="container center" style="margin-bottom:2.5rem">
-    <div class="rating-banner reveal">La confiance de nos voyageurs, saison après saison — depuis 2018</div>
+  <div class="container center" style="margin-bottom:2rem">
+    <p class="avis-intro reveal">La confiance de nos voyageurs, saison après saison — depuis 2018.</p>
   </div>
   <div class="container">
     <div class="avis-filtres reveal" data-avis-filtres>
-      <div class="avis-search">
-        <label class="filtres__label" for="avis-q">Rechercher dans les avis</label>
-        <input type="search" id="avis-q" class="filtres__select" placeholder="ex. propre, calme, thermes, parking…" data-avis-search>
+      <div class="avis-filtres__top">
+        <div class="avis-search">
+          <input type="search" id="avis-q" class="filtres__select" placeholder="Rechercher un avis (propre, calme, thermes…)" aria-label="Rechercher dans les avis" data-avis-search>
+        </div>
+        <div class="avis-nat">
+          <label class="filtres__label" for="avis-nat">Langue</label>
+          <select id="avis-nat" class="filtres__select" data-avis-nat>
+            <option value="all">Toutes</option>{nat_opts}
+          </select>
+        </div>
       </div>
       <div class="chips" role="group" aria-label="Filtrer les avis par catégorie">{chips}</div>
     </div>
     <div class="grid grid--3" data-avis-grid>{rcards}</div>
     <p class="filtres__vide" data-avis-vide hidden>Aucun avis ne correspond à cette recherche.</p>
-    <div class="center" style="margin-top:2rem"><button type="button" class="btn btn--ghost" data-avis-more>Voir plus d'avis</button></div>
+    <div class="center" style="margin-top:2rem"><button type="button" class="btn btn--dark" data-avis-more>Voir plus d'avis</button></div>
   </div>
 </section>
 <section class="section section--tint"><div class="container center"><div class="cta-band reveal"><h2>À votre tour de vivre l'expérience</h2><p>Réservez votre appartement et rejoignez nos voyageurs conquis.</p><a class="btn btn--primary btn--lg" href="/appartements/">Réserver</a></div>
@@ -1180,12 +1234,20 @@ def run(g):
     ]
     faq_all = []
     groups_html = ""
-    for cat_title, qas in faq_cats:
+    for gi, (cat_title, qas) in enumerate(faq_cats):
         faq_all += qas
         items = "".join(
             f'<div class="faq__item"><button class="faq__q" aria-expanded="false">{q}</button>'
             f'<div class="faq__a"><p>{a}</p></div></div>' for q, a in qas)
-        groups_html += f'<div class="faq-group"><h2>{cat_title}</h2><div class="faq">{items}</div></div>'
+        open0 = gi == 0                      # première catégorie ouverte par défaut
+        groups_html += (
+            f'<div class="faq-group" data-faq-group>'
+            f'<button class="faq-group__head" aria-expanded="{"true" if open0 else "false"}">'
+            f'<span class="faq-group__title">{cat_title}</span>'
+            f'<span class="faq-group__count">{len(qas)}</span>'
+            f'<span class="faq-group__icon" aria-hidden="true"></span></button>'
+            f'<div class="faq-group__body"{"" if open0 else " hidden"}><div class="faq">{items}</div></div>'
+            f'</div>')
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q,
                               "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_all]}
@@ -1257,7 +1319,8 @@ def logement_card(g, key, reveal=True, cta=None, link_photos=True):
         </div>
         <div class="card__body">
           <h3>{d['name']}</h3>
-          <div class="card__meta"><span>🛏️ {d['type'].split(' ')[0]}</span><span>👥 {d['capacity']} pers.</span><span>🏢 {d['floor']}</span></div>
+          <p class="card__tagline">{d['tagline']}</p>
+          <div class="card__meta"><span>🛏️ {d['type'].split(' ')[0]}</span><span>👥 Jusqu'à {d['capacity']} pers.</span><span>🏢 {d['floor']}</span><span>📍 Centre-ville</span></div>
           <p>{d['short']}</p>
           <div class="card__foot">
             <a class="btn btn--primary" href="{cta[1] if cta else f'/appartements/{key}/#reserver'}">{cta[0] if cta else 'Réserver'}</a>
