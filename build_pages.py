@@ -76,6 +76,17 @@ def run(g):
     booking_engine = g["booking_engine"]; booking_search = g["booking_search"]
     cal_fields = g["cal_fields"]; cal_panel = g["cal_panel"]
     EYEBROW = g["HERO_EYEBROW"]; BADGES = g["HERO_BADGES"]
+    STEPS_INLINE = (
+        '<ol class="steps-inline reveal">'
+        '<li><span class="steps-inline__n">1</span><div><strong>Indiquez vos dates</strong>'
+        "<span>Les appartements libres s'affichent</span></div></li>"
+        '<li><span class="steps-inline__n">2</span><div><strong>Choisissez l\'appartement</strong>'
+        '<span>Photos, équipements, tarif</span></div></li>'
+        '<li><span class="steps-inline__n">3</span><div><strong>Payez en ligne</strong>'
+        '<span>Sécurisé, sans frais cachés</span></div></li>'
+        '<li><span class="steps-inline__n">4</span><div><strong>Recevez la confirmation</strong>'
+        '<span>Accès autonome dès 16h</span></div></li>'
+        '</ol>')
     LOGEMENTS = g["LOGEMENTS"]; NAP = g["NAP"]; stars_html = g["stars_html"]
     jsonld = g["jsonld"]; CHECK = g["CHECK"]; BASE = g["BASE_URL"]; write = g["write"]
 
@@ -280,12 +291,7 @@ def run(g):
       <p class="eyebrow">Disponibilités en direct</p>
       <h2>Rechercher un appartement disponible</h2>
     </div>
-    <ol class="steps-inline reveal">
-      <li><span class="steps-inline__n">1</span><div><strong>Indiquez vos dates</strong><span>Les appartements libres s'affichent</span></div></li>
-      <li><span class="steps-inline__n">2</span><div><strong>Choisissez l'appartement</strong><span>Photos, équipements, tarif</span></div></li>
-      <li><span class="steps-inline__n">3</span><div><strong>Payez en ligne</strong><span>Sécurisé, sans frais cachés</span></div></li>
-      <li><span class="steps-inline__n">4</span><div><strong>Recevez la confirmation</strong><span>Accès autonome dès 16h</span></div></li>
-    </ol>
+    {STEPS_INLINE}
     {booking_search()}
   </div>
 </section>
@@ -339,10 +345,10 @@ def run(g):
 <section class="section" id="reserver">
   <div class="container">
     <div class="center reveal" style="margin-bottom:1.4rem">
-      <p class="eyebrow">Réservation en direct</p>
+      <p class="eyebrow">Disponibilités en direct</p>
       <h2>Réserver {d['name']}</h2>
-      <p class="lead">Choisissez vos dates : la réservation et le paiement se font ici, sans quitter le site.</p>
     </div>
+    {STEPS_INLINE}
     {booking_engine(d["slug"])}
   </div>
 </section>

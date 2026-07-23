@@ -417,10 +417,10 @@
         var secOk = etat.sec === 'all' ||
                     (etat.sec === 'pied' ? c.getAttribute('data-pied') === '1'
                                          : c.getAttribute('data-sec') === etat.sec);
-        // "toutes saisons" reste visible quel que soit le filtre été/hiver
+        // filtre strict : « Été »/« Hiver » n'affichent que la saison choisie
+        // (les activités toutes-saisons apparaissent sous « Toutes saisons »)
         var saisonOk = etat.saison === 'all' ||
-                       c.getAttribute('data-saison') === etat.saison ||
-                       c.getAttribute('data-saison') === 'toutes';
+                       c.getAttribute('data-saison') === etat.saison;
         var ok = secOk && saisonOk && (etat.cat === 'all' || c.getAttribute('data-cat') === etat.cat);
         c.hidden = !ok;
         if (ok) n++;
