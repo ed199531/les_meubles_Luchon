@@ -333,7 +333,7 @@ def run(g):
                   "image": BASE + og}
         body = f"""
 <section class="page-hero has-img"><div class="page-hero__img"><img src="{og}" alt="{d['name']} — {d['type']}" width="1400" height="500"></div>
-  <div class="container"><p class="eyebrow" style="color:#a9e0e4">{d['tagline']}</p><h1>{d['name']}</h1><p>{d['type'].split('—')[0].strip()} · Jusqu'à {d['capacity']} personnes · {d['floor']} · Centre-ville · {stars_html(d['stars'])} Meublé de Tourisme</p></div>
+  <div class="container"><p class="eyebrow" style="color:#a9e0e4">{d['tagline']}</p><h1>{d['name']}</h1><p>{d['type'].split('—')[0].strip()} · Jusqu'à {d['capacity']} personnes · {d['floor']}</p>{BADGES}</div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Nos appartements", "/appartements/"), (d['name'], None)])}
 <section class="section" id="reserver">
@@ -553,19 +553,6 @@ def run(g):
   <div class="container">{EYEBROW}<h1>Activités à Bagnères-de-Luchon</h1><p>Amateur de sensations, de culture ou de détente : Luchon et ses environs offrent une multitude d'activités en toutes saisons.</p>{BADGES}</div>
 </section>
 {breadcrumb([("Accueil", "/"), ("Activités", None)])}
-<section class="section" style="padding-bottom:0">
-  <div class="container">
-    <div class="distances reveal">
-      <span class="distances__label">À pied depuis nos appartements</span>
-      <ul>
-        <li><strong>Commerces</strong> 2 min</li>
-        <li><strong>Thermes de Luchon</strong> 5 min</li>
-        <li><strong>Gare</strong> 5 min</li>
-        <li><strong>Télécabine de Superbagnères</strong> 8 min</li>
-      </ul>
-    </div>
-  </div>
-</section>
 <section class="section">
   <div class="container">
     <div class="filtres reveal" data-filtres>

@@ -158,7 +158,7 @@ li { margin: .3rem 0; }
   background: linear-gradient(180deg, rgba(0,44,51,.35) 0%, rgba(0,44,51,.55) 55%, rgba(0,44,51,.78) 100%);
 }
 .hero__inner { position: relative; z-index: 1; padding-top: clamp(3.5rem, 9vw, 7rem); padding-bottom: clamp(2rem,5vw,3rem); }
-.hero h1 { color: #fff; max-width: 16ch; text-shadow: 0 2px 24px rgba(0,0,0,.25); }
+.hero h1 { color: #fff; max-width: 24ch; font-size: clamp(1.9rem, 3.6vw, 2.9rem); text-shadow: 0 2px 24px rgba(0,0,0,.25); }
 .hero__sub { font-size: 1.2rem; max-width: 52ch; color: #eaf3f4; margin-bottom: 1.8rem; }
 .hero__badges { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; margin-top: 1.6rem; font-weight: 600; font-size: .95rem; }
 .hero__badges span { display: inline-flex; align-items: center; gap: .5rem; }
@@ -621,14 +621,6 @@ input.filtres__select::-webkit-search-cancel-button { cursor: pointer; }
 }
 .act__tag--sec { background: none; border: 1.5px solid var(--line); color: var(--muted); }
 .act__tag--saison { background: var(--brand-tint); color: var(--brand-dark); }
-/* Bandeau de distances réelles (page Activités) */
-.distances { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.4rem;
-  background: var(--brand-tint); border-radius: var(--r-lg); padding: 1rem 1.4rem; }
-.distances__label { font-weight: 800; color: var(--brand-dark); text-transform: uppercase; letter-spacing: .04em; font-size: .82rem; }
-.distances ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; }
-.distances li { color: var(--ink); font-size: .95rem; }
-.distances li strong { color: var(--brand-dark); }
-.distances li::before { content: "🚶"; margin-right: .4rem; }
 .act__acces { margin: .8rem 0 0; font-size: .88rem; font-weight: 600; color: var(--brand); }
 .card__media--cat {
   display: flex; align-items: center; justify-content: center;
