@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="/assets/css/style.css?v=7abfb1e1">
+<link rel="stylesheet" href="/assets/css/style.css?v=35c36c2b">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 
 </head>
@@ -68,8 +68,15 @@
       <div class="stars-input" role="radiogroup" aria-label="Note sur 5 étoiles"><input type="radio" name="note" id="star5" value="5" required><label for="star5" title="5 étoiles" aria-label="5 étoiles"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label><input type="radio" name="note" id="star4" value="4" required><label for="star4" title="4 étoiles" aria-label="4 étoiles"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label><input type="radio" name="note" id="star3" value="3" required><label for="star3" title="3 étoiles" aria-label="3 étoiles"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label><input type="radio" name="note" id="star2" value="2" required><label for="star2" title="2 étoiles" aria-label="2 étoiles"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label><input type="radio" name="note" id="star1" value="1" required><label for="star1" title="1 étoile" aria-label="1 étoile"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label></div>
     </div>
     <div><label for="rv-name">Votre prénom</label><input type="text" id="rv-name" name="prenom" placeholder="ex. Marie" autocomplete="given-name" required></div>
-    <div><label for="rv-city">Votre ville (facultatif)</label><input type="text" id="rv-city" name="ville" placeholder="ex. Toulouse" autocomplete="address-level2"></div>
     <div><label for="rv-msg">Votre avis</label><textarea id="rv-msg" name="message" rows="5" placeholder="Qu'avez-vous apprécié pendant votre séjour ?" required></textarea></div>
+    <div class="review-form__row">
+      <div><label for="rv-mois">Mois du séjour</label>
+        <select id="rv-mois" name="mois" required><option value="" disabled selected>Mois</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+      <div><label for="rv-annee">Année</label>
+        <select id="rv-annee" name="annee" required><option value="" disabled selected>Année</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option></select></div>
+    </div>
+    <div><label for="rv-pays">Votre pays</label>
+      <select id="rv-pays" name="pays" required><option value="" disabled selected>Choisissez votre pays</option><option value="France">France</option><option value="Espagne">Espagne</option><option value="Royaume-Uni">Royaume-Uni</option><option value="Belgique">Belgique</option><option value="Suisse">Suisse</option><option value="Allemagne">Allemagne</option><option value="Pays-Bas">Pays-Bas</option><option value="Italie">Italie</option><option value="Portugal">Portugal</option><option value="Irlande">Irlande</option><option value="Luxembourg">Luxembourg</option><option value="Autriche">Autriche</option><option value="Andorre">Andorre</option><option value="Danemark">Danemark</option><option value="Suède">Suède</option><option value="Pologne">Pologne</option><option value="Autre pays">Autre pays</option></select></div>
     <input type="text" name="site_web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
     <button class="btn btn--dark btn--lg" type="submit" data-review-submit>Envoyer mon avis</button>
     <p class="review-form__note">Votre avis sera lu puis publié sur le site après validation. Merci de votre confiance.</p>

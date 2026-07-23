@@ -9,7 +9,7 @@ Il reste **une seule chose** à faire côté Google (compte de Nathalie/Gérard)
 ## 1. Créer le Google Sheet
 1. Aller sur **sheets.google.com** → nouveau tableur, le nommer par ex. **« Avis site Meublés de Luchon »**.
 2. En ligne 1, créer ces colonnes (exactement) :
-   `date` · `note` · `prenom` · `ville` · `message` · **`publier`**
+   `date` · `note` · `prenom` · `pays` · `mois` · `annee` · `message` · **`publier`**
 3. La colonne **`publier`** est la case à cocher de modération : on met une **case à cocher** (Menu *Insertion → Case à cocher*). Décochée = brouillon ; cochée = publié.
 
 ## 2. Ajouter le petit script de réception
@@ -24,7 +24,9 @@ function doPost(e) {
     new Date(),
     p.note || '',
     p.prenom || '',
-    p.ville || '',
+    p.pays || '',
+    p.mois || '',
+    p.annee || '',
     p.message || '',
     false            // "publier" décoché par défaut = brouillon
   ]);

@@ -687,6 +687,16 @@ def run(g):
         '<svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true">'
         '<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label>'
         for n in range(5, 0, -1))
+    _mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+             "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+    mois_opts = "".join(f'<option value="{m}">{m}</option>' for m in _mois)
+    import datetime as _dt
+    _an = _dt.date.today().year
+    annee_opts = "".join(f'<option value="{y}">{y}</option>' for y in range(_an, _an - 8, -1))
+    _pays = ["France", "Espagne", "Royaume-Uni", "Belgique", "Suisse", "Allemagne",
+             "Pays-Bas", "Italie", "Portugal", "Irlande", "Luxembourg", "Autriche",
+             "Andorre", "Danemark", "Suède", "Pologne", "Autre pays"]
+    pays_opts = "".join(f'<option value="{p}">{p}</option>' for p in _pays)
     depot = f"""
 <section class="page-hero"><div class="container"><h1>Laissez votre avis</h1><p>Votre séjour aux Meublés de Luchon vous a plu ? Partagez votre expérience en quelques secondes — merci beaucoup !</p></div></section>
 <section class="section"><div class="container" style="max-width:620px">
@@ -697,8 +707,15 @@ def run(g):
       <div class="stars-input" role="radiogroup" aria-label="Note sur 5 étoiles">{stars_input}</div>
     </div>
     <div><label for="rv-name">Votre prénom</label><input type="text" id="rv-name" name="prenom" placeholder="ex. Marie" autocomplete="given-name" required></div>
-    <div><label for="rv-city">Votre ville (facultatif)</label><input type="text" id="rv-city" name="ville" placeholder="ex. Toulouse" autocomplete="address-level2"></div>
     <div><label for="rv-msg">Votre avis</label><textarea id="rv-msg" name="message" rows="5" placeholder="Qu'avez-vous apprécié pendant votre séjour ?" required></textarea></div>
+    <div class="review-form__row">
+      <div><label for="rv-mois">Mois du séjour</label>
+        <select id="rv-mois" name="mois" required><option value="" disabled selected>Mois</option>{mois_opts}</select></div>
+      <div><label for="rv-annee">Année</label>
+        <select id="rv-annee" name="annee" required><option value="" disabled selected>Année</option>{annee_opts}</select></div>
+    </div>
+    <div><label for="rv-pays">Votre pays</label>
+      <select id="rv-pays" name="pays" required><option value="" disabled selected>Choisissez votre pays</option>{pays_opts}</select></div>
     <input type="text" name="site_web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
     <button class="btn btn--dark btn--lg" type="submit" data-review-submit>Envoyer mon avis</button>
     <p class="review-form__note">Votre avis sera lu puis publié sur le site après validation. Merci de votre confiance.</p>
