@@ -556,6 +556,27 @@
   /* ---- Avis : déplier les textes tronqués (marquee accueil + avis visibles) ---- */
   $all('.review').forEach(ensureReadMore);
 
+  /* ---- Dépôt d'avis : envoi vers le Google Sheet (Apps Script) ---- */
+  var reviewForm = $('[data-review-form]');
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (reviewForm.querySelector('[name="site_web"]').value) return;   // piège anti-robot
+      var btn = $('[data-review-submit]', reviewForm);
+      if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
+      fetch(reviewForm.action, { method: 'POST', body: new FormData(reviewForm), mode: 'no-cors' })
+        .then(function () {
+          reviewForm.hidden = true;
+          var ok = $('[data-review-ok]');
+          if (ok) { ok.hidden = false; ok.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Envoyer mon avis'; }
+          alert("Une erreur est survenue. Merci de réessayer, ou de nous écrire directement.");
+        });
+    });
+  }
+
   /* ---- Année dynamique footer ---- */
   $all('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

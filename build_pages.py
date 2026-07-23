@@ -679,6 +679,43 @@ def run(g):
          contact, ld_blocks=[contact_ld])
 
     # =====================================================================
+    # DÉPOSER UN AVIS (page dédiée, non indexée — envoyée par lien / QR)
+    # =====================================================================
+    stars_input = "".join(
+        f'<input type="radio" name="note" id="star{n}" value="{n}" required>'
+        f'<label for="star{n}" title="{n} étoile{"s" if n>1 else ""}" aria-label="{n} étoile{"s" if n>1 else ""}">'
+        '<svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" aria-hidden="true">'
+        '<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.4 21l1.4-7L1.6 9.3l7-.8z"/></svg></label>'
+        for n in range(5, 0, -1))
+    depot = f"""
+<section class="page-hero"><div class="container"><h1>Laissez votre avis</h1><p>Votre séjour aux Meublés de Luchon vous a plu ? Partagez votre expérience en quelques secondes — merci beaucoup !</p></div></section>
+<section class="section"><div class="container" style="max-width:620px">
+  <form class="form review-form" data-review-form
+        action="https://REMPLACER-PAR-VOTRE-URL-APPS-SCRIPT" method="post">
+    <div>
+      <label>Votre note</label>
+      <div class="stars-input" role="radiogroup" aria-label="Note sur 5 étoiles">{stars_input}</div>
+    </div>
+    <div><label for="rv-name">Votre prénom</label><input type="text" id="rv-name" name="prenom" placeholder="ex. Marie" autocomplete="given-name" required></div>
+    <div><label for="rv-city">Votre ville (facultatif)</label><input type="text" id="rv-city" name="ville" placeholder="ex. Toulouse" autocomplete="address-level2"></div>
+    <div><label for="rv-msg">Votre avis</label><textarea id="rv-msg" name="message" rows="5" placeholder="Qu'avez-vous apprécié pendant votre séjour ?" required></textarea></div>
+    <input type="text" name="site_web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+    <button class="btn btn--dark btn--lg" type="submit" data-review-submit>Envoyer mon avis</button>
+    <p class="review-form__note">Votre avis sera lu puis publié sur le site après validation. Merci de votre confiance.</p>
+  </form>
+  <div class="review-form__ok" data-review-ok hidden>
+    <h2>Merci beaucoup ! 🙏</h2>
+    <p>Votre avis a bien été envoyé. Nathalie le lira avant sa publication sur le site.</p>
+    <a class="btn btn--primary" href="/">Retour à l'accueil</a>
+  </div>
+</div></section>
+"""
+    page("deposer-un-avis/index.html", "/deposer-un-avis/",
+         "Laissez votre avis — Les Meublés de Luchon",
+         "Partagez votre expérience de séjour aux Meublés de Luchon à Bagnères-de-Luchon.",
+         depot, robots="noindex, nofollow")
+
+    # =====================================================================
     # PLAN DU SITE
     # =====================================================================
     plan = f"""
